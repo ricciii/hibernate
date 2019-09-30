@@ -1,3 +1,5 @@
+package com.ecc.person_management.models;
+
 public class Address {
 	String street;
 	String barangay;

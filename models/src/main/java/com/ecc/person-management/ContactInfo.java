@@ -1,3 +1,5 @@
+package com.ecc.app;
+
 import java.util.ArrayList;
 
 public class ContactInfo {
