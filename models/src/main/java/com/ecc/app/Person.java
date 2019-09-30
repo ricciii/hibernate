@@ -1,4 +1,4 @@
-package com.ecc.person_management.models;
+package com.ecc.app;
 
 public class Person {
 	Name name;
