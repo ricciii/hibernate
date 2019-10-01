@@ -1,10 +1,11 @@
 package com.ecc.app;
 
 public class Name {
-	String lastName;
-	String firstName;
-	String middleName;
-	String suffix;
+	private int id;
+	private String lastName;
+	private String firstName;
+	private String middleName;
+	private String suffix;
 
 	public Name(String lastName, String firstName, String middleName, String suffix) {
 		this.lastName = lastName;
@@ -17,6 +18,10 @@ public class Name {
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.middleName = middleName;
+	}
+
+	public int getId() {
+		return this.id;
 	}
 
 	public String getLastName() {
@@ -33,6 +38,10 @@ public class Name {
 
 	public String getSuffix() {
 		return this.suffix;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public void setLastName(String lastName) {

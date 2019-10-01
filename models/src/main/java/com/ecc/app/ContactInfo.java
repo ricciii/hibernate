@@ -3,31 +3,40 @@ package com.ecc.app;
 import java.util.ArrayList;
 
 public class ContactInfo {
-	ArrayList<String> landline = new ArrayList<String>();
-	ArrayList<String> mobile = new ArrayList<String>();
-	ArrayList<String> email = new ArrayList<String>(); 
+	private int id;
+	private String contactInfo;
+	private String type; 
 
-	public ArrayList<String> getLandline() {
-		return this.landline;
+	public enum Type {
+		LANDLINE, MOBILE, EMAIL
 	}
 
-	public ArrayList<String> getMobile() {
-		return this.mobile;
+	public ContactInfo(String type, String contactInfo) {
+		this.type = type;
+		this.contactInfo = contactInfo;
 	}
 
-	public ArrayList<String> getEmail() {
-		return this.email;
+	public int getId() {
+		return this.id;
 	}
 
-	public void addLandline(String landline) {
-		this.landline.add(landline);
+	public String getType() {
+		return this.type;
 	}
 
-	public void addMobile(String mobile) {
-		this.mobile.add(mobile);
+	public String getContactInfo() {
+		return this.contactInfo;
 	}
 
-	public void addEmail(String email) {
-		this.email.add(email);
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setContactInfo(String contactInfo) {
+		this.contactInfo = contactInfo;
 	}
 }

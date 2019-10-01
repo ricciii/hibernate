@@ -1,21 +1,29 @@
 package com.ecc.app;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class Person {
-	Name name;
-	Address address;
-	Date dateOfBirth;
-	Double gwa;
-	Date dateHired;
-	Boolean currentlyEmployed;
-	ContactInfo contactInfo;
+	private int id;
+	private Name name;
+	private Address address;
+	private Date dateOfBirth;
+	private Double gwa;
+	private Date dateHired;
+	private Boolean currentlyEmployed;
+	private List<ContactInfo> contactInfo;
+	private List<Role> role;
 
-	public Person(Name name, Address address, Date dateOfBirth, 
-		Double gwa, Date dateHired, Boolean currentlyEmployed,  ContactInfo contactInfo) {
-
+	public Person(Name name, Address address, Date dateOfBirth, Double gwa, 
+   	Date dateHired, Boolean currentlyEmployed, ContactInfo contactInfo, Role role) {
 	}
 
 	public Person() {
 
+	}
+
+	public int getId() {
+		return this.id;
 	}
 
 	public Name getName() {
@@ -38,8 +46,16 @@ public class Person {
 		return this.currentlyEmployed;
 	}
 
-	public ContactInfo getContactInfo() {
+	public List<ContactInfo> getContactInfo() {
 		return this.contactInfo;
+	}
+
+	public List<Role> getRole() {
+		return this.role;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public void setName(Name name) {
@@ -66,5 +82,7 @@ public class Person {
 		this.contactInfo = contactInfo;
 	}
 
-
+	public void setRole(Role role) {
+		this.role = role;
+	}
 }

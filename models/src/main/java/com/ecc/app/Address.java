@@ -1,16 +1,25 @@
 package com.ecc.app;
 
 public class Address {
-	String street;
-	String barangay;
-	String municipality;
-	String zipcode;
+	private int id;
+	private String street;
+	private String barangay;
+	private String municipality;
+	private String zipCode;
 
-	public Address(String street, String barangay, String municipality, String zipcode) {
+	public Address(String street, String barangay, String municipality, String zipCode) {
 		this.street = street;
 		this.barangay = barangay;
 		this.municipality = municipality;
-		this.zipcode = zipcode;
+		this.zipCode = zipCode;
+	}
+
+	public Address() {
+
+	}
+
+	public int getId() {
+		return this.id;
 	}
 
 	public String getStreet() {
@@ -25,23 +34,27 @@ public class Address {
 		return this.municipality;
 	}
 
-	public String getZipcode() {
-		return this.zipcode;
+	public String getZipCode() {
+		return this.zipCode;
 	}
 
-	public void setStreet() {
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setStreet(String street) {
 		this.street = street;
 	}
 
-	public void setBarangay() {
+	public void setBarangay(String barangay) {
 		this.barangay = barangay;
 	}
 
-	public void setMunicipality() {
+	public void setMunicipality(String municipality) {
 		this.municipality = municipality;
 	}
 
-	public void setZipcode() {
-		this.zipcode = zipcode;
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 }
