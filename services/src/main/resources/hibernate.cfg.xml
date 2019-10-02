@@ -9,16 +9,20 @@ org.hibernate.dialect.PostgreSQLDialect
 <property name="hibernate.connection.driver_class">
 org.postgresql.Driver
 </property>
-<!-- localhost/dbname -->
-<property name="hibernate.connection.url">
-jdbc:postgresql://localhost/person
-</property>
-<property name="hibernate.connection.username">
-rich
-</property>
-<property name="hibernate.connection.password">
-ex1stgl0bal
-</property>
+
+<!-- Database properties -->
+<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/rich</property>
+<property name="hibernate.connection.username">rich</property>
+<property name="hibernate.connection.password">ex1stgl0bal</property>
+
+<!-- Print executed SQL to stdout -->
+<property name="show_sql">true</property>
+
+<!-- Update database on startup -->
+<property name="connection.autocommit">true</property>
+<!-- <property name="hibernate.hbm2ddl.auto">update</property>
+<property name="hibernate.hbm2ddl.auto">create</property> -->
+
 <!-- List of XML mapping files -->
 <mapping resource="Person.hbm.xml"/>
 </session-factory>

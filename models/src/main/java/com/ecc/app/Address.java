@@ -1,7 +1,9 @@
 package com.ecc.app;
 
+import java.time.LocalDate;
+
 public class Address {
-	private int id;
+	//private int id;
 	private String street;
 	private String barangay;
 	private String municipality;
@@ -18,9 +20,9 @@ public class Address {
 
 	}
 
-	public int getId() {
-		return this.id;
-	}
+	// public int getId() {
+	// 	return this.id;
+	// }
 
 	public String getStreet() {
 		return this.street;
@@ -38,9 +40,9 @@ public class Address {
 		return this.zipCode;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+	// public void setId(int id) {
+	// 	this.id = id;
+	// }
 
 	public void setStreet(String street) {
 		this.street = street;

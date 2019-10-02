@@ -1,7 +1,7 @@
 package com.ecc.app;
 
 public class Name {
-	private int id;
+	//private int id;
 	private String lastName;
 	private String firstName;
 	private String middleName;
@@ -20,8 +20,8 @@ public class Name {
 		this.middleName = middleName;
 	}
 
-	public int getId() {
-		return this.id;
+	public Name() {
+
 	}
 
 	public String getLastName() {
@@ -40,9 +40,9 @@ public class Name {
 		return this.suffix;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+	// public void setId(int id) {
+	// 	this.id = id;
+	// }
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;

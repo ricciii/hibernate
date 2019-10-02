@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+<class name="com.ecc.app.Person" table="people">
+<meta attribute="class-description">
+This class contains the employee detail.
+</meta>
+<id name="id" type="int" column="id">
+	<generator class="native"/>
+</id>
+<component name="name" class="com.ecc.app.Name">
+	<property name="lastName" column="last_name" type="string"/>
+	<property name="firstName" column="first_name" type="string"/>
+	<property name="middleName" column="middle_name" type="string"/>
+	<property name="suffix" column="suffix" type="string"/>
+</component>
+<component name="address" class="com.ecc.app.Address">
+	<property name="street" column="street" type="string"/>
+	<property name="barangay" column="barangay" type="string"/>
+	<property name="municipality" column="municipality" type="string"/>
+	<property name="zipCode" column="zip_code" type="string"/>
+</component>
+<!-- <list name = "contactInfo" cascade="all">
+    <key column = "person_id"/>
+    <list-index column = "idx"/>
+    <one-to-many class="ContactInfo"/>
+</list>
+<list name = "role" cascade="all">
+    <key column = "person_id"/>
+    <list-index column = "idx"/>
+    <many-to-many class="Role"/>
+</list> -->
+<property name="dateOfBirth" column="date_of_birth" type="date"/>
+<property name="gwa" column="gwa" type="float"/>
+<property name="dateHired" column="date_hired" type="date"/>
+<property name="currentlyEmployed" column="currently_employed" type="boolean"/>
+</class>
+
+<!-- <class name="com.ecc.app.ContactInfo" table="contact_info">
+<meta attribute="class-description">
+This class contains the contact info records.
+</meta>
+<id name="id" type="int" column="id">
+<generator class="native"/>
+</id>
+<property name="contactInfo" column="contactInfo" type="string"/>
+<property name="type" column="type" type="string"/>
+</class>
+
+<class name="com.ecc.app.Role" table="role">
+<meta attribute="class-description">
+This class contains the certificate records.
+</meta>
+<id name="id" type="int" column="id">
+<generator class="native"/>
+</id>
+<property name="role" column="role" type="string"/>
+</class> -->
+</hibernate-mapping>
