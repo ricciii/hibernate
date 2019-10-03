@@ -22,12 +22,11 @@ This class contains the employee detail.
 	<property name="municipality" column="municipality" type="string"/>
 	<property name="zipCode" column="zip_code" type="string"/>
 </component>
-<!-- <list name = "contactInfo" cascade="all">
+<set name = "contactInfo" cascade="all">
     <key column = "person_id"/>
-    <list-index column = "idx"/>
-    <one-to-many class="ContactInfo"/>
-</list>
-<list name = "role" cascade="all">
+    <one-to-many class="com.ecc.app.ContactInfo"/>
+</set>
+<!-- <list name = "role" cascade="all">
     <key column = "person_id"/>
     <list-index column = "idx"/>
     <many-to-many class="Role"/>
@@ -38,18 +37,18 @@ This class contains the employee detail.
 <property name="currentlyEmployed" column="currently_employed" type="boolean"/>
 </class>
 
-<!-- <class name="com.ecc.app.ContactInfo" table="contact_info">
+<class name="com.ecc.app.ContactInfo" table="contact_information">
 <meta attribute="class-description">
 This class contains the contact info records.
 </meta>
 <id name="id" type="int" column="id">
 <generator class="native"/>
 </id>
-<property name="contactInfo" column="contactInfo" type="string"/>
+<property name="contactInfo" column="contact_info" type="string"/>
 <property name="type" column="type" type="string"/>
 </class>
 
-<class name="com.ecc.app.Role" table="role">
+<!-- <class name="com.ecc.app.Role" table="role">
 <meta attribute="class-description">
 This class contains the certificate records.
 </meta>

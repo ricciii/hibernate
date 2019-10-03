@@ -20,8 +20,8 @@ org.postgresql.Driver
 
 <!-- Update database on startup -->
 <property name="connection.autocommit">true</property>
-<!-- <property name="hibernate.hbm2ddl.auto">update</property>
-<property name="hibernate.hbm2ddl.auto">create</property> -->
+<!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
+<property name="hibernate.hbm2ddl.auto">create</property>
 
 <!-- List of XML mapping files -->
 <mapping resource="Person.hbm.xml"/>

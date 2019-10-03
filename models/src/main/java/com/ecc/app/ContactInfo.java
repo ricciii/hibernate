@@ -7,8 +7,8 @@ public class ContactInfo {
 	private String contactInfo;
 	private String type; 
 
-	public enum Type {
-		LANDLINE, MOBILE, EMAIL
+	public ContactInfo() {
+	
 	}
 
 	public ContactInfo(String type, String contactInfo) {
@@ -39,4 +39,23 @@ public class ContactInfo {
 	public void setContactInfo(String contactInfo) {
 		this.contactInfo = contactInfo;
 	}
+
+	public boolean equals(Object obj) {
+		if (obj == null) 
+			return false;
+		if (!this.getClass().equals(obj.getClass())) 
+			return false;
+
+		ContactInfo obj2 = (ContactInfo) obj;
+		if((this.id == obj2.getId()) && (this.contactInfo.equals(obj2.getContactInfo()))) {
+			return true;
+		}
+		return false;
+   	}
+   
+	public int hashCode() {
+		int tmp = 0;
+		tmp = (id + contactInfo).hashCode();
+		return tmp;
+  	}
 }

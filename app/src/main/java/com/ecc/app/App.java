@@ -69,6 +69,7 @@ public class App {
 	    		switch(choice) {
 	    			case 1:
 	    				Person person = personManager.createPersonPrompt(scanner);
+	    				person = personManager.addContactPrompt(scanner, person);
 	    				Integer id = personManager.createPerson(person);
 	    				break;
 	    			case 2:

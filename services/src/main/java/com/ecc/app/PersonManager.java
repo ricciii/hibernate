@@ -8,6 +8,8 @@ import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
 import java.util.Scanner;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PersonManager {
 	private SessionFactory factory;
@@ -30,6 +32,7 @@ public class PersonManager {
 			String string;
 			Name name = new Name();
 	        System.out.print("Input last name: ");
+	        scanner.nextLine();
 	        string = scanner.nextLine();
 	        name.setLastName(string);
 	        System.out.print("Input first name: ");
@@ -106,5 +109,61 @@ public class PersonManager {
 			session.close(); 
 		}
     return id;
-   }
+   	}
+
+	public Person addContactPrompt(Scanner scanner, Person person) {
+		HashSet set = new HashSet();
+		ContactInfo contactInfo;
+		String string;
+		boolean done = false;
+		do {
+			System.out.println("\n<--- Contact Information --->\n");
+			contactInfo = new ContactInfo();
+			System.out.println("Types: Mobile, Landline, Email");
+			System.out.print("Input Type: ");
+			scanner.nextLine();
+			string = scanner.nextLine();
+			contactInfo.setType(string);
+			System.out.print("Input contact detail: ");
+			string = scanner.nextLine();
+			contactInfo.setContactInfo(string);
+			set.add(contactInfo);
+			System.out.println("Do you want to add more?");
+			System.out.print("1=YES, Input anything for NO: "); 
+			string = scanner.nextLine(); // FIX THIS. WONT RECOGNZE 1
+			if(string != "1") {
+			 	done = true;
+			} 
+		} while(done==false);
+		person.setContactInfo(set);
+		return person;
+	}
+
+	public Person addRolePrompt(Scanner scanner, Person person) {
+		HashSet set = new HashSet();
+		ContactInfo contactInfo;
+		String string;
+		boolean done = false;
+		do {
+			System.out.println("\n<--- Contact Information --->\n");
+			contactInfo = new ContactInfo();
+			System.out.println("Types: Mobile, Landline, Email");
+			System.out.print("Input Type: ");
+			scanner.nextLine();
+			string = scanner.nextLine();
+			contactInfo.setType(string);
+			System.out.print("Input contact detail: ");
+			string = scanner.nextLine();
+			contactInfo.setContactInfo(string);
+			set.add(contactInfo);
+			System.out.println("Do you want to add more?");
+			System.out.print("1=YES, Input anything for NO: "); 
+			string = scanner.nextLine(); // FIX THIS. WONT RECOGNZE 1
+			if(string != "1") {
+			 	done = true;
+			} 
+		} while(done==false);
+		person.setContactInfo(set);
+		return person;
+	}
 }
