@@ -1,7 +1,6 @@
 package com.ecc.app;
 
 import java.util.Scanner;
-import java.time.LocalDate;
 import org.hibernate.HibernateException; 
 import org.hibernate.Session; 
 import org.hibernate.Transaction;
@@ -12,26 +11,88 @@ import java.util.GregorianCalendar;
 public class App {
 
 // a spike for persisting an object: 
+	private static SessionFactory factory;
+	private PersonManager personManager= new PersonManager(factory);
+	private Scanner scanner = new Scanner(System.in);
 
-    public static void main( String[] args )
-    {
-		SessionFactory factory;
+    public static void main( String[] args ) {
 		try {
 	        factory = new Configuration().configure().buildSessionFactory();
 	    } catch (Throwable ex) { 
 	        System.err.println("Failed to create sessionFactory object." + ex);
 	        throw new ExceptionInInitializerError(ex); 
 	    }
-		
-		float gwa=4;
-		Boolean currentlyEmployed = true;
-		Scanner scanner = new Scanner(System.in);
+
+        App app = new App();
+        app.start();
         PersonManager personManager = new PersonManager(factory);
-        Name name = new Name("Fosgate","Reichney", "Mantos", "II");
-        Address address = new Address("Topaz Rd.","Ortigas", "Pasig", "2087");
-        GregorianCalendar dateOfBirth = new GregorianCalendar(1998, 05, 21);
-        GregorianCalendar dateHired = new GregorianCalendar(2019, 06, 6);
-        Person person = new Person(name, address, dateOfBirth, gwa, dateHired, currentlyEmployed);
-        Integer id = personManager.addPerson(person);
+        
+        
+    }
+
+    public void start() {
+    	int choice;
+    	boolean done = false;
+    	do {
+	    	System.out.println("1=Person 2=Roles 3=Exit");
+	    	System.out.print("Which table do you want to access: ");
+	    	try {
+	    		choice = scanner.nextInt();
+	    		switch(choice) {
+	    			case 1:
+	    				personTableMenu();
+	    				break;
+	    			case 2:
+	    				rolesTableMenu();
+	    				break;
+	    			case 3:
+	    				done = true; 
+	    				break;
+	    			default: 
+	    				System.out.println("Not in the choices, try again.");
+	    		}
+	    	} catch(Exception e) {
+	    		System.out.print("Not in the choices. Try again.");
+	    	}
+    	} while(done==false);
+    }
+
+    public void personTableMenu() {
+    	int choice;
+    	boolean done = false;
+    	do {
+    		System.out.println("\n<--- PERSON TABLE --->\n");
+	    	System.out.println("1=CREATE 2=READ 3=UPDATE 4=DELETE 5=BACK");
+	    	System.out.print("What do you want to do: ");
+	    	try {
+	    		choice = scanner.nextInt();
+	    		switch(choice) {
+	    			case 1:
+	    				Person person = personManager.createPersonPrompt(scanner);
+	    				Integer id = personManager.createPerson(person);
+	    				break;
+	    			case 2:
+	    				
+	    				break;
+	    			case 3:
+	    				 
+	    				break;
+	    			case 4:
+	    				
+	    				break;
+	    			case 5:
+	    				done = true; 
+	    				break;
+	    			default: 
+	    				System.out.println("Not in the choices, try again.");
+	    		}
+	    	} catch(Exception e) {
+	    		System.out.print("Not in the choices. Try again.");
+	    	}
+    	} while(done==false);
+    }
+
+    public void rolesTableMenu() {
+    	
     }
 }
