@@ -1,25 +1,31 @@
 package com.ecc.app;
 
+import java.util.Calendar;
 import java.util.ArrayList;
-import java.time.LocalDate;
 
 public class Person {
 	private int id;
 	private Name name;
 	private Address address;
-	private LocalDate dateOfBirth;
+	private Calendar dateOfBirth;
 	private float gwa;
-	private LocalDate dateHired;
+	private Calendar dateHired;
 	private Boolean currentlyEmployed;
 	// private List<ContactInfo> contactInfo;
 	// private List<Role> role;
 
-	// public Person(Name name, Address address, LocalDate dateOfBirth, float gwa, 
- //   	LocalDate dateHired, Boolean currentlyEmployed, ContactInfo contactInfo, Role role) {
+	// public Person(Name name, Address address, Calendar dateOfBirth, float gwa, 
+ //   	Calendar dateHired, Boolean currentlyEmployed, ContactInfo contactInfo, Role role) {
 	// }
 
-	public Person(Name name, Address address, LocalDate dateOfBirth, float gwa, 
-   	LocalDate dateHired, Boolean currentlyEmployed) {
+	public Person(Name name, Address address, Calendar dateOfBirth, float gwa, 
+   	Calendar dateHired, Boolean currentlyEmployed) {
+   		this.name = name;
+   		this.address = address;
+   		this.dateOfBirth = dateOfBirth;
+   		this.gwa = gwa;
+   		this.dateHired = dateHired;
+   		this.currentlyEmployed = currentlyEmployed;
 	}
 
 	public Person() {
@@ -38,7 +44,7 @@ public class Person {
 		return this.address;
 	}
 
-	public LocalDate getDateOfBirth() {
+	public Calendar getDateOfBirth() {
 		return this.dateOfBirth;
 	}
 
@@ -46,7 +52,7 @@ public class Person {
 		return this.gwa;
 	}
 
-	public LocalDate getDateHired() {
+	public Calendar getDateHired() {
 		return this.dateHired;
 	}
 
@@ -74,7 +80,7 @@ public class Person {
 		this.address = address;
 	}
 
-	public void setDateOfBirth(LocalDate dateOfBirth) {
+	public void setDateOfBirth(Calendar dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 
@@ -82,7 +88,7 @@ public class Person {
 		this.gwa = gwa;
 	}
 
-	public void setDateHired(LocalDate dateHired) {
+	public void setDateHired(Calendar dateHired) {
 		this.dateHired = dateHired;
 	}
 

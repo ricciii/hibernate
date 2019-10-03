@@ -32,13 +32,13 @@ This class contains the employee detail.
     <list-index column = "idx"/>
     <many-to-many class="Role"/>
 </list> -->
-<property name="dateOfBirth" column="date_of_birth" type="date"/>
+<property name="dateOfBirth" column="date_of_birth" type="calendar_date"/>
 <property name="gwa" column="gwa" type="float"/>
-<property name="dateHired" column="date_hired" type="date"/>
+<property name="dateHired" column="date_hired" type="calendar_date"/>
 <property name="currentlyEmployed" column="currently_employed" type="boolean"/>
 </class>
 
-<!-- <class name="ContactInfo" table="CONTACT_INFO">
+<!-- <class name="com.ecc.app.ContactInfo" table="contact_info">
 <meta attribute="class-description">
 This class contains the contact info records.
 </meta>
@@ -49,7 +49,7 @@ This class contains the contact info records.
 <property name="type" column="type" type="string"/>
 </class>
 
-<class name="Role" table="Role">
+<class name="com.ecc.app.Role" table="role">
 <meta attribute="class-description">
 This class contains the certificate records.
 </meta>

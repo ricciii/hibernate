@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import java.util.GregorianCalendar;
 
 public class App {
 
@@ -28,8 +29,8 @@ public class App {
         PersonManager personManager = new PersonManager(factory);
         Name name = new Name("Fosgate","Reichney", "Mantos", "II");
         Address address = new Address("Topaz Rd.","Ortigas", "Pasig", "2087");
-        LocalDate dateOfBirth = LocalDate.of(1998, 9, 21);
-        LocalDate dateHired = LocalDate.of(2019, 6, 6);
+        GregorianCalendar dateOfBirth = new GregorianCalendar(1998, 05, 21);
+        GregorianCalendar dateHired = new GregorianCalendar(2019, 06, 6);
         Person person = new Person(name, address, dateOfBirth, gwa, dateHired, currentlyEmployed);
         Integer id = personManager.addPerson(person);
     }

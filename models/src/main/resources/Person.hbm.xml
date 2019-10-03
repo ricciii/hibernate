@@ -32,9 +32,9 @@ This class contains the employee detail.
     <list-index column = "idx"/>
     <many-to-many class="Role"/>
 </list> -->
-<property name="dateOfBirth" column="date_of_birth" type="date"/>
+<property name="dateOfBirth" column="date_of_birth" type="calendar_date"/>
 <property name="gwa" column="gwa" type="float"/>
-<property name="dateHired" column="date_hired" type="date"/>
+<property name="dateHired" column="date_hired" type="calendar_date"/>
 <property name="currentlyEmployed" column="currently_employed" type="boolean"/>
 </class>
 
