@@ -15,9 +15,6 @@ public class Person {
 	private Set contactInfo;
 	private Set roles;
 
-	// public Person(Name name, Address address, Calendar dateOfBirth, float gwa, 
- //   	Calendar dateHired, Boolean currentlyEmployed, ContactInfo contactInfo, Role role) {
-	// }
 	public Person() {
 
 	}

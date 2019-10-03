@@ -10,6 +10,8 @@ import java.util.Scanner;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
+import org.hibernate.Criteria;
 
 public class PersonManager {
 	private SessionFactory factory;
@@ -130,7 +132,7 @@ public class PersonManager {
 			set.add(contactInfo);
 			System.out.println("Do you want to add more?");
 			System.out.print("1=YES, Input anything for NO: "); 
-			string = scanner.nextLine(); // FIX THIS. WONT RECOGNZE 1
+			//string = String.toString(scanner.next().charAt(0)); // FIX THIS. WONT RECOGNZE 1
 			if(string != "1") {
 			 	done = true;
 			} 
@@ -139,31 +141,66 @@ public class PersonManager {
 		return person;
 	}
 
-	public Person addRolePrompt(Scanner scanner, Person person) {
+	public Person addRolesPrompt(Scanner scanner, Person person) {
 		HashSet set = new HashSet();
-		ContactInfo contactInfo;
+		Role role;
 		String string;
 		boolean done = false;
 		do {
-			System.out.println("\n<--- Contact Information --->\n");
-			contactInfo = new ContactInfo();
-			System.out.println("Types: Mobile, Landline, Email");
-			System.out.print("Input Type: ");
+			System.out.println("\n<--- Role Information --->\n");
+			System.out.println("Roles: QA, Engineer, Leader");
+			System.out.print("Input: ");
 			scanner.nextLine();
 			string = scanner.nextLine();
-			contactInfo.setType(string);
-			System.out.print("Input contact detail: ");
-			string = scanner.nextLine();
-			contactInfo.setContactInfo(string);
-			set.add(contactInfo);
+			role = new Role(string);
+			set.add(role);
 			System.out.println("Do you want to add more?");
 			System.out.print("1=YES, Input anything for NO: "); 
-			string = scanner.nextLine(); // FIX THIS. WONT RECOGNZE 1
+			//string = String.toString(scanner.next().charAt(0)); // FIX THIS. WONT RECOGNZE 1
 			if(string != "1") {
 			 	done = true;
 			} 
 		} while(done==false);
-		person.setContactInfo(set);
+		person.setRoles(set);
 		return person;
 	}
+
+	public void readPerson() {
+    try {
+    	session = factory.openSession();
+        transaction = session.beginTransaction();
+        Criteria criteria = session.createCriteria(Person.class);
+        List people = criteria.list();
+        Iterator iteratorPerson = people.iterator();
+        do {
+        	Person person = (Person) iteratorPerson.next(); 
+	        System.out.print("First Name: " + person.getName().getFirstName());
+	        System.out.print("  Middle Name: " + person.getName().getMiddleName());  
+	        System.out.print("  Last Name: " + person.getName().getLastName()); 
+	        System.out.println("  Suffix: " + person.getName().getSuffix());
+	        Set contactInfo = person.getContactInfo();
+	        Iterator iteratorContactInfo = contactInfo.iterator();
+	        System.out.println("<--- Contact Information --->");
+	        do {
+	        	ContactInfo contact = (ContactInfo) iteratorContactInfo.next();
+	        	System.out.println("Type: " +contact.getType() + " Contact Info: " + contact.getContactInfo());
+	        
+	        } while (iteratorContactInfo.hasNext());
+
+	        Set roles = person.getRoles();
+	        Iterator iteratorRoles = roles.iterator();
+	        do {
+	        	Role role = (Role) iteratorRoles.next();
+	        	System.out.println("Role: " + role.getRole());
+	        } while (iteratorRoles.hasNext());
+	        
+        } while (iteratorPerson.hasNext());
+        	transaction.commit();
+		} catch (HibernateException e) {
+			if (transaction!=null) transaction.rollback();
+			e.printStackTrace(); 
+		} finally {
+			session.close(); 
+		}
+   }
 }

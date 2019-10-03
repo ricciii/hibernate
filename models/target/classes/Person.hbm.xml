@@ -26,11 +26,10 @@ This class contains the employee detail.
     <key column = "person_id"/>
     <one-to-many class="com.ecc.app.ContactInfo"/>
 </set>
-<!-- <list name = "role" cascade="all">
+<set name = "roles" cascade="all">
     <key column = "person_id"/>
-    <list-index column = "idx"/>
-    <many-to-many class="Role"/>
-</list> -->
+    <many-to-many class="com.ecc.app.Role"/>
+</set>
 <property name="dateOfBirth" column="date_of_birth" type="calendar_date"/>
 <property name="gwa" column="gwa" type="float"/>
 <property name="dateHired" column="date_hired" type="calendar_date"/>
@@ -38,9 +37,6 @@ This class contains the employee detail.
 </class>
 
 <class name="com.ecc.app.ContactInfo" table="contact_information">
-<meta attribute="class-description">
-This class contains the contact info records.
-</meta>
 <id name="id" type="int" column="id">
 <generator class="native"/>
 </id>
@@ -48,13 +44,10 @@ This class contains the contact info records.
 <property name="type" column="type" type="string"/>
 </class>
 
-<!-- <class name="com.ecc.app.Role" table="role">
-<meta attribute="class-description">
-This class contains the certificate records.
-</meta>
+<class name="com.ecc.app.Role" table="roles">
 <id name="id" type="int" column="id">
 <generator class="native"/>
 </id>
 <property name="role" column="role" type="string"/>
-</class> -->
+</class>
 </hibernate-mapping>

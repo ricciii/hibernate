@@ -70,10 +70,18 @@ public class App {
 	    			case 1:
 	    				Person person = personManager.createPersonPrompt(scanner);
 	    				person = personManager.addContactPrompt(scanner, person);
+	    				System.out.print("Do you want to add a role?\n"+
+	    					"1=YES, input anything for NO: ");
+	    				try {
+	    					choice = scanner.nextInt();
+	    					if(choice==1) {
+	    						person = personManager.addRolesPrompt(scanner, person);
+	    					}
+	    				} catch(Exception e) {}
 	    				Integer id = personManager.createPerson(person);
 	    				break;
 	    			case 2:
-	    				
+	    				personManager.readPerson();
 	    				break;
 	    			case 3:
 	    				 
