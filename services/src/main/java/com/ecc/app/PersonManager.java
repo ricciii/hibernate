@@ -1,6 +1,4 @@
 package com.ecc.app;
-
-import java.util.*;
  
 import org.hibernate.HibernateException; 
 import org.hibernate.Session; 
@@ -12,6 +10,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 import org.hibernate.Criteria;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import org.hibernate.query.Query;
+import java.util.Calendar;
 
 public class PersonManager {
 	private SessionFactory factory;
@@ -34,7 +37,6 @@ public class PersonManager {
 			String string;
 			Name name = new Name();
 	        System.out.print("Input last name: ");
-	        scanner.nextLine();
 	        string = scanner.nextLine();
 	        name.setLastName(string);
 	        System.out.print("Input first name: ");
@@ -87,6 +89,7 @@ public class PersonManager {
 	        System.out.println("\n<--- Employment --->\n");
 	        System.out.print("Currently employed: ");
 	        Boolean currentlyEmployed = scanner.nextBoolean();
+	        scanner.nextLine();
 	        person.setCurrentlyEmployed(currentlyEmployed);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -123,7 +126,6 @@ public class PersonManager {
 			contactInfo = new ContactInfo();
 			System.out.println("Types: Mobile, Landline, Email");
 			System.out.print("Input Type: ");
-			scanner.nextLine();
 			string = scanner.nextLine();
 			contactInfo.setType(string);
 			System.out.print("Input contact detail: ");
@@ -132,8 +134,8 @@ public class PersonManager {
 			set.add(contactInfo);
 			System.out.println("Do you want to add more?");
 			System.out.print("1=YES, Input anything for NO: "); 
-			//string = String.toString(scanner.next().charAt(0)); // FIX THIS. WONT RECOGNZE 1
-			if(string != "1") {
+			string = scanner.nextLine();
+			if(string.equals("1") == false) {
 			 	done = true;
 			} 
 		} while(done==false);
@@ -150,13 +152,12 @@ public class PersonManager {
 			System.out.println("\n<--- Role Information --->\n");
 			System.out.println("Roles: QA, Engineer, Leader");
 			System.out.print("Input: ");
-			scanner.nextLine();
 			string = scanner.nextLine();
 			role = new Role(string);
 			set.add(role);
 			System.out.println("Do you want to add more?");
 			System.out.print("1=YES, Input anything for NO: "); 
-			//string = String.toString(scanner.next().charAt(0)); // FIX THIS. WONT RECOGNZE 1
+			string = scanner.nextLine(); // FIX THIS. WONT RECOGNZE 1
 			if(string != "1") {
 			 	done = true;
 			} 
@@ -167,34 +168,50 @@ public class PersonManager {
 
 	public void readPerson() {
     try {
+    	System.out.println("\n<--- READING PERSON TABLE --->");
     	session = factory.openSession();
         transaction = session.beginTransaction();
-        Criteria criteria = session.createCriteria(Person.class);
-        List people = criteria.list();
-        Iterator iteratorPerson = people.iterator();
-        do {
-        	Person person = (Person) iteratorPerson.next(); 
-	        System.out.print("First Name: " + person.getName().getFirstName());
-	        System.out.print("  Middle Name: " + person.getName().getMiddleName());  
-	        System.out.print("  Last Name: " + person.getName().getLastName()); 
-	        System.out.println("  Suffix: " + person.getName().getSuffix());
-	        Set contactInfo = person.getContactInfo();
-	        Iterator iteratorContactInfo = contactInfo.iterator();
-	        System.out.println("<--- Contact Information --->");
-	        do {
-	        	ContactInfo contact = (ContactInfo) iteratorContactInfo.next();
-	        	System.out.println("Type: " +contact.getType() + " Contact Info: " + contact.getContactInfo());
-	        
-	        } while (iteratorContactInfo.hasNext());
-
-	        Set roles = person.getRoles();
-	        Iterator iteratorRoles = roles.iterator();
-	        do {
-	        	Role role = (Role) iteratorRoles.next();
-	        	System.out.println("Role: " + role.getRole());
-	        } while (iteratorRoles.hasNext());
-	        
-        } while (iteratorPerson.hasNext());
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+        Root<Person> root = criteriaQuery.from(Person.class);
+        criteriaQuery.select(root);
+        Query<Person> query = session.createQuery(criteriaQuery);
+        List<Person> people = query.getResultList();
+        Set<ContactInfo> contactInfo;
+        Set<Role> roles;
+        for(Person person: people) {
+        	System.out.println();
+        	System.out.println("ID: " + person.getId());
+        	System.out.println("Name: " + person.getName().getFirstName() + 
+        		" " + person.getName().getMiddleName() + 
+        		" " + person.getName().getLastName() +
+        		", " + person.getName().getSuffix());
+	        System.out.println("Address: " + person.getAddress().getStreet() + 
+	        	", " + person.getAddress().getBarangay() +
+	        	", " + person.getAddress().getMunicipality() +
+	        	", " + person.getAddress().getZipCode());
+        	System.out.println("Date Of Birth: " + 
+        		person.getDateOfBirth().get(Calendar.YEAR) + 
+        		"-" + person.getDateOfBirth().get(Calendar.MONTH) +
+        		"-" + person.getDateOfBirth().get(Calendar.DATE));
+        	System.out.println("GWA: " + person.getGwa());
+        	System.out.println("Date Of Hired: " + 
+        		person.getDateHired().get(Calendar.YEAR) + 
+        		"-" + person.getDateHired().get(Calendar.MONTH) +
+        		"-" + person.getDateHired().get(Calendar.DATE));
+        	System.out.println("Currently Employed: " + person.getCurrentlyEmployed());
+        	System.out.println("Contact Information:");
+        	contactInfo = person.getContactInfo();
+	        for(ContactInfo contact: contactInfo) {
+        		System.out.println("  --> Type: " + contact.getType() + " Contact Info: " +
+        		 contact.getContactInfo());
+        	}
+        	System.out.println("Roles:");
+        	roles = person.getRoles();
+	        for(Role role: roles) {
+        		System.out.println("  --> " + role.getRole());
+        	}
+        }
         	transaction.commit();
 		} catch (HibernateException e) {
 			if (transaction!=null) transaction.rollback();

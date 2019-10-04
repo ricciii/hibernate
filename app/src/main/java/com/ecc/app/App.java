@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import java.util.GregorianCalendar;
+import java.util.Calendar;
 
 public class App {
 
@@ -34,10 +35,12 @@ public class App {
     	int choice;
     	boolean done = false;
     	do {
+    		System.out.println("\n<-- MAIN MENU -->\n");
 	    	System.out.println("1=Person 2=Roles 3=Exit");
 	    	System.out.print("Which table do you want to access: ");
 	    	try {
 	    		choice = scanner.nextInt();
+	    		scanner.nextLine();
 	    		switch(choice) {
 	    			case 1:
 	    				personTableMenu();
@@ -59,6 +62,7 @@ public class App {
 
     public void personTableMenu() {
     	int choice;
+    	String string;
     	boolean done = false;
     	do {
     		System.out.println("\n<--- PERSON TABLE --->\n");
@@ -66,19 +70,21 @@ public class App {
 	    	System.out.print("What do you want to do: ");
 	    	try {
 	    		choice = scanner.nextInt();
+	    		scanner.nextLine();
 	    		switch(choice) {
 	    			case 1:
 	    				Person person = personManager.createPersonPrompt(scanner);
 	    				person = personManager.addContactPrompt(scanner, person);
-	    				System.out.print("Do you want to add a role?\n"+
+	    				System.out.print("Do you want to add a role?\n" +
 	    					"1=YES, input anything for NO: ");
 	    				try {
-	    					choice = scanner.nextInt();
-	    					if(choice==1) {
+	    					string = scanner.nextLine();
+	    					if(string.equals("1")) {
 	    						person = personManager.addRolesPrompt(scanner, person);
 	    					}
 	    				} catch(Exception e) {}
 	    				Integer id = personManager.createPerson(person);
+	    				System.out.print("Successfully created person with ID: " + id);
 	    				break;
 	    			case 2:
 	    				personManager.readPerson();
