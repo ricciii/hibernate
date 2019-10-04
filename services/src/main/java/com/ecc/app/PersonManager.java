@@ -15,8 +15,11 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.hibernate.query.Query;
 import java.util.Calendar;
+import java.util.InputMismatchException;
+import java.lang.IllegalArgumentException;
 
 public class PersonManager {
+
 	private SessionFactory factory;
 	private Session session;
 	private Transaction transaction;
@@ -71,7 +74,7 @@ public class PersonManager {
 	        int month = scanner.nextInt();
 	        System.out.print("Input date of month: ");
 	        int dayOfMonth = scanner.nextInt();
-	        GregorianCalendar dateOfBirth = new GregorianCalendar(year, month, dayOfMonth);
+	        GregorianCalendar dateOfBirth = new GregorianCalendar(year, month-1, dayOfMonth);
 	        person.setDateOfBirth(dateOfBirth);
 	        System.out.println("\n<--- GWA --->\n");
 	        System.out.print("GWA: ");
@@ -84,7 +87,7 @@ public class PersonManager {
 	        month = scanner.nextInt();
 	        System.out.print("Input date of month: ");
 	        dayOfMonth = scanner.nextInt();
-	        GregorianCalendar dateHired = new GregorianCalendar(year, month, dayOfMonth);
+	        GregorianCalendar dateHired = new GregorianCalendar(year, month-1, dayOfMonth);
 	        person.setDateHired(dateHired);
 	        System.out.println("\n<--- Employment --->\n");
 	        System.out.print("Currently employed: ");
@@ -98,7 +101,6 @@ public class PersonManager {
 	}
 
    	public Integer createPerson(Person person) {
-
 		session = factory.openSession();
 		Integer id = null;
 		try {
@@ -113,7 +115,7 @@ public class PersonManager {
 		} finally {
 			session.close(); 
 		}
-    return id;
+    	return id;
    	}
 
 	public Person addContactPrompt(Scanner scanner, Person person) {
@@ -167,51 +169,51 @@ public class PersonManager {
 	}
 
 	public void readPerson() {
-    try {
-    	System.out.println("\n<--- READING PERSON TABLE --->");
-    	session = factory.openSession();
-        transaction = session.beginTransaction();
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
-        Root<Person> root = criteriaQuery.from(Person.class);
-        criteriaQuery.select(root);
-        Query<Person> query = session.createQuery(criteriaQuery);
-        List<Person> people = query.getResultList();
-        Set<ContactInfo> contactInfo;
-        Set<Role> roles;
-        for(Person person: people) {
-        	System.out.println();
-        	System.out.println("ID: " + person.getId());
-        	System.out.println("Name: " + person.getName().getFirstName() + 
-        		" " + person.getName().getMiddleName() + 
-        		" " + person.getName().getLastName() +
-        		", " + person.getName().getSuffix());
-	        System.out.println("Address: " + person.getAddress().getStreet() + 
-	        	", " + person.getAddress().getBarangay() +
-	        	", " + person.getAddress().getMunicipality() +
-	        	", " + person.getAddress().getZipCode());
-        	System.out.println("Date Of Birth: " + 
-        		person.getDateOfBirth().get(Calendar.YEAR) + 
-        		"-" + person.getDateOfBirth().get(Calendar.MONTH) +
-        		"-" + person.getDateOfBirth().get(Calendar.DATE));
-        	System.out.println("GWA: " + person.getGwa());
-        	System.out.println("Date Of Hired: " + 
-        		person.getDateHired().get(Calendar.YEAR) + 
-        		"-" + person.getDateHired().get(Calendar.MONTH) +
-        		"-" + person.getDateHired().get(Calendar.DATE));
-        	System.out.println("Currently Employed: " + person.getCurrentlyEmployed());
-        	System.out.println("Contact Information:");
-        	contactInfo = person.getContactInfo();
-	        for(ContactInfo contact: contactInfo) {
-        		System.out.println("  --> Type: " + contact.getType() + " Contact Info: " +
-        		 contact.getContactInfo());
-        	}
-        	System.out.println("Roles:");
-        	roles = person.getRoles();
-	        for(Role role: roles) {
-        		System.out.println("  --> " + role.getRole());
-        	}
-        }
+    	try {
+	    	System.out.println("\n<--- READING PERSON TABLE --->");
+	    	session = factory.openSession();
+	        transaction = session.beginTransaction();
+	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+	        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+	        Root<Person> root = criteriaQuery.from(Person.class);
+	        criteriaQuery.select(root);
+	        Query<Person> query = session.createQuery(criteriaQuery);
+	        List<Person> people = query.getResultList();
+	        Set<ContactInfo> contactInfo;
+	        Set<Role> roles;
+	        for(Person person: people) {
+	        	System.out.println();
+	        	System.out.println("ID: " + person.getId());
+	        	System.out.println("Name: " + person.getName().getFirstName() + 
+	        		" " + person.getName().getMiddleName() + 
+	        		" " + person.getName().getLastName() +
+	        		", " + person.getName().getSuffix());
+		        System.out.println("Address: " + person.getAddress().getStreet() + 
+		        	", " + person.getAddress().getBarangay() +
+		        	", " + person.getAddress().getMunicipality() +
+		        	", " + person.getAddress().getZipCode());
+	        	System.out.println("Date Of Birth: " + 
+	        		person.getDateOfBirth().get(Calendar.YEAR) + 
+	        		"-" + person.getDateOfBirth().get(Calendar.MONTH) +
+	        		"-" + person.getDateOfBirth().get(Calendar.DATE));
+	        	System.out.println("GWA: " + person.getGwa());
+	        	System.out.println("Date Of Hired: " + 
+	        		person.getDateHired().get(Calendar.YEAR) + 
+	        		"-" + person.getDateHired().get(Calendar.MONTH) +
+	        		"-" + person.getDateHired().get(Calendar.DATE));
+	        	System.out.println("Currently Employed: " + person.getCurrentlyEmployed());
+	        	System.out.println("Contact Information:");
+	        	contactInfo = person.getContactInfo();
+		        for(ContactInfo contact: contactInfo) {
+	        		System.out.println("  --> Type: " + contact.getType() + " Contact Info: " +
+	        		 contact.getContactInfo());
+	        	}
+	        	System.out.println("Roles:");
+	        	roles = person.getRoles();
+		        for(Role role: roles) {
+	        		System.out.println("  --> " + role.getRole());
+	        	}
+	        }
         	transaction.commit();
 		} catch (HibernateException e) {
 			if (transaction!=null) transaction.rollback();
@@ -219,5 +221,176 @@ public class PersonManager {
 		} finally {
 			session.close(); 
 		}
-   }
+    }
+
+    public Integer generateId(Scanner scanner) {
+    	Integer id = null;
+    	try {
+    		id = scanner.nextInt();
+    		scanner.nextLine();
+    	} catch(InputMismatchException mismatch) {
+    		System.out.println("Input should be of Integer type.");
+    	} catch(Exception e) {
+    		System.out.println("Something went wrong."); 
+    	}
+    	return id;
+    }
+
+    public void deletePerson(Integer personId) {
+	    session = factory.openSession();
+	    try {
+	    	transaction = session.beginTransaction();
+	        Person person = (Person)session.get(Person.class, personId); 
+	        session.delete(person); 
+	        transaction.commit();
+	        System.out.println("Successfully deleted Person with ID: " + personId);
+		} catch(IllegalArgumentException illegal) {
+    		System.out.println("Person with ID:" + personId + " does not exist.");
+    	} catch (HibernateException e) {
+		    if (transaction!=null) {
+		    	transaction.rollback();
+		    }
+		    e.printStackTrace(); 
+	    } finally {
+	        session.close(); 
+		}
+    }
+
+    public GregorianCalendar generateDateOfBirth(Scanner scanner) {
+    	System.out.println("\n<--- Date of Birth --->\n");
+        System.out.print("Input year: ");
+        int year = scanner.nextInt();
+        System.out.print("Input month: "); 
+        int month = scanner.nextInt();
+        System.out.print("Input date of month: ");
+        int dayOfMonth = scanner.nextInt();
+        GregorianCalendar dateOfBirth = new GregorianCalendar(year, month-1, dayOfMonth);
+        return dateOfBirth;
+    }
+
+    public GregorianCalendar generateDateHired(Scanner scanner) {
+    	System.out.println("\n<--- Date Hired --->\n");
+        System.out.print("Input year: ");
+        int year = scanner.nextInt();
+        System.out.print("Input month: "); 
+        int month = scanner.nextInt();
+        System.out.print("Input date of month: ");
+        int dayOfMonth = scanner.nextInt();
+        GregorianCalendar dateHired = new GregorianCalendar(year, month-1, dayOfMonth);
+        return dateHired;
+    }
+
+    public float generateGwa(Scanner scanner) {
+    	System.out.println("\n<--- GWA --->\n");
+        System.out.print("GWA: ");
+        float gwa = scanner.nextFloat();
+        scanner.nextLine();
+        return gwa;
+    }
+
+    public boolean generateCurrentlyEmployed(Scanner scanner) {
+    	System.out.println("\n<--- Currently Employed --->\n");
+        System.out.print("GWA: ");
+        boolean currentlyEmployed = scanner.nextBoolean();
+        scanner.nextLine();
+        return currentlyEmployed;
+    }
+
+    public Name generateName(Scanner scanner) {
+    	String string;
+    	Name name = new Name();
+    	System.out.println("\n<--- Name --->\n");
+        System.out.print("Input last name: ");
+        string = scanner.nextLine();
+        name.setLastName(string);
+        System.out.print("Input first name: ");
+        string = scanner.nextLine();
+        name.setFirstName(string);
+        System.out.print("Input middle name: ");
+        string = scanner.nextLine();
+        name.setMiddleName(string);
+        System.out.print("Input name suffix: ");
+        string = scanner.nextLine();
+        name.setSuffix(string);
+        return name;
+    }
+
+    public void updatePerson(Person person) {
+    	session = factory.openSession();
+	    try {
+	    	transaction = session.beginTransaction();
+	        session.update(person); 
+	        transaction.commit();
+	        System.out.println("Successfully updated Person with ID: " + person.getId());
+		} catch(IllegalArgumentException illegal) {
+    		System.out.println("Person with ID:" + person.getId() + " does not exist.");
+    	} catch (HibernateException e) {
+		    if (transaction!=null) {
+		    	transaction.rollback();
+		    }
+		    e.printStackTrace(); 
+	    } finally {
+	        session.close(); 
+		}
+    }
+
+    public Address generateAddress(Scanner scanner) {
+    	String string;
+    	Address address = new Address();
+    	System.out.println("\n<--- Address --->\n");
+        System.out.print("Input street: ");
+        string = scanner.nextLine();
+        address.setStreet(string);
+        System.out.print("Input barangay: ");
+        string = scanner.nextLine();
+        address.setBarangay(string);
+        System.out.print("Input municipality: ");
+        string = scanner.nextLine();
+        address.setMunicipality(string);
+        System.out.print("Input zip code: ");
+        string = scanner.nextLine();
+        address.setZipCode(string);
+        return address;
+    }
+
+    public void updateAddress(Integer personId, Address address) {
+    	session = factory.openSession();
+	    try {
+	    	transaction = session.beginTransaction();
+	        Person person = (Person)session.get(Person.class, personId);
+	        person.setAddress(address); 
+	        session.update(person); 
+	        transaction.commit();
+	        System.out.println("Successfully updated Person with ID: " + personId);
+		} catch(IllegalArgumentException illegal) {
+    		System.out.println("Person with ID:" + personId + " does not exist.");
+    	} catch (HibernateException e) {
+		    if (transaction!=null) {
+		    	transaction.rollback();
+		    }
+		    e.printStackTrace(); 
+	    } finally {
+	        session.close(); 
+		}
+    }
+
+    public Person getPersonWithId(Integer id) {
+    	session = factory.openSession();
+    	Person person = new Person();
+	    try {
+	    	transaction = session.beginTransaction();
+	        person = (Person) session.get(Person.class, id);
+	        transaction.commit();
+		} catch(IllegalArgumentException illegal) {
+    		System.out.println("Person with ID:" + id + " does not exist.");
+    	} catch (HibernateException e) {
+		    if (transaction!=null) {
+		    	transaction.rollback();
+		    }
+		    e.printStackTrace(); 
+	    } finally {
+	        session.close(); 
+		}
+		return person;
+    }
 }
