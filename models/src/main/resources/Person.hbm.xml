@@ -23,34 +23,13 @@
     <key column = "person_id"/>
     <one-to-many class="com.ecc.app.Contact"/>
 </set>
-<set name = "roles" cascade="all">
+<set name = "roles" cascade="all" table="person_role">
     <key column = "person_id"/>
-    <many-to-many class="com.ecc.app.Role"/>
+    <many-to-many column="role_id" class="com.ecc.app.Role"/>
 </set>
 <property name="dateOfBirth" column="date_of_birth" type="calendar_date"/>
 <property name="gwa" column="gwa" type="float"/>
 <property name="dateHired" column="date_hired" type="calendar_date"/>
 <property name="currentlyEmployed" column="currently_employed" type="boolean"/>
-</class>
-
-<class name="com.ecc.app.Contact" table="contact">
-<id name="id" type="int" column="id">
-<generator class="native"/>
-</id>
-<property name="contact" column="contact" type="string"/>
-<property name="type" column="type">
-    <type name="org.hibernate.type.EnumType">
-        <param name="enumClass">com.ecc.app.Contact$ContactType</param>
-        <param name="useNamed">true</param>
-    </type>
-</property>
-<!-- <property name="type" column="type" type="string"/> -->
-</class>
-
-<class name="com.ecc.app.Role" table="role">
-<id name="id" type="int" column="id">
-<generator class="native"/>
-</id>
-<property name="role" column="role" type="string"/>
 </class>
 </hibernate-mapping>

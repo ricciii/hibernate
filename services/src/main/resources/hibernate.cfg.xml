@@ -25,5 +25,8 @@ org.postgresql.Driver
 
 <!-- List of XML mapping files -->
 <mapping resource="Person.hbm.xml"/>
+<mapping resource="Role.hbm.xml"/>
+<mapping resource="Contact.hbm.xml"/>
+
 </session-factory>
 </hibernate-configuration>
