@@ -78,7 +78,7 @@ public class App {
 	    			case 1:
 	    				person = generator.generatePerson(scanner);
 	    				personService.assignRole(person, scanner, generator, roleService);
-	    				boolean created = personService.createPerson(person);
+	    				boolean created = personService.create(person);
 	    				if(created==false) {
 	    					System.out.println("Creating of Person was unsuccessful.");
 	    				} else {
@@ -301,6 +301,8 @@ public class App {
 	    		switch(choice) {
 	    			case 1:
 	    				System.out.println("Assigning role: ");
+	    				boolean assigned = personService.assignRole(person, scanner, generator, roleService);
+	    				System.out.println(assigned);
 	    				break;
 	    			case 2:
 	    				System.out.println("Unassigning role: ");

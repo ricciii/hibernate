@@ -34,7 +34,7 @@ public class PersonService {
 		this.factory = factory;
 	}
 
-   	public boolean createPerson(Person person) {
+   	public boolean create(Person person) {
 		session = factory.openSession();
 		boolean created = false;
 		try {
@@ -330,11 +330,11 @@ public class PersonService {
     	HashSet roles = new HashSet();
     	Role role = service.getObjectWithId(roleId);
     	if(role!=null) {
-    		roles.add(role);
-    		person.setRoles(roles);
-    		assigned = true;
+		        roles.add(role);
+    			person.setRoles(roles);
+		        assigned = true;
     	}
-    	return false;
+    	return assigned;
     }
 
     public boolean unassignRole(Integer personId, Role role) {
