@@ -46,4 +46,10 @@ public class Role {
 		tmp = (id + role).hashCode();
 		return tmp;
   	}
+
+  	public String toString() {
+  		String string;
+  		string = "ID: " + id + " Role: " + role + "\n";
+  		return string;
+  	}
 }

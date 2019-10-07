@@ -27,6 +27,10 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>services</artifactId>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+        <artifactId>utils</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

@@ -1,1 +1,3 @@
-com/ecc/app/PersonManager.class
+com/ecc/app/GeneralService.class
+com/ecc/app/PersonService.class
+com/ecc/app/RoleService.class

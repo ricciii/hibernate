@@ -1,7 +1,6 @@
 package com.ecc.app;
 
 public class Name {
-	//private int id;
 	private String lastName;
 	private String firstName;
 	private String middleName;
@@ -58,5 +57,15 @@ public class Name {
 
 	public void setSuffix(String suffix) {
 		this.suffix = suffix;
+	}
+
+	@Override
+	public String toString() {
+		String string;
+		string = lastName + " " + firstName + " " + middleName;
+		if(suffix != null) {
+			string += ", " + suffix;
+		}
+		return string;
 	}
 }

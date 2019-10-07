@@ -20,10 +20,6 @@ public class Address {
 
 	}
 
-	// public int getId() {
-	// 	return this.id;
-	// }
-
 	public String getStreet() {
 		return this.street;
 	}
@@ -40,10 +36,6 @@ public class Address {
 		return this.zipCode;
 	}
 
-	// public void setId(int id) {
-	// 	this.id = id;
-	// }
-
 	public void setStreet(String street) {
 		this.street = street;
 	}
@@ -58,5 +50,11 @@ public class Address {
 
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
+	}
+
+	public String toString() {
+		String string;
+		string = street + ", " + barangay + ", " + municipality + ", " + zipCode;
+		return string;
 	}
 }

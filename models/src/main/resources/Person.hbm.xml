@@ -4,9 +4,6 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 <class name="com.ecc.app.Person" table="people">
-<meta attribute="class-description">
-This class contains the employee detail.
-</meta>
 <id name="id" type="int" column="id">
 	<generator class="native"/>
 </id>
@@ -22,9 +19,9 @@ This class contains the employee detail.
 	<property name="municipality" column="municipality" type="string"/>
 	<property name="zipCode" column="zip_code" type="string"/>
 </component>
-<set name = "contactInfo" cascade="all">
+<set name = "contacts" cascade="all">
     <key column = "person_id"/>
-    <one-to-many class="com.ecc.app.ContactInfo"/>
+    <one-to-many class="com.ecc.app.Contact"/>
 </set>
 <set name = "roles" cascade="all">
     <key column = "person_id"/>
@@ -36,15 +33,21 @@ This class contains the employee detail.
 <property name="currentlyEmployed" column="currently_employed" type="boolean"/>
 </class>
 
-<class name="com.ecc.app.ContactInfo" table="contact_information">
+<class name="com.ecc.app.Contact" table="contact">
 <id name="id" type="int" column="id">
 <generator class="native"/>
 </id>
-<property name="contactInfo" column="contact_info" type="string"/>
-<property name="type" column="type" type="string"/>
+<property name="contact" column="contact" type="string"/>
+<property name="type" column="type">
+    <type name="org.hibernate.type.EnumType">
+        <param name="enumClass">com.ecc.app.Contact$ContactType</param>
+        <param name="useNamed">true</param>
+    </type>
+</property>
+<!-- <property name="type" column="type" type="string"/> -->
 </class>
 
-<class name="com.ecc.app.Role" table="roles">
+<class name="com.ecc.app.Role" table="role">
 <id name="id" type="int" column="id">
 <generator class="native"/>
 </id>

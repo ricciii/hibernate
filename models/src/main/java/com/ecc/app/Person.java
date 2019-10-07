@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
-public class Person {
+public class Person implements Comparable<Person> {
 	private int id;
 	private Name name;
 	private Address address;
@@ -12,7 +12,7 @@ public class Person {
 	private float gwa;
 	private Calendar dateHired;
 	private Boolean currentlyEmployed;
-	private Set contactInfo;
+	private Set contacts;
 	private Set roles;
 
 	public Person() {
@@ -57,8 +57,8 @@ public class Person {
 		return this.currentlyEmployed;
 	}
 
-	public Set getContactInfo() {
-		return this.contactInfo;
+	public Set getContacts() {
+		return this.contacts;
 	}
 
 	public Set getRoles() {
@@ -93,11 +93,37 @@ public class Person {
 		this.currentlyEmployed = currentlyEmployed;
 	}
 
-	public void setContactInfo(Set contactInfo) {
-		this.contactInfo = contactInfo;
+	public void setContacts(Set contacts) {
+		this.contacts = contacts;
 	}
 
 	public void setRoles(Set roles) {
 		this.roles = roles;
+	}
+
+	@Override
+	public String toString() {
+		String string;
+		string = "ID: " + id + "\n"; 
+		string += "Name: " + name + "\n";
+		string += "Address: "+ address + "\n";
+		string += "Date Of Birth: " + dateOfBirth.get(Calendar.YEAR) + "-" + dateOfBirth.get(Calendar.MONTH) + "-" + dateOfBirth.get(Calendar.DATE) + "\n";
+		string += "GWA: " + gwa + "\n";
+		string += "Date Hired: " + dateHired.get(Calendar.YEAR) + "-" + dateHired.get(Calendar.MONTH) + "-" + dateHired.get(Calendar.DATE) + "\n";
+		string += "Currently Employed: " + currentlyEmployed + "\n";
+		string += "Contact Information: \n";
+        for(Object contact: contacts) {
+    		string += "--> " + contact;
+    	}
+		string += "Role Information: \n";
+        for(Object role: roles) {
+    		string += "--> " + role;
+    	}
+    	return string;
+	}
+
+	@Override
+	public int compareTo(Person person) {
+		return Float.compare(gwa, person.getGwa());
 	}
 }
