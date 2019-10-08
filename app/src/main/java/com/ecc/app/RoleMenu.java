@@ -15,9 +15,9 @@ public class RoleMenu implements Menu {
 	
 	private RoleService roleService;
 	private ScannerUtil scanner;
-	private GeneratorUtil generator;
+	private GeneratorService generator;
 
-	public RoleMenu(RoleService roleService, ScannerUtil scanner, GeneratorUtil generator) {
+	public RoleMenu(RoleService roleService, ScannerUtil scanner, GeneratorService generator) {
     	this.roleService = roleService;
     	this.scanner = scanner;
     	this.generator = generator;

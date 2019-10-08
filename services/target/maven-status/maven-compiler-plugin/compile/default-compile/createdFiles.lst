@@ -1,3 +1,6 @@
 com/ecc/app/GeneralService.class
+com/ecc/app/GeneratorService.class
+com/ecc/app/PersonService$1.class
+com/ecc/app/PersonService$ReadingOrder.class
 com/ecc/app/PersonService.class
 com/ecc/app/RoleService.class

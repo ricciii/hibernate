@@ -116,6 +116,30 @@ public class PersonService {
 	// 	}
 	// }
 
+	public enum ReadingOrder {
+		DEFAULT, GWA, LASTNAME, DATEHIRED
+	}
+
+	public void read(ReadingOrder order) {
+		try {
+			switch(order) {
+				case GWA:
+					readAllPersonByGWA();
+					break;
+				case LASTNAME:
+					readAllPersonByLastName();
+					break;
+				case DATEHIRED:
+					readAllPersonByDateHired();
+					break;
+				default:
+					readAllPerson();
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+
 	public boolean readPerson(Integer personId) {
     	boolean read = false;
     	Person person = getPersonWithId(personId);

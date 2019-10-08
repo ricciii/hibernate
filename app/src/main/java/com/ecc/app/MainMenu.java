@@ -16,12 +16,12 @@ public class MainMenu implements Menu {
 	private PersonService personService;
 	private RoleService roleService;
 	private ScannerUtil scanner;
-	private GeneratorUtil generator;
+	private GeneratorService generator;
 	private Menu personMenu;
 	private Menu roleMenu;
 
     public MainMenu(PersonService personService, RoleService roleService, ScannerUtil scanner, 
-    	GeneratorUtil generator, Menu personMenu, Menu roleMenu) {
+    	GeneratorService generator, Menu personMenu, Menu roleMenu) {
     	this.personService = personService;
     	this.roleService = roleService;
     	this.scanner = scanner;

@@ -16,9 +16,9 @@ public class PersonMenu implements Menu {
 	private PersonService personService;
 	private RoleService roleService;
 	private ScannerUtil scanner;
-	private GeneratorUtil generator;
+	private GeneratorService generator;
 
-	public PersonMenu(PersonService personService, RoleService roleService, ScannerUtil scanner, GeneratorUtil generator) {
+	public PersonMenu(PersonService personService, RoleService roleService, ScannerUtil scanner, GeneratorService generator) {
 		this.personService = personService;
     	this.roleService = roleService;
     	this.scanner = scanner;
@@ -41,25 +41,7 @@ public class PersonMenu implements Menu {
 	    		choice = scanner.getInt();
 	    		switch(choice) {
 	    			case 1:
-	    				person = generator.generatePerson(scanner);
-	    				System.out.println("Assigning role...");
-	    				System.out.println("Available Roles: ");
-	    				roleService.read();
-	    				System.out.print("Choose a Role ID: ");
-	    				roleId = generator.generateId(scanner);
-	    				role = roleService.getObjectWithId(roleId);
-	    				if(role==null) {
-	    					System.out.println("Role does not exist.");
-	    				} else {
-	    					// personService.assignRole(person, role);
-	    				}
-	    				//personService.assignRole(person, scanner, generator, roleService);
-	    				boolean created = personService.create(person);
-	    				if(created==false) {
-	    					System.out.println("Creating of Person was unsuccessful.");
-	    				} else {
-	    					System.out.println("Successfully created a Person.");
-	    				}
+	    				promptCreatePerson();
 	    				break;
 	    			case 2:
 	    				showReadAllPersonByMenu();
@@ -91,6 +73,40 @@ public class PersonMenu implements Menu {
     	} while(done==false);
 	}
 
+	private void promptCreatePerson() {
+		Person person;
+		String input;
+		Integer roleId = null;
+		Role role;
+		System.out.println("Creating person...");
+		person = generator.generatePerson(scanner);
+		System.out.println("Assigning role...");
+		System.out.print("Do you want to assign a role [1=YES, anything for NO]: ");
+		input = scanner.getString();
+		if("1".equals(input)) {
+			System.out.println("Available Roles: ");
+			roleService.read();
+			System.out.print("Choose a Role ID: ");
+			roleId = generator.generateId(scanner);
+			role = roleService.getObjectWithId(roleId);
+			if(role == null) {
+				System.out.println("Role does not exist.");
+			} else {
+				HashSet roles = new HashSet();
+				roles.add(role);
+				person.setRoles(roles);
+			}
+		} else {
+			System.out.println("Skipping role assignment...");
+		}
+		boolean created = personService.create(person);
+		if(created==false) {
+			System.out.println("Creating of Person was unsuccessful.");
+		} else {
+			System.out.println("Successfully created a Person.");
+		}
+	}
+
 	public void showReadAllPersonByMenu() {
     	int choice;
     	boolean done = false;
@@ -103,19 +119,19 @@ public class PersonMenu implements Menu {
 	    		switch(choice) {
 	    			case 1:
 	    				System.out.println("Reading all Person by Default: ");
-	    				personService.readAllPerson();
+	    				personService.read(PersonService.ReadingOrder.DEFAULT);
 	    				break;
 	    			case 2:
 	    				System.out.println("Reading all Person by GWA: ");
-	    				personService.readAllPersonByGWA();
+	    				personService.read(PersonService.ReadingOrder.GWA);
 	    				break;
 	    			case 3:
 	    				System.out.println("Reading all Person by Last Name: ");
-	    				personService.readAllPersonByLastName();
+	    				personService.read(PersonService.ReadingOrder.LASTNAME);
 	    				break;
 	    			case 4:
 	    				System.out.println("Reading all Person by Date Hired: ");
-	    				personService.readAllPersonByDateHired();
+	    				personService.read(PersonService.ReadingOrder.DATEHIRED);
 	    				break;
 	    			case 5:
 	    				done = true;
@@ -147,32 +163,26 @@ public class PersonMenu implements Menu {
 	    			case 1:
 	    				Name name = generator.generateName(scanner);
 	    				person.setName(name);
-	    				personService.updatePerson(person);
 	    				break;
 	    			case 2:
 	    				Address address = generator.generateAddress(scanner);
 	    				person.setAddress(address);
-	    				personService.updatePerson(person);
 	    				break;
 	    			case 3:
 	    				GregorianCalendar dateOfBirth = generator.generateDateOfBirth(scanner);
 	    				person.setDateOfBirth(dateOfBirth);
-	    				personService.updatePerson(person);
 	    				break;
 	    			case 4:
 	    				float gwa = generator.generateGwa(scanner);
 	    				person.setGwa(gwa);
-	    				personService.updatePerson(person);
 	    				break;
 	    			case 5:
 	    				GregorianCalendar dateHired = generator.generateDateHired(scanner);
 	    				person.setDateHired(dateHired);
-	    				personService.updatePerson(person);
 	    				break;
 	    			case 6:
 	    				boolean currentlyEmployed = generator.generateCurrentlyEmployed(scanner);
 	    				person.setCurrentlyEmployed(currentlyEmployed);
-	    				personService.updatePerson(person);
 	    				break;
 	    			case 7:
 	    				showUpdatePersonContactsMenu(personId);
@@ -189,6 +199,7 @@ public class PersonMenu implements Menu {
 	    	} catch(Exception exception) {
 	    		System.out.print(exception);
 	    	} finally {
+	    		personService.updatePerson(person);
 	    		shown = true;
 	    	}
     	} while(done==false);
