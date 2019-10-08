@@ -23,7 +23,7 @@
     <key column = "person_id"/>
     <one-to-many class="com.ecc.app.Contact"/>
 </set>
-<set name = "roles" cascade="all" table="person_role">
+<set name = "roles" cascade="all" fetch="join" table="person_role">
     <key column = "person_id"/>
     <many-to-many column="role_id" class="com.ecc.app.Role"/>
 </set>

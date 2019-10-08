@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Person.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">models</a> &gt; <a href="index.source.html" class="el_package">com.ecc.app</a> &gt; <span class="el_source">Person.java</span></div><h1>Person.java</h1><pre class="source lang-java linenums">package com.ecc.app;
+
+import java.util.Calendar;
+import java.util.List;
+import java.util.Set;
+
+public class Person implements Comparable&lt;Person&gt; {
+	private int id;
+	private Name name;
+	private Address address;
+	private Calendar dateOfBirth;
+	private float gwa;
+	private Calendar dateHired;
+	private Boolean currentlyEmployed;
+	private Set contacts;
+	private Set roles;
+
+<span class="nc" id="L18">	public Person() {</span>
+
+<span class="nc" id="L20">	}</span>
+
+	public Person(Name name, Address address, Calendar dateOfBirth, float gwa, 
+<span class="nc" id="L23">   	Calendar dateHired, Boolean currentlyEmployed) {</span>
+<span class="nc" id="L24">   		this.name = name;</span>
+<span class="nc" id="L25">   		this.address = address;</span>
+<span class="nc" id="L26">   		this.dateOfBirth = dateOfBirth;</span>
+<span class="nc" id="L27">   		this.gwa = gwa;</span>
+<span class="nc" id="L28">   		this.dateHired = dateHired;</span>
+<span class="nc" id="L29">   		this.currentlyEmployed = currentlyEmployed;</span>
+<span class="nc" id="L30">	}</span>
+
+	public int getId() {
+<span class="nc" id="L33">		return this.id;</span>
+	}
+
+	public Name getName() {
+<span class="nc" id="L37">		return this.name;</span>
+	}
+
+	public Address getAddress() {
+<span class="nc" id="L41">		return this.address;</span>
+	}
+
+	public Calendar getDateOfBirth() {
+<span class="nc" id="L45">		return this.dateOfBirth;</span>
+	}
+
+	public float getGwa() {
+<span class="nc" id="L49">		return this.gwa;</span>
+	}
+
+	public Calendar getDateHired() {
+<span class="nc" id="L53">		return this.dateHired;</span>
+	}
+
+	public Boolean getCurrentlyEmployed() {
+<span class="nc" id="L57">		return this.currentlyEmployed;</span>
+	}
+
+	public Set getContacts() {
+<span class="nc" id="L61">		return this.contacts;</span>
+	}
+
+	public Set getRoles() {
+<span class="nc" id="L65">		return this.roles;</span>
+	}
+
+	public void setId(int id) {
+<span class="nc" id="L69">		this.id = id;</span>
+<span class="nc" id="L70">	}</span>
+
+	public void setName(Name name) {
+<span class="nc" id="L73">		this.name = name;</span>
+<span class="nc" id="L74">	}</span>
+
+	public void setAddress(Address address) {
+<span class="nc" id="L77">		this.address = address;</span>
+<span class="nc" id="L78">	}</span>
+
+	public void setDateOfBirth(Calendar dateOfBirth) {
+<span class="nc" id="L81">		this.dateOfBirth = dateOfBirth;</span>
+<span class="nc" id="L82">	}</span>
+
+	public void setGwa(float gwa) {
+<span class="nc" id="L85">		this.gwa = gwa;</span>
+<span class="nc" id="L86">	}</span>
+
+	public void setDateHired(Calendar dateHired) {
+<span class="nc" id="L89">		this.dateHired = dateHired;</span>
+<span class="nc" id="L90">	}</span>
+
+	public void setCurrentlyEmployed(Boolean currentlyEmployed) {
+<span class="nc" id="L93">		this.currentlyEmployed = currentlyEmployed;</span>
+<span class="nc" id="L94">	}</span>
+
+	public void setContacts(Set contacts) {
+<span class="nc" id="L97">		this.contacts = contacts;</span>
+<span class="nc" id="L98">	}</span>
+
+	public void setRoles(Set roles) {
+<span class="nc" id="L101">		this.roles = roles;</span>
+<span class="nc" id="L102">	}</span>
+
+	@Override
+	public String toString() {
+		String string;
+<span class="nc" id="L107">		string = &quot;ID: &quot; + id + &quot;\n&quot;; </span>
+<span class="nc" id="L108">		string += &quot;Name: &quot; + name + &quot;\n&quot;;</span>
+<span class="nc" id="L109">		string += &quot;Address: &quot;+ address + &quot;\n&quot;;</span>
+<span class="nc" id="L110">		string += &quot;Date Of Birth: &quot; + dateOfBirth.get(Calendar.YEAR) + &quot;-&quot; + dateOfBirth.get(Calendar.MONTH) + &quot;-&quot; + dateOfBirth.get(Calendar.DATE) + &quot;\n&quot;;</span>
+<span class="nc" id="L111">		string += &quot;GWA: &quot; + gwa + &quot;\n&quot;;</span>
+<span class="nc" id="L112">		string += &quot;Date Hired: &quot; + dateHired.get(Calendar.YEAR) + &quot;-&quot; + dateHired.get(Calendar.MONTH) + &quot;-&quot; + dateHired.get(Calendar.DATE) + &quot;\n&quot;;</span>
+<span class="nc" id="L113">		string += &quot;Currently Employed: &quot; + currentlyEmployed + &quot;\n&quot;;</span>
+<span class="nc" id="L114">		string += &quot;Contact Information: \n&quot;;</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        for(Object contact: contacts) {</span>
+<span class="nc" id="L116">    		string += &quot;--&gt; &quot; + contact;</span>
+<span class="nc" id="L117">    	}</span>
+<span class="nc" id="L118">		string += &quot;Role Information: \n&quot;;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        for(Object role: roles) {</span>
+<span class="nc" id="L120">    		string += &quot;--&gt; &quot; + role;</span>
+<span class="nc" id="L121">    	}</span>
+<span class="nc" id="L122">    	return string;</span>
+	}
+
+	@Override
+	public int compareTo(Person person) {
+<span class="nc" id="L127">		return Float.compare(gwa, person.getGwa());</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

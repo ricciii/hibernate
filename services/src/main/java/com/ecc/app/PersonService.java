@@ -72,6 +72,25 @@ public class PersonService {
 		return added;
 	}
 
+	public boolean addRoles(Integer personId, Set roles) {
+		boolean added = false;
+		try {
+	    	session = factory.openSession();
+	    	transaction = session.beginTransaction();
+	        Person person = (Person) session.get(Person.class, personId);
+	        person.getRoles().addAll(roles);
+	        session.save(person); 
+	        transaction.commit();
+	        added = true;
+		} catch (HibernateException e) {
+			if (transaction!=null) transaction.rollback();
+			e.printStackTrace(); 
+		} finally {
+			session.close(); 
+		}
+		return added;
+	}
+
 	public boolean deleteContact(Integer personId, Integer contactId) {
 		boolean deleted = false;
 		session = factory.openSession();
@@ -106,39 +125,37 @@ public class PersonService {
 		return deleted;
 	}
 
-	// public void addRole(Integer personId, Role role) {
-	// 	Person person = getPersonWithId(personId);
-	// 	if (person==null) {
-	// 		System.out.println("Person with ID:" + personId + " does not exist.");
-	// 	} else {
-	// 		person.getRoles().add(role);
-	// 		updatePerson(person);
-	// 	}
-	// }
+	public boolean deleteRole(Integer personId, Integer roleId) {
+		boolean deleted = false;
+		session = factory.openSession();
+	    try {
+	    	transaction = session.beginTransaction();
+	    	Person person = (Person) session.get(Person.class, personId);
+	    	Role role = (Role) session.get(Role.class, roleId);
+	    	if(role != null) {
+	    		person.getRoles().remove(role);
+	    		session.save(person);
+	        	transaction.commit();
+	        	deleted = true;
+	    	} else {
+	    		System.out.println("Person does not have the role.");
+	    	}
+		} catch(IllegalArgumentException illegal) {
+    		System.out.println("Role with ID:" + roleId + " does not exist.");
+    	} catch (HibernateException e) {
+		    if (transaction!=null) {
+		    	transaction.rollback();
+		    }
+		    e.printStackTrace(); 
+	    } finally {
+	        session.close(); 
+		}
+		return deleted;
+	}
 
 	public enum ReadingOrder {
 		DEFAULT, GWA, LASTNAME, DATEHIRED
 	}
-
-	// public void read(ReadingOrder order) {
-	// 	try {
-	// 		switch(order) {
-	// 			case GWA:
-	// 				readAllPersonByGWA();
-	// 				break;
-	// 			case LASTNAME:
-	// 				readAllPersonByLastName();
-	// 				break;
-	// 			case DATEHIRED:
-	// 				readAllPersonByDateHired();
-	// 				break;
-	// 			default:
-	// 				readAllPerson();
-	// 		}
-	// 	} catch(Exception e) {
-	// 		System.out.println(e);
-	// 	}
-	// }
 
 	public void read(ReadingOrder order) {
 		try {
@@ -207,124 +224,7 @@ public class PersonService {
 	    return read;
     }
 
-	// public boolean readAllPerson() {
-	// 	boolean readAll = false;
- //    	try {
-	//     	session = factory.openSession();
-	//         transaction = session.beginTransaction();
-	//         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-	//         CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
-	//         Root<Person> root = criteriaQuery.from(Person.class);
-	//         criteriaQuery.select(root);
-	//         Query<Person> query = session.createQuery(criteriaQuery);
-	//         List<Person> people = query.getResultList();
-	        // if(people == null) {
-		       //  System.out.println("Person Table is empty.");
-	        // } else {
-	        // 	System.out.println("\n<--- READING PERSON TABLE --->\n");
-		       //  for(Person person: people) {
-		       //  	System.out.print(person);
-		       //  }
-		       //  readAll = true;
-	        // }
-	// 	} catch (HibernateException e) {
-	// 		if (transaction!=null) transaction.rollback();
-	// 		e.printStackTrace(); 
-	// 	} finally {
-	// 		session.close(); 
-	// 	}
-	// 	return readAll;
- //    }
-
- //    public boolean readAllPersonByLastName() {
-	// 	boolean readAll = false;
- //    	try {
-	//     	session = factory.openSession();
-	//         transaction = session.beginTransaction();
-	//         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-	//         CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
-	//         Root<Person> root = criteriaQuery.from(Person.class);
-	//         criteriaQuery.orderBy(criteriaBuilder.asc(root.get("name")));
-	//         Query<Person> query = session.createQuery(criteriaQuery);
-	//         List<Person> people = query.getResultList();
-	//         if(people == null) {
-	// 	        System.out.println("Person Table is empty.");
-	//         } else {
-	//         	System.out.println("\n<--- READING PERSON TABLE --->\n");
-	// 	        for(Person person: people) {
-	// 	        	System.out.print(person);
-	// 	        }
-	// 	        readAll = true;
-	//         }
-	// 	} catch (HibernateException e) {
-	// 		if (transaction!=null) transaction.rollback();
-	// 		e.printStackTrace(); 
-	// 	} finally {
-	// 		session.close(); 
-	// 	}
-	// 	return readAll;
- //    }
-
- //    public boolean readAllPersonByDateHired() {
-	// 	boolean readAll = false;
- //    	try {
-	//     	session = factory.openSession();
-	//         transaction = session.beginTransaction();
-	//         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-	//         CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
-	//         Root<Person> root = criteriaQuery.from(Person.class);
-	//         criteriaQuery.orderBy(criteriaBuilder.desc(root.get("dateHired")));
-	//         Query<Person> query = session.createQuery(criteriaQuery);
-	//         List<Person> people = query.getResultList();
-	//         if(people == null) {
-	// 	        System.out.println("Person Table is empty.");
-	//         } else {
-	//         	System.out.println("\n<--- READING PERSON TABLE --->\n");
-	// 	        for(Person person: people) {
-	// 	        	System.out.print(person);
-	// 	        }
-	// 	        readAll = true;
-	//         }
-	// 	} catch (HibernateException e) {
-	// 		if (transaction!=null) transaction.rollback();
-	// 		e.printStackTrace(); 
-	// 	} finally {
-	// 		session.close(); 
-	// 	}
-	// 	return readAll;
- //    }
-
- //    public boolean readAllPersonByGWA() {
-	// 	boolean readAll = false;
- //    	try {
-	//     	session = factory.openSession();
-	//         transaction = session.beginTransaction();
-	//         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-	//         CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
-	//         Root<Person> root = criteriaQuery.from(Person.class);
-	//         criteriaQuery.select(root);
-	//         Query<Person> query = session.createQuery(criteriaQuery);
-	//         List<Person> people = query.getResultList();
-	//         Collections.sort(people);
-	//         if(people == null) {
-	// 	        System.out.println("Person Table is empty.");
-	//         } else {
-	//         	System.out.println("\n<--- READING PERSON TABLE --->\n");
-	// 	        for(Person person: people) {
-	// 	        	System.out.print(person);
-	// 	        }
-	// 	        readAll = true;
-	//         }
-	// 	} catch (HibernateException e) {
-	// 		if (transaction!=null) transaction.rollback();
-	// 		e.printStackTrace(); 
-	// 	} finally {
-	// 		session.close(); 
-	// 	}
-	// 	return readAll;
- //    }
-
-    public boolean deletePerson(Integer personId) {
+    public boolean delete(Integer personId) {
 	    boolean deleted = false;
 	    Person person = getPersonWithId(personId);
 	    if(person == null) {
@@ -366,6 +266,8 @@ public class PersonService {
 			    	transaction.rollback();
 			    }
 			    e.printStackTrace(); 
+		    } catch(Exception exception) {
+		    	System.out.println(exception);
 		    } finally {
 		        session.close(); 
 			}
@@ -387,67 +289,5 @@ public class PersonService {
 	        session.close(); 
 		}
 		return person;
-    }
-
-    // public boolean assignRole(Person person, ScannerUtil scanner, GeneratorUtil generator, RoleService service) {
-    // 	boolean assigned = false;
-    // 	System.out.println("List of available Roles: ");
-    // 	service.read();
-    // 	System.out.print("Input ID of role you want to assign:: ");
-    // 	Integer roleId = generator.generateId(scanner);
-    // 	HashSet roles = new HashSet();
-    // 	Role role = service.getObjectWithId(roleId);
-    // 	if(role!=null) {
-		  //       roles.add(role);
-    // 			person.setRoles(roles);
-		  //       assigned = true;
-    // 	}
-    // 	return assigned;
-    // }
-
-    // public Person assignRole(Person person, Role role) {
-    // 	assigned = false;
-    // 	System.out.println("List of available Roles: ");
-    // 	service.read();
-    // 	System.out.print("Input ID of role you want to assign:: ");
-    // 	Integer roleId = generator.generateId(scanner);
-    // 	HashSet roles = new HashSet();
-    // 	Role role = service.getObjectWithId(roleId);
-    // 	if(role!=null) {
-		  //       roles.add(role);
-    // 			person.setRoles(roles);
-		  //       assigned = true;
-    // 	}
-    // 	return person;
-    // }
-
-    public boolean unassignRole(Integer personId, Role role) {
-    	boolean updated = false;
-    	Person person = getPersonWithId(personId);
-    	if(getPersonWithId(person.getId())==null || role == null) {
-    		System.out.println("Person with ID:" + person.getId() + " does not exist.");
-    	} else {
-	    	session = factory.openSession();
-		    try {
-		    	person.getRoles().remove(role);
-		    	transaction = session.beginTransaction();
-		        session.update(person); 
-		        transaction.commit();
-		        updated = true;
-		        System.out.println("Successfully updated Person with ID: " + person.getId());
-			} catch (HibernateException e) {
-			    if (transaction!=null) {
-			    	transaction.rollback();
-			    }
-			    e.printStackTrace(); 
-		    } catch (Exception exception) {
-		    	System.out.println(exception);
-		    } 
-		    finally {
-		        session.close(); 
-			}
-    	}
-    	return updated;
-
     }
 }

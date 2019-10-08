@@ -39,7 +39,7 @@ public class RoleMenu implements Menu {
 	    		choice = scanner.getInt();
 	    		switch(choice) {
 	    			case 1:
-	    				role = generator.generateRole(scanner);
+	    				role = generator.generateRole();
 	    				boolean created = roleService.create(role);
 	    				if(created==false) {
 	    					System.out.println("Creating of Role was unsuccessful.");
@@ -53,7 +53,7 @@ public class RoleMenu implements Menu {
 	    				break;
 	    			case 3:
 	    				System.out.print("Input the ID of the Role you want to update: ");
-	    				roleId = generator.generateId(scanner);
+	    				roleId = generator.generateId();
 	    				role = (Role) roleService.getObjectWithId(roleId);
 	    				if(role == null) {
 	    					System.out.print("Role with ID: " + roleId + " does not exist.");
@@ -63,7 +63,7 @@ public class RoleMenu implements Menu {
 	    				break;
 	    			case 4:
 	    				System.out.print("Input the ID of the Role you want to delete: ");
-	    				roleId = generator.generateId(scanner);
+	    				roleId = generator.generateId();
 	    				boolean deleted = roleService.delete(roleId);
 	    				if(deleted) {
 	    					System.out.print("Role successfully deleted.");

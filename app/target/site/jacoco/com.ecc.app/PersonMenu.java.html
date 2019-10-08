@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PersonMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">com.ecc.app</a> &gt; <span class="el_source">PersonMenu.java</span></div><h1>PersonMenu.java</h1><pre class="source lang-java linenums">package com.ecc.app;
+
+import java.util.Scanner;
+import org.hibernate.HibernateException; 
+import org.hibernate.Session; 
+import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import java.util.GregorianCalendar;
+import java.util.Calendar;
+import java.util.InputMismatchException;
+import java.util.HashSet;
+
+public class PersonMenu implements Menu {
+	
+	private PersonService personService;
+	private RoleService roleService;
+	private ScannerUtil scanner;
+	private GeneratorService generator;
+
+<span class="nc" id="L21">	public PersonMenu(PersonService personService, RoleService roleService, ScannerUtil scanner, GeneratorService generator) {</span>
+<span class="nc" id="L22">		this.personService = personService;</span>
+<span class="nc" id="L23">    	this.roleService = roleService;</span>
+<span class="nc" id="L24">    	this.scanner = scanner;</span>
+<span class="nc" id="L25">    	this.generator = generator;</span>
+<span class="nc" id="L26">	}</span>
+
+	public void start() {
+		int choice;
+    	String string;
+<span class="nc" id="L31">    	boolean done = false;</span>
+<span class="nc" id="L32">    	Integer personId = null;</span>
+<span class="nc" id="L33">    	Integer roleId = null;</span>
+    	Person person;
+    	Role role;
+    	do {
+<span class="nc" id="L37">    		System.out.println(&quot;\n&lt;--- PERSON TABLE ---&gt;\n&quot;);</span>
+<span class="nc" id="L38">	    	System.out.println(&quot;1=CREATE 2=READ 3=UPDATE 4=DELETE 5=BACK&quot;);</span>
+<span class="nc" id="L39">	    	System.out.print(&quot;What do you want to do: &quot;);</span>
+	    	try {
+<span class="nc" id="L41">	    		choice = scanner.getInt();</span>
+<span class="nc bnc" id="L42" title="All 6 branches missed.">	    		switch(choice) {</span>
+	    			case 1:
+<span class="nc" id="L44">	    				person = generator.generatePerson(roleService);</span>
+<span class="nc" id="L45">	    				boolean created = personService.create(person);</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">	    				if(created) {</span>
+<span class="nc" id="L47">	    					System.out.print(&quot;Person successfully created.&quot;);</span>
+	    				} else {
+<span class="nc" id="L49">	    					System.out.print(&quot;Person unsuccessfully created.&quot;);</span>
+	    				}
+<span class="nc" id="L51">	    				break;</span>
+	    			case 2:
+<span class="nc" id="L53">	    				showReadAllPersonByMenu();</span>
+<span class="nc" id="L54">	    				break;</span>
+	    			case 3:
+<span class="nc" id="L56">	    				System.out.print(&quot;Input the ID of the Person you want to update: &quot;);</span>
+<span class="nc" id="L57">	    				personId = generator.generateId();</span>
+<span class="nc" id="L58">	    				person = personService.getPersonWithId(personId);</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">	    				if(person == null) {</span>
+<span class="nc" id="L60">	    					System.out.print(&quot;Person with ID: &quot; + personId + &quot; does not exist.&quot;);</span>
+	    				} else {
+<span class="nc" id="L62">	    					showUpdatePersonMenu(person, personId);</span>
+	    				}
+<span class="nc" id="L64">	    				break;</span>
+	    			case 4:
+<span class="nc" id="L66">	    				System.out.print(&quot;Input the ID of the Person you want to delete: &quot;);</span>
+<span class="nc" id="L67">	    				personId = generator.generateId();</span>
+<span class="nc" id="L68">	    				personService.delete(personId);</span>
+<span class="nc" id="L69">	    				break;</span>
+	    			case 5:
+<span class="nc" id="L71">	    				done = true; </span>
+<span class="nc" id="L72">	    				break;</span>
+	    			default: 
+<span class="nc" id="L74">	    				System.out.println(&quot;Not in the choices, try again.&quot;);</span>
+	    		}
+<span class="nc" id="L76">	    	} catch(Exception e) {</span>
+<span class="nc" id="L77">	    		System.out.print(e);</span>
+<span class="nc" id="L78">	    	}</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">    	} while(done==false);</span>
+<span class="nc" id="L80">	}</span>
+
+	public void showReadAllPersonByMenu() {
+    	int choice;
+<span class="nc" id="L84">    	boolean done = false;</span>
+    	do {
+<span class="nc" id="L86">    		System.out.println(&quot;\n&lt;-- READING PERSON MENU --&gt;\n&quot;);</span>
+<span class="nc" id="L87">	    	System.out.println(&quot;1=Default 2=BY GWA 3=BY LAST NAME 4=BY DATE HIRED 5=EXIT&quot;);</span>
+<span class="nc" id="L88">	    	System.out.print(&quot;Which reading do you want to do: &quot;);</span>
+	    	try {
+<span class="nc" id="L90">	    		choice = scanner.getInt();</span>
+<span class="nc bnc" id="L91" title="All 6 branches missed.">	    		switch(choice) {</span>
+	    			case 1:
+<span class="nc" id="L93">	    				System.out.println(&quot;Reading all Person by Default: &quot;);</span>
+<span class="nc" id="L94">	    				personService.read(PersonService.ReadingOrder.DEFAULT);</span>
+<span class="nc" id="L95">	    				break;</span>
+	    			case 2:
+<span class="nc" id="L97">	    				System.out.println(&quot;Reading all Person by ASC GWA: &quot;);</span>
+<span class="nc" id="L98">	    				personService.read(PersonService.ReadingOrder.GWA);</span>
+<span class="nc" id="L99">	    				break;</span>
+	    			case 3:
+<span class="nc" id="L101">	    				System.out.println(&quot;Reading all Person by ASC Last Name: &quot;);</span>
+<span class="nc" id="L102">	    				personService.read(PersonService.ReadingOrder.LASTNAME);</span>
+<span class="nc" id="L103">	    				break;</span>
+	    			case 4:
+<span class="nc" id="L105">	    				System.out.println(&quot;Reading all Person by DESC Date Hired: &quot;);</span>
+<span class="nc" id="L106">	    				personService.read(PersonService.ReadingOrder.DATEHIRED);</span>
+<span class="nc" id="L107">	    				break;</span>
+	    			case 5:
+<span class="nc" id="L109">	    				done = true;</span>
+<span class="nc" id="L110">	    				break;</span>
+	    			default: 
+<span class="nc" id="L112">	    				System.out.println(&quot;Not in the choices, try again.&quot;);</span>
+	    		}
+<span class="nc" id="L114">	    	} catch(Exception exception) {</span>
+<span class="nc" id="L115">	    		System.out.print(exception);</span>
+<span class="nc" id="L116">	    	}</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">    	} while(done==false);</span>
+<span class="nc" id="L118">    }</span>
+
+    // THE PERSON HERE SHOULD EXIST ALREADY
+    public void showUpdatePersonMenu(Person person, Integer personId) {
+    	int choice;
+<span class="nc" id="L123">    	boolean done = false;</span>
+<span class="nc" id="L124">    	boolean skip = false;</span>
+    	do {
+<span class="nc" id="L126">    		System.out.println(&quot;\n&lt;-- UPDATE PERSON MENU --&gt;\n&quot;);</span>
+<span class="nc" id="L127">    		System.out.println(&quot;Person Information: &quot;);</span>
+<span class="nc" id="L128">    		personService.readPerson(personId);</span>
+<span class="nc" id="L129">	    	System.out.print(&quot;1=Name 2=Address 3=Date of Birth 4=GWA 5=Date Hired\n&quot; + </span>
+	    		&quot;6=Currently Employed 7=Contact Info 8=Roles 9=EXIT\n&quot;);
+<span class="nc" id="L131">	    	System.out.print(&quot;Which field do you want to update: &quot;);</span>
+	    	try {
+<span class="nc" id="L133">	    		choice = scanner.getInt();</span>
+<span class="nc bnc" id="L134" title="All 10 branches missed.">	    		switch(choice) {</span>
+	    			case 1:
+<span class="nc" id="L136">	    				Name name = generator.generateName();</span>
+<span class="nc" id="L137">	    				person.setName(name);</span>
+<span class="nc" id="L138">	    				break;</span>
+	    			case 2:
+<span class="nc" id="L140">	    				Address address = generator.generateAddress();</span>
+<span class="nc" id="L141">	    				person.setAddress(address);</span>
+<span class="nc" id="L142">	    				break;</span>
+	    			case 3:
+<span class="nc" id="L144">	    				GregorianCalendar dateOfBirth = generator.generateDateOfBirth();</span>
+<span class="nc" id="L145">	    				person.setDateOfBirth(dateOfBirth);</span>
+<span class="nc" id="L146">	    				break;</span>
+	    			case 4:
+<span class="nc" id="L148">	    				float gwa = generator.generateGwa();</span>
+<span class="nc" id="L149">	    				person.setGwa(gwa);</span>
+<span class="nc" id="L150">	    				break;</span>
+	    			case 5:
+<span class="nc" id="L152">	    				GregorianCalendar dateHired = generator.generateDateHired();</span>
+<span class="nc" id="L153">	    				person.setDateHired(dateHired);</span>
+<span class="nc" id="L154">	    				break;</span>
+	    			case 6:
+<span class="nc" id="L156">	    				boolean currentlyEmployed = generator.generateCurrentlyEmployed();</span>
+<span class="nc" id="L157">	    				person.setCurrentlyEmployed(currentlyEmployed);</span>
+<span class="nc" id="L158">	    				break;</span>
+	    			case 7:
+<span class="nc" id="L160">	    				showUpdatePersonContactsMenu(person, personId);</span>
+<span class="nc" id="L161">	    				skip = true;</span>
+<span class="nc" id="L162">	    				break;</span>
+	    			case 8:
+<span class="nc" id="L164">	    				showUpdatePersonRolesMenu(person, personId);</span>
+<span class="nc" id="L165">	    				skip = true;</span>
+<span class="nc" id="L166">	    				break;</span>
+	    			case 9:
+<span class="nc" id="L168">	    				done = true; </span>
+<span class="nc" id="L169">	    				break;</span>
+	    			default: 
+<span class="nc" id="L171">	    				System.out.println(&quot;Not in the choices, try again.&quot;);</span>
+	    		}
+<span class="nc" id="L173">	    	} catch(Exception exception) {</span>
+<span class="nc" id="L174">	    		System.out.print(exception);</span>
+	    	} finally {
+<span class="nc bnc" id="L176" title="All 2 branches missed.">	    		if(skip == false) {</span>
+<span class="nc" id="L177">	    			boolean updated = personService.updatePerson(person);</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">		    		if(updated) {</span>
+<span class="nc" id="L179">		    			System.out.println(&quot;Person successfully updated.&quot;);</span>
+		    		} else {
+<span class="nc" id="L181">		    			System.out.println(&quot;Person unsuccessfully updated.&quot;);</span>
+		    		}
+<span class="nc" id="L183">	    		} skip = false;</span>
+	    	}
+<span class="nc bnc" id="L185" title="All 2 branches missed.">    	} while(done==false);</span>
+<span class="nc" id="L186">    }</span>
+
+    public void showUpdatePersonContactsMenu(Person person, Integer personId) {
+    	int choice;
+<span class="nc" id="L190">    	Integer contactId = null;</span>
+<span class="nc" id="L191">    	boolean done = false;</span>
+<span class="nc" id="L192">    	personService.readPerson(personId);</span>
+    	do {
+<span class="nc" id="L194">    		System.out.println(&quot;\n&lt;-- UPDATE PERSON CONTACTS MENU --&gt;\n&quot;);</span>
+<span class="nc" id="L195">    		System.out.println(&quot;Updating Contacts of Person with ID: &quot; + personId);</span>
+<span class="nc" id="L196">	    	System.out.println(&quot;1=Add Contact 2=Delete Contact 3=EXIT&quot;);</span>
+<span class="nc" id="L197">	    	System.out.print(&quot;What do you want to do: &quot;);</span>
+	    	try {
+<span class="nc" id="L199">	    		choice = scanner.getInt();</span>
+<span class="nc bnc" id="L200" title="All 4 branches missed.">	    		switch(choice) {</span>
+	    			case 1:
+<span class="nc" id="L202">	    				System.out.println(&quot;Adding contact: &quot;);</span>
+<span class="nc" id="L203">	    				HashSet contacts = generator.generateContacts();</span>
+<span class="nc" id="L204">	    				boolean added = personService.addContacts(personId, contacts);</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">	    				if(added) {</span>
+<span class="nc" id="L206">							System.out.println(&quot;Successfully added contact/s.&quot;);</span>
+	    				} else {
+<span class="nc" id="L208">	    					System.out.println(&quot;Contact/s was unsuccessfully added.&quot;);</span>
+	    				}
+<span class="nc" id="L210">	    				break;</span>
+	    			case 2:
+<span class="nc" id="L212">	    				System.out.print(&quot;Input the ID of the contact you want to delete: &quot;);</span>
+<span class="nc" id="L213">	    				contactId = generator.generateId();</span>
+<span class="nc" id="L214">	    				boolean deleted = personService.deleteContact(personId, contactId);</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">	    				if(deleted) {</span>
+<span class="nc" id="L216">	    					System.out.println(&quot;Successfully deleted contact.&quot;);</span>
+	    				} else {
+<span class="nc" id="L218">	    					System.out.println(&quot;Contact was unsuccessfully deleted.&quot;);</span>
+	    				}
+<span class="nc" id="L220">	    				break;</span>
+	    			case 3:
+<span class="nc" id="L222">	    				done = true;</span>
+<span class="nc" id="L223">	    				break;</span>
+	    			default: 
+<span class="nc" id="L225">	    				System.out.println(&quot;Not in the choices, try again.&quot;);</span>
+	    		}
+<span class="nc" id="L227">	    	} catch(Exception exception) {</span>
+<span class="nc" id="L228">	    		System.out.print(exception);</span>
+<span class="nc" id="L229">	    	}</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">    	} while(done==false);</span>
+<span class="nc" id="L231">    }</span>
+
+    public void showUpdatePersonRolesMenu(Person person, Integer personId) {
+    	int choice;
+<span class="nc" id="L235">    	Integer roleId = null;</span>
+<span class="nc" id="L236">    	boolean done = true;</span>
+<span class="nc" id="L237">    	Role role = new Role();</span>
+    	HashSet roles;
+<span class="nc" id="L239">    	personService.readPerson(personId);</span>
+    	do {
+<span class="nc" id="L241">    		System.out.println(&quot;\n&lt;-- UPDATE PERSON ROLES MENU --&gt;\n&quot;);</span>
+<span class="nc" id="L242">    		System.out.println(&quot;Updating Roles of Person with ID: &quot; + personId);</span>
+<span class="nc" id="L243">	    	System.out.println(&quot;1=Assign Role 2=Unassign Role 3=EXIT&quot;);</span>
+<span class="nc" id="L244">	    	System.out.print(&quot;What do you want to do: &quot;);</span>
+	    	try {
+<span class="nc" id="L246">	    		choice = scanner.getInt();</span>
+<span class="nc bnc" id="L247" title="All 4 branches missed.">	    		switch(choice) {</span>
+	    			case 1:
+<span class="nc" id="L249">	    				roles = generator.generateRoles(roleService);</span>
+<span class="nc" id="L250">	    				boolean assigned = personService.addRoles(personId, roles);</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">	    				if(assigned) {</span>
+<span class="nc" id="L252">	    					System.out.println(&quot;Successfully assigned role.&quot;);</span>
+	    				} else {
+<span class="nc" id="L254">	    					System.out.println(&quot;Role was unsuccessfully added.&quot;);</span>
+	    				}
+<span class="nc" id="L256">	    				break;</span>
+	    			case 2:
+<span class="nc" id="L258">	    				System.out.print(&quot;Input the Role ID you want to delete: &quot;);</span>
+<span class="nc" id="L259">	    				roleId = generator.generateId();</span>
+<span class="nc" id="L260">	    				boolean deleted = personService.deleteRole(personId, roleId);</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">	    				if(deleted) {</span>
+<span class="nc" id="L262">	    					System.out.println(&quot;Successfully deleted role.&quot;);</span>
+	    				} else {
+<span class="nc" id="L264">	    					System.out.println(&quot;Role was unsuccessfully deleted.&quot;);</span>
+	    				}
+<span class="nc" id="L266">	    				break;</span>
+	    			case 3:
+<span class="nc" id="L268">	    				done = true;</span>
+<span class="nc" id="L269">	    				break;</span>
+	    			default: 
+<span class="nc" id="L271">	    				System.out.println(&quot;Not in the choices, try again.&quot;);</span>
+	    		}
+<span class="nc" id="L273">	    	} catch(Exception exception) {</span>
+<span class="nc" id="L274">	    		System.out.print(exception);</span>
+<span class="nc" id="L275">	    	}</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">    	} while(done==false);</span>
+<span class="nc" id="L277">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

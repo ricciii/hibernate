@@ -14,14 +14,17 @@ public class GeneratorService {
         this.scanner = scanner;
     }
 
-    public Person generatePerson(ScannerUtil scanner, RoleService roleService) {
+    public GeneratorService() {
+    }
+
+    public Person generatePerson(RoleService roleService) {
     	String string;
-        Name name = generateName(scanner);
-    	Address address = generateAddress(scanner);
-    	GregorianCalendar dateOfBirth = generateDateOfBirth(scanner);
-    	float gwa = generateGwa(scanner);
-    	GregorianCalendar dateHired = generateDateHired(scanner);
-    	boolean currentlyEmployed = generateCurrentlyEmployed(scanner);
+        Name name = generateName();
+    	Address address = generateAddress();
+    	GregorianCalendar dateOfBirth = generateDateOfBirth();
+    	float gwa = generateGwa();
+    	GregorianCalendar dateHired = generateDateHired();
+    	boolean currentlyEmployed = generateCurrentlyEmployed();
     	Person person = new Person(name, address, dateOfBirth, gwa, dateHired, currentlyEmployed);
         
         System.out.print("Do you want to add a contact?\n1=YES, input anything for NO: ");
@@ -29,7 +32,7 @@ public class GeneratorService {
             string = scanner.getString();
             if("1".equals(string)) {
                 HashSet contacts = new HashSet();
-                contacts = generateContacts(scanner);
+                contacts = generateContacts();
                 person.setContacts(contacts);
             }
         } catch(Exception e) {
@@ -40,7 +43,7 @@ public class GeneratorService {
             string = scanner.getString();
             if("1".equals(string)) {
                 HashSet roles = new HashSet();
-                roles = generateRoles(scanner, roleService);
+                roles = generateRoles(roleService);
                 person.setRoles(roles);
             }
         } catch(Exception e) {
@@ -49,7 +52,7 @@ public class GeneratorService {
     	return person;
     }
 
-    public Integer generateId(ScannerUtil scanner) {
+    public Integer generateId() {
     	Integer id = null;
     	try {
     		id = scanner.getInt();
@@ -61,7 +64,7 @@ public class GeneratorService {
     	return id;
     }
 
-    public Name generateName(ScannerUtil scanner) {
+    public Name generateName() {
     	String string;
     	Name name = new Name();
     	System.out.println("\n<--- Name --->\n");
@@ -80,7 +83,7 @@ public class GeneratorService {
         return name;
     }
 
-    public Address generateAddress(ScannerUtil scanner) {
+    public Address generateAddress() {
     	String string;
     	Address address = new Address();
     	System.out.println("\n<--- Address --->\n");
@@ -99,7 +102,7 @@ public class GeneratorService {
         return address;
     }
 
-    public GregorianCalendar generateDateOfBirth(ScannerUtil scanner) {
+    public GregorianCalendar generateDateOfBirth() {
     	System.out.println("\n<--- Date of Birth --->\n");
         System.out.print("Input year: ");
         int year = scanner.getInt();
@@ -107,11 +110,11 @@ public class GeneratorService {
         int month = scanner.getInt();
         System.out.print("Input date of month: ");
         int dayOfMonth = scanner.getInt();
-        GregorianCalendar dateOfBirth = new GregorianCalendar(year, month-1, dayOfMonth);
+        GregorianCalendar dateOfBirth = new GregorianCalendar(year, month, dayOfMonth);
         return dateOfBirth;
     }
 
-    public GregorianCalendar generateDateHired(ScannerUtil scanner) {
+    public GregorianCalendar generateDateHired() {
     	System.out.println("\n<--- Date Hired --->\n");
         System.out.print("Input year: ");
         int year = scanner.getInt();
@@ -119,25 +122,25 @@ public class GeneratorService {
         int month = scanner.getInt();
         System.out.print("Input date of month: ");
         int dayOfMonth = scanner.getInt();
-        GregorianCalendar dateHired = new GregorianCalendar(year, month-1, dayOfMonth);
+        GregorianCalendar dateHired = new GregorianCalendar(year, month, dayOfMonth);
         return dateHired;
     }
 
-    public float generateGwa(ScannerUtil scanner) {
+    public float generateGwa() {
     	System.out.println("\n<--- GWA --->\n");
         System.out.print("GWA: ");
         float gwa = scanner.getFloat();
         return gwa;
     }
 
-    public boolean generateCurrentlyEmployed(ScannerUtil scanner) {
+    public boolean generateCurrentlyEmployed() {
     	System.out.println("\n<--- Currently Employed --->\n");
         System.out.print("Currently Employed: ");
         boolean currentlyEmployed = scanner.getBoolean();
         return currentlyEmployed;
     }
 
-    public Contact generateContact(ScannerUtil scanner) {
+    public Contact generateContact() {
     	System.out.println("\n<--- Contact Information --->\n");
         Contact contact = new Contact();
         String string;
@@ -177,13 +180,13 @@ public class GeneratorService {
 		return contact;
     }
 
-    public HashSet generateContacts(ScannerUtil scanner) {
+    public HashSet generateContacts() {
         HashSet set = new HashSet();
         Contact contact;
         String string;
         boolean done = false;
         do {
-            contact = generateContact(scanner);
+            contact = generateContact();
             set.add(contact);
             System.out.println("Do you want to add more?");
             System.out.print("1=YES, Input anything for NO: "); 
@@ -195,7 +198,7 @@ public class GeneratorService {
         return set;
     } 
 
-    public Role generateRole(ScannerUtil scanner) {
+    public Role generateRole() {
         Role role = new Role();
         String string;
         System.out.print("Input: ");
@@ -204,13 +207,13 @@ public class GeneratorService {
         return role;
     }
 
-    public HashSet generateRoles(ScannerUtil scanner) {
+    public HashSet generateRoles() {
 		HashSet set = new HashSet();
 		Role role;
         String string;
         boolean done = false;
 		do {
-			role = generateRole(scanner);
+			role = generateRole();
 			set.add(role);
 			System.out.println("Do you want to add more?");
 			System.out.print("1=YES, Input anything for NO: "); 
@@ -222,23 +225,23 @@ public class GeneratorService {
 		return set;
 	}
 
-    public Role generateRole(ScannerUtil scanner, RoleService roleService) {
+    public Role generateRole(RoleService roleService) {
         Role role;
         System.out.println("Available Roles:");
         roleService.read();
-        System.out.println("Input ID of Role you want to assign:");
-        Integer roleId = generateId(scanner);
+        System.out.print("Input ID of Role you want to assign:");
+        Integer roleId = generateId();
         role = roleService.getObjectWithId(roleId);
         return role;
     }
 
-    public HashSet generateRoles(ScannerUtil scanner, RoleService roleService) {
+    public HashSet generateRoles(RoleService roleService) {
         HashSet roles = new HashSet();
         Role role;
         String choice;
         boolean done = false;
         do {
-            role = generateRole(scanner, roleService);
+            role = generateRole(roleService);
             if(role==null) {
                 System.out.println("Role does not exist.");
             } else {

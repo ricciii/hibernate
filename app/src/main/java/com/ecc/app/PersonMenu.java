@@ -41,7 +41,7 @@ public class PersonMenu implements Menu {
 	    		choice = scanner.getInt();
 	    		switch(choice) {
 	    			case 1:
-	    				person = generator.generatePerson(scanner, roleService);
+	    				person = generator.generatePerson(roleService);
 	    				boolean created = personService.create(person);
 	    				if(created) {
 	    					System.out.print("Person successfully created.");
@@ -54,7 +54,7 @@ public class PersonMenu implements Menu {
 	    				break;
 	    			case 3:
 	    				System.out.print("Input the ID of the Person you want to update: ");
-	    				personId = generator.generateId(scanner);
+	    				personId = generator.generateId();
 	    				person = personService.getPersonWithId(personId);
 	    				if(person == null) {
 	    					System.out.print("Person with ID: " + personId + " does not exist.");
@@ -64,8 +64,8 @@ public class PersonMenu implements Menu {
 	    				break;
 	    			case 4:
 	    				System.out.print("Input the ID of the Person you want to delete: ");
-	    				personId = generator.generateId(scanner);
-	    				personService.deletePerson(personId);
+	    				personId = generator.generateId();
+	    				personService.delete(personId);
 	    				break;
 	    			case 5:
 	    				done = true; 
@@ -94,15 +94,15 @@ public class PersonMenu implements Menu {
 	    				personService.read(PersonService.ReadingOrder.DEFAULT);
 	    				break;
 	    			case 2:
-	    				System.out.println("Reading all Person by GWA: ");
+	    				System.out.println("Reading all Person by ASC GWA: ");
 	    				personService.read(PersonService.ReadingOrder.GWA);
 	    				break;
 	    			case 3:
-	    				System.out.println("Reading all Person by Last Name: ");
+	    				System.out.println("Reading all Person by ASC Last Name: ");
 	    				personService.read(PersonService.ReadingOrder.LASTNAME);
 	    				break;
 	    			case 4:
-	    				System.out.println("Reading all Person by Date Hired: ");
+	    				System.out.println("Reading all Person by DESC Date Hired: ");
 	    				personService.read(PersonService.ReadingOrder.DATEHIRED);
 	    				break;
 	    			case 5:
@@ -121,6 +121,7 @@ public class PersonMenu implements Menu {
     public void showUpdatePersonMenu(Person person, Integer personId) {
     	int choice;
     	boolean done = false;
+    	boolean skip = false;
     	do {
     		System.out.println("\n<-- UPDATE PERSON MENU -->\n");
     		System.out.println("Person Information: ");
@@ -132,34 +133,36 @@ public class PersonMenu implements Menu {
 	    		choice = scanner.getInt();
 	    		switch(choice) {
 	    			case 1:
-	    				Name name = generator.generateName(scanner);
+	    				Name name = generator.generateName();
 	    				person.setName(name);
 	    				break;
 	    			case 2:
-	    				Address address = generator.generateAddress(scanner);
+	    				Address address = generator.generateAddress();
 	    				person.setAddress(address);
 	    				break;
 	    			case 3:
-	    				GregorianCalendar dateOfBirth = generator.generateDateOfBirth(scanner);
+	    				GregorianCalendar dateOfBirth = generator.generateDateOfBirth();
 	    				person.setDateOfBirth(dateOfBirth);
 	    				break;
 	    			case 4:
-	    				float gwa = generator.generateGwa(scanner);
+	    				float gwa = generator.generateGwa();
 	    				person.setGwa(gwa);
 	    				break;
 	    			case 5:
-	    				GregorianCalendar dateHired = generator.generateDateHired(scanner);
+	    				GregorianCalendar dateHired = generator.generateDateHired();
 	    				person.setDateHired(dateHired);
 	    				break;
 	    			case 6:
-	    				boolean currentlyEmployed = generator.generateCurrentlyEmployed(scanner);
+	    				boolean currentlyEmployed = generator.generateCurrentlyEmployed();
 	    				person.setCurrentlyEmployed(currentlyEmployed);
 	    				break;
 	    			case 7:
-	    				showUpdatePersonContactsMenu(personId);
+	    				showUpdatePersonContactsMenu(person, personId);
+	    				skip = true;
 	    				break;
 	    			case 8:
-	    				showUpdatePersonRolesMenu(personId);
+	    				showUpdatePersonRolesMenu(person, personId);
+	    				skip = true;
 	    				break;
 	    			case 9:
 	    				done = true; 
@@ -170,21 +173,22 @@ public class PersonMenu implements Menu {
 	    	} catch(Exception exception) {
 	    		System.out.print(exception);
 	    	} finally {
-	    		boolean updated = personService.updatePerson(person);
-	    		if(updated) {
-	    			System.out.println("Person successfully updated.");
-	    		} else {
-	    			System.out.println("Person unsuccessfully updated.");
-	    		}
+	    		if(skip == false) {
+	    			boolean updated = personService.updatePerson(person);
+		    		if(updated) {
+		    			System.out.println("Person successfully updated.");
+		    		} else {
+		    			System.out.println("Person unsuccessfully updated.");
+		    		}
+	    		} skip = false;
 	    	}
     	} while(done==false);
     }
 
-    public void showUpdatePersonContactsMenu(Integer personId) {
+    public void showUpdatePersonContactsMenu(Person person, Integer personId) {
     	int choice;
     	Integer contactId = null;
     	boolean done = false;
-    	Person person = personService.getPersonWithId(personId);
     	personService.readPerson(personId);
     	do {
     		System.out.println("\n<-- UPDATE PERSON CONTACTS MENU -->\n");
@@ -196,7 +200,7 @@ public class PersonMenu implements Menu {
 	    		switch(choice) {
 	    			case 1:
 	    				System.out.println("Adding contact: ");
-	    				HashSet contacts = generator.generateContacts(scanner);
+	    				HashSet contacts = generator.generateContacts();
 	    				boolean added = personService.addContacts(personId, contacts);
 	    				if(added) {
 							System.out.println("Successfully added contact/s.");
@@ -206,7 +210,7 @@ public class PersonMenu implements Menu {
 	    				break;
 	    			case 2:
 	    				System.out.print("Input the ID of the contact you want to delete: ");
-	    				contactId = generator.generateId(scanner);
+	    				contactId = generator.generateId();
 	    				boolean deleted = personService.deleteContact(personId, contactId);
 	    				if(deleted) {
 	    					System.out.println("Successfully deleted contact.");
@@ -226,12 +230,12 @@ public class PersonMenu implements Menu {
     	} while(done==false);
     }
 
-    public void showUpdatePersonRolesMenu(Integer personId) {
+    public void showUpdatePersonRolesMenu(Person person, Integer personId) {
     	int choice;
     	Integer roleId = null;
-    	boolean done = false;
-    	Person person = personService.getPersonWithId(personId);
+    	boolean done = true;
     	Role role = new Role();
+    	HashSet roles;
     	personService.readPerson(personId);
     	do {
     		System.out.println("\n<-- UPDATE PERSON ROLES MENU -->\n");
@@ -242,22 +246,23 @@ public class PersonMenu implements Menu {
 	    		choice = scanner.getInt();
 	    		switch(choice) {
 	    			case 1:
-	    				System.out.println("Assigning role... ");
-	    				System.out.println("Available Roles: ");
-	    				roleService.read();
-	    				roleId = generator.generateId(scanner);
-	    				role = roleService.getObjectWithId(roleId);
-	    				if (role==null) {
-	    					System.out.println("Role does not exist.");
+	    				roles = generator.generateRoles(roleService);
+	    				boolean assigned = personService.addRoles(personId, roles);
+	    				if(assigned) {
+	    					System.out.println("Successfully assigned role.");
 	    				} else {
-
-	    					// boolean assigned = personService.assignRole(person, scanner, generator, roleService);
-	    					// System.out.println(assigned);
+	    					System.out.println("Role was unsuccessfully added.");
 	    				}
-	    				
 	    				break;
 	    			case 2:
-	    				System.out.println("Unassigning role: ");
+	    				System.out.print("Input the Role ID you want to delete: ");
+	    				roleId = generator.generateId();
+	    				boolean deleted = personService.deleteRole(personId, roleId);
+	    				if(deleted) {
+	    					System.out.println("Successfully deleted role.");
+	    				} else {
+	    					System.out.println("Role was unsuccessfully deleted.");
+	    				}
 	    				break;
 	    			case 3:
 	    				done = true;
