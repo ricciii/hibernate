@@ -1,1 +1,5 @@
-com/ecc/app/App.class
+com/ecc/app/RoleMenu.class
+com/ecc/app/MainMenu.class
+com/ecc/app/PersonMenu.class
+com/ecc/app/Menu.class
+com/ecc/app/Main.class

@@ -321,21 +321,37 @@ public class PersonService {
 		return person;
     }
 
-    public boolean assignRole(Person person, ScannerUtil scanner, GeneratorUtil generator, RoleService service) {
-    	boolean assigned = false;
-    	System.out.println("List of available Roles: ");
-    	service.read();
-    	System.out.print("Input ID of role you want to assign:: ");
-    	Integer roleId = generator.generateId(scanner);
-    	HashSet roles = new HashSet();
-    	Role role = service.getObjectWithId(roleId);
-    	if(role!=null) {
-		        roles.add(role);
-    			person.setRoles(roles);
-		        assigned = true;
-    	}
-    	return assigned;
-    }
+    // public boolean assignRole(Person person, ScannerUtil scanner, GeneratorUtil generator, RoleService service) {
+    // 	boolean assigned = false;
+    // 	System.out.println("List of available Roles: ");
+    // 	service.read();
+    // 	System.out.print("Input ID of role you want to assign:: ");
+    // 	Integer roleId = generator.generateId(scanner);
+    // 	HashSet roles = new HashSet();
+    // 	Role role = service.getObjectWithId(roleId);
+    // 	if(role!=null) {
+		  //       roles.add(role);
+    // 			person.setRoles(roles);
+		  //       assigned = true;
+    // 	}
+    // 	return assigned;
+    // }
+
+    // public Person assignRole(Person person, Role role) {
+    // 	assigned = false;
+    // 	System.out.println("List of available Roles: ");
+    // 	service.read();
+    // 	System.out.print("Input ID of role you want to assign:: ");
+    // 	Integer roleId = generator.generateId(scanner);
+    // 	HashSet roles = new HashSet();
+    // 	Role role = service.getObjectWithId(roleId);
+    // 	if(role!=null) {
+		  //       roles.add(role);
+    // 			person.setRoles(roles);
+		  //       assigned = true;
+    // 	}
+    // 	return person;
+    // }
 
     public boolean unassignRole(Integer personId, Role role) {
     	boolean updated = false;
