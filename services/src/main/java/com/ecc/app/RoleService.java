@@ -117,7 +117,6 @@ public class RoleService extends GeneralService {
 		        session.delete(role); 
 			    transaction.commit();
 			    deleted = true;
-			    //System.out.println("Successfully deleted Object with ID: " + roleId);	
 			} catch (HibernateException e) {
 			    if (transaction!=null) {
 			    	transaction.rollback();

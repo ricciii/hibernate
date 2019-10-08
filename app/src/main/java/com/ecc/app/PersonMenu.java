@@ -41,7 +41,13 @@ public class PersonMenu implements Menu {
 	    		choice = scanner.getInt();
 	    		switch(choice) {
 	    			case 1:
-	    				promptCreatePerson();
+	    				person = generator.generatePerson(scanner, roleService);
+	    				boolean created = personService.create(person);
+	    				if(created) {
+	    					System.out.print("Person successfully created.");
+	    				} else {
+	    					System.out.print("Person unsuccessfully created.");
+	    				}
 	    				break;
 	    			case 2:
 	    				showReadAllPersonByMenu();
@@ -53,7 +59,7 @@ public class PersonMenu implements Menu {
 	    				if(person == null) {
 	    					System.out.print("Person with ID: " + personId + " does not exist.");
 	    				} else {
-	    					showUpdatePersonMenu(person);
+	    					showUpdatePersonMenu(person, personId);
 	    				}
 	    				break;
 	    			case 4:
@@ -71,40 +77,6 @@ public class PersonMenu implements Menu {
 	    		System.out.print(e);
 	    	}
     	} while(done==false);
-	}
-
-	private void promptCreatePerson() {
-		Person person;
-		String input;
-		Integer roleId = null;
-		Role role;
-		System.out.println("Creating person...");
-		person = generator.generatePerson(scanner);
-		System.out.println("Assigning role...");
-		System.out.print("Do you want to assign a role [1=YES, anything for NO]: ");
-		input = scanner.getString();
-		if("1".equals(input)) {
-			System.out.println("Available Roles: ");
-			roleService.read();
-			System.out.print("Choose a Role ID: ");
-			roleId = generator.generateId(scanner);
-			role = roleService.getObjectWithId(roleId);
-			if(role == null) {
-				System.out.println("Role does not exist.");
-			} else {
-				HashSet roles = new HashSet();
-				roles.add(role);
-				person.setRoles(roles);
-			}
-		} else {
-			System.out.println("Skipping role assignment...");
-		}
-		boolean created = personService.create(person);
-		if(created==false) {
-			System.out.println("Creating of Person was unsuccessful.");
-		} else {
-			System.out.println("Successfully created a Person.");
-		}
 	}
 
 	public void showReadAllPersonByMenu() {
@@ -145,10 +117,9 @@ public class PersonMenu implements Menu {
     	} while(done==false);
     }
 
-    public boolean showUpdatePersonMenu(Person person) {
-    	boolean shown = false;
+    // THE PERSON HERE SHOULD EXIST ALREADY
+    public void showUpdatePersonMenu(Person person, Integer personId) {
     	int choice;
-    	int personId = person.getId();
     	boolean done = false;
     	do {
     		System.out.println("\n<-- UPDATE PERSON MENU -->\n");
@@ -199,11 +170,14 @@ public class PersonMenu implements Menu {
 	    	} catch(Exception exception) {
 	    		System.out.print(exception);
 	    	} finally {
-	    		personService.updatePerson(person);
-	    		shown = true;
+	    		boolean updated = personService.updatePerson(person);
+	    		if(updated) {
+	    			System.out.println("Person successfully updated.");
+	    		} else {
+	    			System.out.println("Person unsuccessfully updated.");
+	    		}
 	    	}
     	} while(done==false);
-    	return shown;
     }
 
     public void showUpdatePersonContactsMenu(Integer personId) {

@@ -14,7 +14,7 @@ public class GeneratorService {
         this.scanner = scanner;
     }
 
-    public Person generatePerson(ScannerUtil scanner) {
+    public Person generatePerson(ScannerUtil scanner, RoleService roleService) {
     	String string;
         Name name = generateName(scanner);
     	Address address = generateAddress(scanner);
@@ -23,13 +23,25 @@ public class GeneratorService {
     	GregorianCalendar dateHired = generateDateHired(scanner);
     	boolean currentlyEmployed = generateCurrentlyEmployed(scanner);
     	Person person = new Person(name, address, dateOfBirth, gwa, dateHired, currentlyEmployed);
-        HashSet contacts = new HashSet();
+        
         System.out.print("Do you want to add a contact?\n1=YES, input anything for NO: ");
         try {
             string = scanner.getString();
             if("1".equals(string)) {
+                HashSet contacts = new HashSet();
                 contacts = generateContacts(scanner);
                 person.setContacts(contacts);
+            }
+        } catch(Exception e) {
+
+        }
+        System.out.print("Do you want to add a role?\n1=YES, input anything for NO: ");
+        try {
+            string = scanner.getString();
+            if("1".equals(string)) {
+                HashSet roles = new HashSet();
+                roles = generateRoles(scanner, roleService);
+                person.setRoles(roles);
             }
         } catch(Exception e) {
 
@@ -209,4 +221,36 @@ public class GeneratorService {
 		} while(done==false);
 		return set;
 	}
+
+    public Role generateRole(ScannerUtil scanner, RoleService roleService) {
+        Role role;
+        System.out.println("Available Roles:");
+        roleService.read();
+        System.out.println("Input ID of Role you want to assign:");
+        Integer roleId = generateId(scanner);
+        role = roleService.getObjectWithId(roleId);
+        return role;
+    }
+
+    public HashSet generateRoles(ScannerUtil scanner, RoleService roleService) {
+        HashSet roles = new HashSet();
+        Role role;
+        String choice;
+        boolean done = false;
+        do {
+            role = generateRole(scanner, roleService);
+            if(role==null) {
+                System.out.println("Role does not exist.");
+            } else {
+                roles.add(role);
+            }
+            System.out.println("Do you want to add more?");
+            System.out.print("1=YES, Input anything for NO: "); 
+            choice = scanner.getString();
+            if(!"1".equals(choice)) {
+                done = true;
+            } 
+        } while(done==false);
+        return roles;
+    }
 }

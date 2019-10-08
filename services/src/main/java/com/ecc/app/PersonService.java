@@ -120,23 +120,67 @@ public class PersonService {
 		DEFAULT, GWA, LASTNAME, DATEHIRED
 	}
 
+	// public void read(ReadingOrder order) {
+	// 	try {
+	// 		switch(order) {
+	// 			case GWA:
+	// 				readAllPersonByGWA();
+	// 				break;
+	// 			case LASTNAME:
+	// 				readAllPersonByLastName();
+	// 				break;
+	// 			case DATEHIRED:
+	// 				readAllPersonByDateHired();
+	// 				break;
+	// 			default:
+	// 				readAllPerson();
+	// 		}
+	// 	} catch(Exception e) {
+	// 		System.out.println(e);
+	// 	}
+	// }
+
 	public void read(ReadingOrder order) {
 		try {
+			boolean sortByGWA=false;
+			session = factory.openSession();
+	        transaction = session.beginTransaction();
+	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+	        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+	        Root<Person> root = criteriaQuery.from(Person.class);
 			switch(order) {
 				case GWA:
-					readAllPersonByGWA();
+					sortByGWA = true;
 					break;
 				case LASTNAME:
-					readAllPersonByLastName();
+					criteriaQuery.orderBy(criteriaBuilder.asc(root.get("name")));
 					break;
 				case DATEHIRED:
-					readAllPersonByDateHired();
+					criteriaQuery.orderBy(criteriaBuilder.desc(root.get("dateHired")));
 					break;
 				default:
-					readAllPerson();
+					criteriaQuery.select(root);
 			}
-		} catch(Exception e) {
-			System.out.println(e);
+			Query<Person> query = session.createQuery(criteriaQuery);
+	        List<Person> people = query.getResultList();
+	        if(sortByGWA) {
+	        	Collections.sort(people);
+	        }
+	        if(people == null) {
+		        System.out.println("Person Table is empty.");
+	        } else {
+	        	System.out.println("\n<--- READING PERSON TABLE --->\n");
+		        for(Person person: people) {
+		        	System.out.print(person);
+		        }
+	        }
+		} catch (HibernateException e) {
+			if (transaction!=null) transaction.rollback();
+			e.printStackTrace(); 
+		} catch(Exception exception) {
+			System.out.println(exception);
+		} finally {
+			session.close();
 		}
 	}
 
@@ -163,122 +207,122 @@ public class PersonService {
 	    return read;
     }
 
-	public boolean readAllPerson() {
-		boolean readAll = false;
-    	try {
-	    	session = factory.openSession();
-	        transaction = session.beginTransaction();
-	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-	        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
-	        Root<Person> root = criteriaQuery.from(Person.class);
-	        criteriaQuery.select(root);
-	        Query<Person> query = session.createQuery(criteriaQuery);
-	        List<Person> people = query.getResultList();
-	        if(people == null) {
-		        System.out.println("Person Table is empty.");
-	        } else {
-	        	System.out.println("\n<--- READING PERSON TABLE --->\n");
-		        for(Person person: people) {
-		        	System.out.print(person);
-		        }
-		        readAll = true;
-	        }
-		} catch (HibernateException e) {
-			if (transaction!=null) transaction.rollback();
-			e.printStackTrace(); 
-		} finally {
-			session.close(); 
-		}
-		return readAll;
-    }
+	// public boolean readAllPerson() {
+	// 	boolean readAll = false;
+ //    	try {
+	//     	session = factory.openSession();
+	//         transaction = session.beginTransaction();
+	//         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+	//         CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+	//         Root<Person> root = criteriaQuery.from(Person.class);
+	//         criteriaQuery.select(root);
+	//         Query<Person> query = session.createQuery(criteriaQuery);
+	//         List<Person> people = query.getResultList();
+	        // if(people == null) {
+		       //  System.out.println("Person Table is empty.");
+	        // } else {
+	        // 	System.out.println("\n<--- READING PERSON TABLE --->\n");
+		       //  for(Person person: people) {
+		       //  	System.out.print(person);
+		       //  }
+		       //  readAll = true;
+	        // }
+	// 	} catch (HibernateException e) {
+	// 		if (transaction!=null) transaction.rollback();
+	// 		e.printStackTrace(); 
+	// 	} finally {
+	// 		session.close(); 
+	// 	}
+	// 	return readAll;
+ //    }
 
-    public boolean readAllPersonByLastName() {
-		boolean readAll = false;
-    	try {
-	    	session = factory.openSession();
-	        transaction = session.beginTransaction();
-	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-	        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
-	        Root<Person> root = criteriaQuery.from(Person.class);
-	        criteriaQuery.orderBy(criteriaBuilder.asc(root.get("name")));
-	        Query<Person> query = session.createQuery(criteriaQuery);
-	        List<Person> people = query.getResultList();
-	        if(people == null) {
-		        System.out.println("Person Table is empty.");
-	        } else {
-	        	System.out.println("\n<--- READING PERSON TABLE --->\n");
-		        for(Person person: people) {
-		        	System.out.print(person);
-		        }
-		        readAll = true;
-	        }
-		} catch (HibernateException e) {
-			if (transaction!=null) transaction.rollback();
-			e.printStackTrace(); 
-		} finally {
-			session.close(); 
-		}
-		return readAll;
-    }
+ //    public boolean readAllPersonByLastName() {
+	// 	boolean readAll = false;
+ //    	try {
+	//     	session = factory.openSession();
+	//         transaction = session.beginTransaction();
+	//         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+	//         CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+	//         Root<Person> root = criteriaQuery.from(Person.class);
+	//         criteriaQuery.orderBy(criteriaBuilder.asc(root.get("name")));
+	//         Query<Person> query = session.createQuery(criteriaQuery);
+	//         List<Person> people = query.getResultList();
+	//         if(people == null) {
+	// 	        System.out.println("Person Table is empty.");
+	//         } else {
+	//         	System.out.println("\n<--- READING PERSON TABLE --->\n");
+	// 	        for(Person person: people) {
+	// 	        	System.out.print(person);
+	// 	        }
+	// 	        readAll = true;
+	//         }
+	// 	} catch (HibernateException e) {
+	// 		if (transaction!=null) transaction.rollback();
+	// 		e.printStackTrace(); 
+	// 	} finally {
+	// 		session.close(); 
+	// 	}
+	// 	return readAll;
+ //    }
 
-    public boolean readAllPersonByDateHired() {
-		boolean readAll = false;
-    	try {
-	    	session = factory.openSession();
-	        transaction = session.beginTransaction();
-	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-	        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
-	        Root<Person> root = criteriaQuery.from(Person.class);
-	        criteriaQuery.orderBy(criteriaBuilder.desc(root.get("dateHired")));
-	        Query<Person> query = session.createQuery(criteriaQuery);
-	        List<Person> people = query.getResultList();
-	        if(people == null) {
-		        System.out.println("Person Table is empty.");
-	        } else {
-	        	System.out.println("\n<--- READING PERSON TABLE --->\n");
-		        for(Person person: people) {
-		        	System.out.print(person);
-		        }
-		        readAll = true;
-	        }
-		} catch (HibernateException e) {
-			if (transaction!=null) transaction.rollback();
-			e.printStackTrace(); 
-		} finally {
-			session.close(); 
-		}
-		return readAll;
-    }
+ //    public boolean readAllPersonByDateHired() {
+	// 	boolean readAll = false;
+ //    	try {
+	//     	session = factory.openSession();
+	//         transaction = session.beginTransaction();
+	//         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+	//         CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+	//         Root<Person> root = criteriaQuery.from(Person.class);
+	//         criteriaQuery.orderBy(criteriaBuilder.desc(root.get("dateHired")));
+	//         Query<Person> query = session.createQuery(criteriaQuery);
+	//         List<Person> people = query.getResultList();
+	//         if(people == null) {
+	// 	        System.out.println("Person Table is empty.");
+	//         } else {
+	//         	System.out.println("\n<--- READING PERSON TABLE --->\n");
+	// 	        for(Person person: people) {
+	// 	        	System.out.print(person);
+	// 	        }
+	// 	        readAll = true;
+	//         }
+	// 	} catch (HibernateException e) {
+	// 		if (transaction!=null) transaction.rollback();
+	// 		e.printStackTrace(); 
+	// 	} finally {
+	// 		session.close(); 
+	// 	}
+	// 	return readAll;
+ //    }
 
-    public boolean readAllPersonByGWA() {
-		boolean readAll = false;
-    	try {
-	    	session = factory.openSession();
-	        transaction = session.beginTransaction();
-	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-	        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
-	        Root<Person> root = criteriaQuery.from(Person.class);
-	        criteriaQuery.select(root);
-	        Query<Person> query = session.createQuery(criteriaQuery);
-	        List<Person> people = query.getResultList();
-	        Collections.sort(people);
-	        if(people == null) {
-		        System.out.println("Person Table is empty.");
-	        } else {
-	        	System.out.println("\n<--- READING PERSON TABLE --->\n");
-		        for(Person person: people) {
-		        	System.out.print(person);
-		        }
-		        readAll = true;
-	        }
-		} catch (HibernateException e) {
-			if (transaction!=null) transaction.rollback();
-			e.printStackTrace(); 
-		} finally {
-			session.close(); 
-		}
-		return readAll;
-    }
+ //    public boolean readAllPersonByGWA() {
+	// 	boolean readAll = false;
+ //    	try {
+	//     	session = factory.openSession();
+	//         transaction = session.beginTransaction();
+	//         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+	//         CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+	//         Root<Person> root = criteriaQuery.from(Person.class);
+	//         criteriaQuery.select(root);
+	//         Query<Person> query = session.createQuery(criteriaQuery);
+	//         List<Person> people = query.getResultList();
+	//         Collections.sort(people);
+	//         if(people == null) {
+	// 	        System.out.println("Person Table is empty.");
+	//         } else {
+	//         	System.out.println("\n<--- READING PERSON TABLE --->\n");
+	// 	        for(Person person: people) {
+	// 	        	System.out.print(person);
+	// 	        }
+	// 	        readAll = true;
+	//         }
+	// 	} catch (HibernateException e) {
+	// 		if (transaction!=null) transaction.rollback();
+	// 		e.printStackTrace(); 
+	// 	} finally {
+	// 		session.close(); 
+	// 	}
+	// 	return readAll;
+ //    }
 
     public boolean deletePerson(Integer personId) {
 	    boolean deleted = false;

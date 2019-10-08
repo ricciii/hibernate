@@ -3,7 +3,7 @@
 "-//Hibernate/Hibernate Mapping DTD//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-<class name="com.ecc.app.Role" table="role">
+<class name="com.ecc.app.Role" table="role" >
 <id name="id" type="int" column="id">
 <generator class="native"/>
 </id>
