@@ -5,7 +5,7 @@
 <hibernate-mapping>
 <class name="com.ecc.app.Role" table="role" >
 <id name="id" type="int" column="id">
-<generator class="native"/>
+<generator class="identity"/>
 </id>
 <property name="role" column="role" type="string"/>
 </class>

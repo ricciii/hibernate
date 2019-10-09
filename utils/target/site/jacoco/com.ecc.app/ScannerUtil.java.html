@@ -3,7 +3,7 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
-public class ScannerUtil {
+public class ScannerUtil implements InputProvider {
 	
 	Scanner scanner;
 	
@@ -23,9 +23,9 @@ public class ScannerUtil {
 <span class="fc" id="L23">		return string;</span>
 	}
 
-	public int getInt() {
+	public Integer getInt() {
 <span class="fc" id="L27">		boolean done = false;</span>
-<span class="fc" id="L28">		int integer = 0;</span>
+<span class="fc" id="L28">		Integer integer = 0;</span>
 		do {
 			try {
 <span class="fc" id="L31">				integer = scanner.nextInt();</span>
@@ -40,19 +40,19 @@ public class ScannerUtil {
 	}
 
 	public boolean getBoolean() {
-<span class="nc" id="L43">		boolean bool = false;</span>
-<span class="nc" id="L44">		boolean done = false;</span>
+<span class="fc" id="L43">		boolean bool = false;</span>
+<span class="fc" id="L44">		boolean done = false;</span>
 		do {
 			try {
-<span class="nc" id="L47">				bool = scanner.nextBoolean();</span>
-<span class="nc" id="L48">				done = true;</span>
+<span class="fc" id="L47">				bool = scanner.nextBoolean();</span>
+<span class="fc" id="L48">				done = true;</span>
 <span class="nc" id="L49">			} catch(InputMismatchException mismatch) {</span>
 <span class="nc" id="L50">				System.out.print(&quot;Input should be of Boolean type [true/false]: &quot;);</span>
 <span class="nc" id="L51">				scanner.nextLine();</span>
-<span class="nc" id="L52">			}</span>
-<span class="nc bnc" id="L53" title="All 2 branches missed.">		} while(done==false);</span>
-<span class="nc" id="L54">		scanner.nextLine();</span>
-<span class="nc" id="L55">		return bool;</span>
+<span class="fc" id="L52">			}</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">		} while(done==false);</span>
+<span class="fc" id="L54">		scanner.nextLine();</span>
+<span class="fc" id="L55">		return bool;</span>
 	}
 
 	public float getFloat() {

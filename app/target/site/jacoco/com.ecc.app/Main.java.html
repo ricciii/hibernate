@@ -22,11 +22,11 @@ import java.util.HashSet;
 <span class="nc" id="L22">	    }</span>
 <span class="nc" id="L23">	    PersonService personService = new PersonService(factory);</span>
 <span class="nc" id="L24">	    RoleService roleService = new RoleService(factory);</span>
-<span class="nc" id="L25">        ScannerUtil scanner = new ScannerUtil();</span>
+<span class="nc" id="L25">        InputProvider scanner = new ScannerUtil();</span>
 <span class="nc" id="L26">        GeneratorService generator = new GeneratorService(scanner); </span>
 <span class="nc" id="L27">        Menu personMenu = new PersonMenu(personService, roleService, scanner, generator);</span>
 <span class="nc" id="L28">        Menu roleMenu = new RoleMenu(roleService, scanner, generator);</span>
-<span class="nc" id="L29">        Menu mainMenu = new MainMenu(personService, roleService, scanner, generator, personMenu, roleMenu);</span>
+<span class="nc" id="L29">        Menu mainMenu = new MainMenu(scanner, personMenu, roleMenu);</span>
 <span class="nc" id="L30">        mainMenu.start();</span>
 <span class="nc" id="L31">    }</span>
 }

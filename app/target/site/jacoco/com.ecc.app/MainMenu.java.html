@@ -13,53 +13,46 @@ import java.util.HashSet;
 
 public class MainMenu implements Menu {
 
-	private PersonService personService;
-	private RoleService roleService;
-	private ScannerUtil scanner;
-	private GeneratorService generator;
+	private InputProvider scanner;
 	private Menu personMenu;
 	private Menu roleMenu;
 
-    public MainMenu(PersonService personService, RoleService roleService, ScannerUtil scanner, 
-<span class="nc" id="L24">    	GeneratorService generator, Menu personMenu, Menu roleMenu) {</span>
-<span class="nc" id="L25">    	this.personService = personService;</span>
-<span class="nc" id="L26">    	this.roleService = roleService;</span>
-<span class="nc" id="L27">    	this.scanner = scanner;</span>
-<span class="nc" id="L28">    	this.generator = generator;</span>
-<span class="nc" id="L29">    	this.personMenu = personMenu;</span>
-<span class="nc" id="L30">    	this.roleMenu = roleMenu;</span>
-<span class="nc" id="L31">    }</span>
+<span class="nc" id="L20">    public MainMenu(InputProvider scanner, Menu personMenu, Menu roleMenu) {</span>
+<span class="nc" id="L21">    	this.scanner = scanner;</span>
+<span class="nc" id="L22">    	this.personMenu = personMenu;</span>
+<span class="nc" id="L23">    	this.roleMenu = roleMenu;</span>
+<span class="nc" id="L24">    }</span>
 
-<span class="nc" id="L33">    public MainMenu() {</span>
+<span class="nc" id="L26">    public MainMenu() {</span>
 
-<span class="nc" id="L35">    }</span>
+<span class="nc" id="L28">    }</span>
 
     public void start() {
     	int choice;
-<span class="nc" id="L39">    	boolean done = false;</span>
+<span class="nc" id="L32">    	boolean done = false;</span>
     	do {
-<span class="nc" id="L41">    		System.out.println(&quot;\n&lt;-- MAIN MENU --&gt;\n&quot;);</span>
-<span class="nc" id="L42">	    	System.out.println(&quot;1=Person 2=Roles 3=Exit&quot;);</span>
-<span class="nc" id="L43">	    	System.out.print(&quot;Which table do you want to access: &quot;);</span>
+<span class="nc" id="L34">    		System.out.println(&quot;\n&lt;-- MAIN MENU --&gt;\n&quot;);</span>
+<span class="nc" id="L35">	    	System.out.println(&quot;1=Person 2=Roles 3=Exit&quot;);</span>
+<span class="nc" id="L36">	    	System.out.print(&quot;Which table do you want to access: &quot;);</span>
 	    	try {
-<span class="nc" id="L45">	    		choice = scanner.getInt();</span>
-<span class="nc bnc" id="L46" title="All 4 branches missed.">	    		switch(choice) {</span>
+<span class="nc" id="L38">	    		choice = scanner.getInt();</span>
+<span class="nc bnc" id="L39" title="All 4 branches missed.">	    		switch(choice) {</span>
 	    			case 1:
-<span class="nc" id="L48">	    				personMenu.start();</span>
-<span class="nc" id="L49">	    				break;</span>
+<span class="nc" id="L41">	    				personMenu.start();</span>
+<span class="nc" id="L42">	    				break;</span>
 	    			case 2:
-<span class="nc" id="L51">	    				roleMenu.start();</span>
-<span class="nc" id="L52">	    				break;</span>
+<span class="nc" id="L44">	    				roleMenu.start();</span>
+<span class="nc" id="L45">	    				break;</span>
 	    			case 3:
-<span class="nc" id="L54">	    				done = true; </span>
-<span class="nc" id="L55">	    				break;</span>
+<span class="nc" id="L47">	    				done = true; </span>
+<span class="nc" id="L48">	    				break;</span>
 	    			default: 
-<span class="nc" id="L57">	    				System.out.println(&quot;Not in the choices, try again.&quot;);</span>
+<span class="nc" id="L50">	    				System.out.println(&quot;Not in the choices, try again.&quot;);</span>
 	    		}
-<span class="nc" id="L59">	    	} catch(Exception e) {</span>
-<span class="nc" id="L60">	    		System.out.print(&quot;Not in the choices. Try again.&quot;);</span>
-<span class="nc" id="L61">	    	} finally {}</span>
-<span class="nc bnc" id="L62" title="All 2 branches missed.">    	} while(done==false);</span>
-<span class="nc" id="L63">    }</span>
+<span class="nc" id="L52">	    	} catch(Exception e) {</span>
+<span class="nc" id="L53">	    		System.out.print(&quot;Not in the choices. Try again.&quot;);</span>
+<span class="nc" id="L54">	    	} finally {}</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">    	} while(done==false);</span>
+<span class="nc" id="L56">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

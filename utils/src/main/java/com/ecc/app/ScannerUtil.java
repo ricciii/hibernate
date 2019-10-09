@@ -3,7 +3,7 @@ package com.ecc.app;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
-public class ScannerUtil {
+public class ScannerUtil implements InputProvider {
 	
 	Scanner scanner;
 	
@@ -23,9 +23,9 @@ public class ScannerUtil {
 		return string;
 	}
 
-	public int getInt() {
+	public Integer getInt() {
 		boolean done = false;
-		int integer = 0;
+		Integer integer = 0;
 		do {
 			try {
 				integer = scanner.nextInt();

@@ -10,77 +10,91 @@ import java.util.GregorianCalendar;
 import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.HashSet;
+import java.util.List;
 
 public class RoleMenu implements Menu {
 	
 	private RoleService roleService;
-	private ScannerUtil scanner;
+	private InputProvider scanner;
 	private GeneratorService generator;
 
-<span class="nc" id="L20">	public RoleMenu(RoleService roleService, ScannerUtil scanner, GeneratorService generator) {</span>
-<span class="nc" id="L21">    	this.roleService = roleService;</span>
-<span class="nc" id="L22">    	this.scanner = scanner;</span>
-<span class="nc" id="L23">    	this.generator = generator;</span>
-<span class="nc" id="L24">	}</span>
+<span class="nc" id="L21">	public RoleMenu(RoleService roleService, InputProvider scanner, GeneratorService generator) {</span>
+<span class="nc" id="L22">    	this.roleService = roleService;</span>
+<span class="nc" id="L23">    	this.scanner = scanner;</span>
+<span class="nc" id="L24">    	this.generator = generator;</span>
+<span class="nc" id="L25">	}</span>
 
-<span class="nc" id="L26">	public RoleMenu() {}</span>
+<span class="nc" id="L27">	public RoleMenu() {}</span>
 
 	public void start() {
 		int choice;
     	String string;
-<span class="nc" id="L31">    	Integer roleId = null;</span>
-<span class="nc" id="L32">    	boolean done = false;</span>
-<span class="nc" id="L33">    	Role role = new Role();</span>
+<span class="nc" id="L32">    	Integer roleId = null;</span>
+<span class="nc" id="L33">    	boolean done = false;</span>
+<span class="nc" id="L34">    	Role role = new Role();</span>
     	do {
-<span class="nc" id="L35">    		System.out.println(&quot;\n&lt;--- ROLES TABLE ---&gt;\n&quot;);</span>
-<span class="nc" id="L36">	    	System.out.println(&quot;1=CREATE 2=READ 3=UPDATE 4=DELETE 5=BACK&quot;);</span>
-<span class="nc" id="L37">	    	System.out.print(&quot;What do you want to do: &quot;);</span>
+<span class="nc" id="L36">    		System.out.println(&quot;\n&lt;--- ROLES TABLE ---&gt;\n&quot;);</span>
+<span class="nc" id="L37">	    	System.out.println(&quot;1=CREATE 2=READ 3=UPDATE 4=DELETE 5=BACK&quot;);</span>
+<span class="nc" id="L38">	    	System.out.print(&quot;What do you want to do: &quot;);</span>
 	    	try {
-<span class="nc" id="L39">	    		choice = scanner.getInt();</span>
-<span class="nc bnc" id="L40" title="All 6 branches missed.">	    		switch(choice) {</span>
+<span class="nc" id="L40">	    		choice = scanner.getInt();</span>
+<span class="nc bnc" id="L41" title="All 6 branches missed.">	    		switch(choice) {</span>
 	    			case 1:
-<span class="nc" id="L42">	    				role = generator.generateRole();</span>
-<span class="nc" id="L43">	    				boolean created = roleService.create(role);</span>
-<span class="nc bnc" id="L44" title="All 2 branches missed.">	    				if(created==false) {</span>
-<span class="nc" id="L45">	    					System.out.println(&quot;Creating of Role was unsuccessful.&quot;);</span>
+<span class="nc" id="L43">	    				role = generator.generateRole();</span>
+<span class="nc" id="L44">	    				boolean created = roleService.create(role);</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">	    				if(created==false) {</span>
+<span class="nc" id="L46">	    					System.out.println(&quot;Creating of Role was unsuccessful.&quot;);</span>
 	    				} else {
-<span class="nc" id="L47">	    					System.out.println(&quot;Successfully created a Role.&quot;);</span>
+<span class="nc" id="L48">	    					System.out.println(&quot;Successfully created a Role.&quot;);</span>
 	    				}
-<span class="nc" id="L49">	    				break;</span>
+<span class="nc" id="L50">	    				break;</span>
 	    			case 2:
-<span class="nc" id="L51">	    				System.out.println(&quot;\n&lt;--- READING ROLE TABLE ---&gt;\n&quot;);</span>
-<span class="nc" id="L52">	    				roleService.read();</span>
-<span class="nc" id="L53">	    				break;</span>
+<span class="nc" id="L52">	    				System.out.println(&quot;\n&lt;--- READING ROLE TABLE ---&gt;&quot;);</span>
+<span class="nc" id="L53">	    				List&lt;Role&gt; roles = roleService.getRolesAsList();</span>
+<span class="nc" id="L54">	    				roleService.read(roles);</span>
+<span class="nc" id="L55">	    				break;</span>
 	    			case 3:
-<span class="nc" id="L55">	    				System.out.print(&quot;Input the ID of the Role you want to update: &quot;);</span>
-<span class="nc" id="L56">	    				roleId = generator.generateId();</span>
-<span class="nc" id="L57">	    				role = (Role) roleService.getObjectWithId(roleId);</span>
-<span class="nc bnc" id="L58" title="All 2 branches missed.">	    				if(role == null) {</span>
-<span class="nc" id="L59">	    					System.out.print(&quot;Role with ID: &quot; + roleId + &quot; does not exist.&quot;);</span>
+<span class="nc" id="L57">	    				System.out.print(&quot;Input the ID of the Role you want to update: &quot;);</span>
+<span class="nc" id="L58">	    				roleId = generator.generateId();</span>
+<span class="nc" id="L59">	    				role = roleService.getRoleWithId(roleId);</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">	    				if(role == null) {</span>
+<span class="nc" id="L61">	    					System.out.println(&quot;Role with ID: &quot; + roleId + &quot; does not exist.&quot;);</span>
 	    				} else {
-	    					//update(role);
+<span class="nc" id="L63">	    					System.out.print(&quot;Rename role: &quot;);</span>
+<span class="nc" id="L64">	    					String newRole = scanner.getString();</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">	    					if(newRole != null) {</span>
+<span class="nc" id="L66">	    						role.setRole(newRole);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">	    						if(roleService.update(role)) {</span>
+<span class="nc" id="L68">	    							System.out.println(&quot;Role updated successfully.&quot;);</span>
+	    						} else {
+<span class="nc" id="L70">	    							System.out.println(&quot;Role updated unsuccessfully.&quot;);</span>
+	    						}
+	    					} else {
+<span class="nc" id="L73">	    						System.out.println(&quot;Error. Must not be empty.&quot;);</span>
+	    					}
 	    				}
-	    				break;
-	    			case 4:
-<span class="nc" id="L65">	    				System.out.print(&quot;Input the ID of the Role you want to delete: &quot;);</span>
-<span class="nc" id="L66">	    				roleId = generator.generateId();</span>
-<span class="nc" id="L67">	    				boolean deleted = roleService.delete(roleId);</span>
-<span class="nc bnc" id="L68" title="All 2 branches missed.">	    				if(deleted) {</span>
-<span class="nc" id="L69">	    					System.out.print(&quot;Role successfully deleted.&quot;);</span>
-	    				} else {
-<span class="nc" id="L71">	    					System.out.print(&quot;Role unsuccessfully deleted.&quot;);</span>
-	    				}
-<span class="nc" id="L73">	    				break;</span>
-	    			case 5:
-<span class="nc" id="L75">	    				done = true; </span>
 <span class="nc" id="L76">	    				break;</span>
+	    			case 4:
+<span class="nc" id="L78">	    				System.out.print(&quot;Input the ID of the Role you want to delete: &quot;);</span>
+<span class="nc" id="L79">	    				roleId = generator.generateId();</span>
+<span class="nc" id="L80">	    				role = roleService.getRoleWithId(roleId);</span>
+<span class="nc" id="L81">	    				boolean deleted = roleService.delete(role);</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">	    				if(deleted) {</span>
+<span class="nc" id="L83">	    					System.out.print(&quot;Role successfully deleted.&quot;);</span>
+	    				} else {
+<span class="nc" id="L85">	    					System.out.print(&quot;Role unsuccessfully deleted.&quot;);</span>
+	    				}
+<span class="nc" id="L87">	    				break;</span>
+	    			case 5:
+<span class="nc" id="L89">	    				done = true; </span>
+<span class="nc" id="L90">	    				break;</span>
 	    			default: 
-<span class="nc" id="L78">	    				System.out.println(&quot;Not in the choices, try again.&quot;);</span>
+<span class="nc" id="L92">	    				System.out.println(&quot;Not in the choices, try again.&quot;);</span>
 	    		}
-<span class="nc" id="L80">	    	} catch(Exception e) {</span>
-<span class="nc" id="L81">	    		System.out.print(e);</span>
-<span class="nc" id="L82">	    	}</span>
-<span class="nc bnc" id="L83" title="All 2 branches missed.">    	} while(done==false);</span>
-<span class="nc" id="L84">	}</span>
+<span class="nc" id="L94">	    	} catch(Exception e) {</span>
+<span class="nc" id="L95">	    		System.out.print(e);</span>
+<span class="nc" id="L96">	    	}</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">    	} while(done==false);</span>
+<span class="nc" id="L98">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -10,14 +10,15 @@ import java.util.GregorianCalendar;
 import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.HashSet;
+import java.util.List;
 
 public class RoleMenu implements Menu {
 	
 	private RoleService roleService;
-	private ScannerUtil scanner;
+	private InputProvider scanner;
 	private GeneratorService generator;
 
-	public RoleMenu(RoleService roleService, ScannerUtil scanner, GeneratorService generator) {
+	public RoleMenu(RoleService roleService, InputProvider scanner, GeneratorService generator) {
     	this.roleService = roleService;
     	this.scanner = scanner;
     	this.generator = generator;
@@ -48,23 +49,36 @@ public class RoleMenu implements Menu {
 	    				}
 	    				break;
 	    			case 2:
-	    				System.out.println("\n<--- READING ROLE TABLE --->\n");
-	    				roleService.read();
+	    				System.out.println("\n<--- READING ROLE TABLE --->");
+	    				List<Role> roles = roleService.getRolesAsList();
+	    				roleService.read(roles);
 	    				break;
 	    			case 3:
 	    				System.out.print("Input the ID of the Role you want to update: ");
 	    				roleId = generator.generateId();
-	    				role = (Role) roleService.getObjectWithId(roleId);
+	    				role = roleService.getRoleWithId(roleId);
 	    				if(role == null) {
-	    					System.out.print("Role with ID: " + roleId + " does not exist.");
+	    					System.out.println("Role with ID: " + roleId + " does not exist.");
 	    				} else {
-	    					//update(role);
+	    					System.out.print("Rename role: ");
+	    					String newRole = scanner.getString();
+	    					if(newRole != null) {
+	    						role.setRole(newRole);
+	    						if(roleService.update(role)) {
+	    							System.out.println("Role updated successfully.");
+	    						} else {
+	    							System.out.println("Role updated unsuccessfully.");
+	    						}
+	    					} else {
+	    						System.out.println("Error. Must not be empty.");
+	    					}
 	    				}
 	    				break;
 	    			case 4:
 	    				System.out.print("Input the ID of the Role you want to delete: ");
 	    				roleId = generator.generateId();
-	    				boolean deleted = roleService.delete(roleId);
+	    				role = roleService.getRoleWithId(roleId);
+	    				boolean deleted = roleService.delete(role);
 	    				if(deleted) {
 	    					System.out.print("Role successfully deleted.");
 	    				} else {

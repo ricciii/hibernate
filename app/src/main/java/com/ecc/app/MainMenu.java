@@ -13,19 +13,12 @@ import java.util.HashSet;
 
 public class MainMenu implements Menu {
 
-	private PersonService personService;
-	private RoleService roleService;
-	private ScannerUtil scanner;
-	private GeneratorService generator;
+	private InputProvider scanner;
 	private Menu personMenu;
 	private Menu roleMenu;
 
-    public MainMenu(PersonService personService, RoleService roleService, ScannerUtil scanner, 
-    	GeneratorService generator, Menu personMenu, Menu roleMenu) {
-    	this.personService = personService;
-    	this.roleService = roleService;
+    public MainMenu(InputProvider scanner, Menu personMenu, Menu roleMenu) {
     	this.scanner = scanner;
-    	this.generator = generator;
     	this.personMenu = personMenu;
     	this.roleMenu = roleMenu;
     }

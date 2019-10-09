@@ -17,6 +17,7 @@ import org.hibernate.query.Query;
 import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.lang.IllegalArgumentException;
+import java.util.ArrayList;
 
 public class RoleService extends GeneralService {
 
@@ -29,109 +30,11 @@ public class RoleService extends GeneralService {
 	}
 
 	public RoleService(SessionFactory factory) {
+		super(factory);
 		this.factory = factory;
 	}
 
-	public boolean create(Role role) {
-		session = factory.openSession();
-		boolean created = false;
-		try {
-			transaction = session.beginTransaction();
-			session.save(role); 
-			transaction.commit();
-			created = true;
-		} catch (HibernateException e) {
-			if (transaction!=null) {
-				transaction.rollback();
-			} 
-			e.printStackTrace();
-		} finally {
-			session.close(); 
-		}
-    	return created;
-   	}
-
-	public boolean read() {
-		boolean read = false;
-    	try {
-	    	session = factory.openSession();
-	        transaction = session.beginTransaction();
-	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-	        CriteriaQuery<Role> criteriaQuery = criteriaBuilder.createQuery(Role.class);
-	        Root<Role> root = criteriaQuery.from(Role.class);
-	        criteriaQuery.select(root);
-	        Query<Role> query = session.createQuery(criteriaQuery);
-	        List<Role> roles = query.getResultList();
-	        if(roles == null) {
-		        System.out.println("Role Table is empty.");
-	        } else {
-		        for(Role role: roles) {
-		        	System.out.print(role);
-		        }
-		        read = true;
-	        }
-		} catch (HibernateException e) {
-			if (transaction!=null) transaction.rollback();
-			e.printStackTrace(); 
-		} finally {
-			session.close(); 
-		}
-		return read;
-	}
-
-	public boolean update(Role role) {
-    	boolean updated = false;
-    	if(role==null) {
-    		System.out.println("Role does not exist in database.");
-    	} else {
-	    	session = factory.openSession();
-		    try {
-		    	transaction = session.beginTransaction();
-		        session.update(role); 
-		        transaction.commit();
-		        updated = true;
-		        //System.out.println("Successfully updated Object with ID: " + objectId);
-			} catch (HibernateException e) {
-			    if (transaction!=null) {
-			    	transaction.rollback();
-			    }
-			    e.printStackTrace(); 
-		    } catch (Exception exception) {
-		    	System.out.println(exception);
-		    } finally {
-		        session.close(); 
-			}
-    	}
-    	return updated;
-    }
-
-	public boolean delete(Integer roleId) {
-	    boolean deleted = false;
-	    Role role = getObjectWithId(roleId);
-	    if(role == null) {
-	    	System.out.println("Role with ID: " + roleId + " does not exist.");
-	    } else {
-		    session = factory.openSession();
-		    try {
-		    	transaction = session.beginTransaction();
-		        session.delete(role); 
-			    transaction.commit();
-			    deleted = true;
-			} catch (HibernateException e) {
-			    if (transaction!=null) {
-			    	transaction.rollback();
-			    }
-			    e.printStackTrace(); 
-		    } catch(Exception exception) {
-		    	System.out.println(exception);	
-		    } finally {
-		        session.close(); 
-			}
-	    }
-	    return deleted;
-    }
-
-    public Role getObjectWithId(Integer roleId) {
+    public Role getRoleWithId(Integer roleId) {
     	session = factory.openSession();
     	Role role = new Role();
 	    try {
@@ -145,5 +48,25 @@ public class RoleService extends GeneralService {
 	        session.close(); 
 		}
 		return role;
+    }
+
+    public List<Role> getRolesAsList() {
+    	List<Role> roles = new ArrayList<Role>();
+    	try {
+	    	session = factory.openSession();
+	        transaction = session.beginTransaction();
+	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+	        CriteriaQuery<Role> criteriaQuery = criteriaBuilder.createQuery(Role.class);
+	        Root<Role> root = criteriaQuery.from(Role.class);
+	        criteriaQuery.select(root);
+	        Query<Role> query = session.createQuery(criteriaQuery);
+	        roles = query.getResultList();
+		} catch (HibernateException e) {
+			if (transaction!=null) transaction.rollback();
+			e.printStackTrace(); 
+		} finally {
+			session.close(); 
+		}
+    	return roles;
     }
 }

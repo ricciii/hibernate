@@ -19,8 +19,9 @@ import java.util.InputMismatchException;
 import java.util.Collections;
 import java.lang.IllegalArgumentException;
 import java.util.Comparator;
+import java.util.ArrayList;
 
-public class PersonService {
+public class PersonService extends GeneralService {
 
 	private SessionFactory factory;
 	private Session session;
@@ -31,27 +32,9 @@ public class PersonService {
 	}
 
 	public PersonService(SessionFactory factory) {
+		super(factory);
 		this.factory = factory;
 	}
-
-   	public boolean create(Person person) {
-		session = factory.openSession();
-		boolean created = false;
-		try {
-			transaction = session.beginTransaction();
-			session.save(person); 
-			transaction.commit();
-			created = true;
-		} catch (HibernateException e) {
-			if (transaction!=null) {
-				transaction.rollback();
-			} 
-			e.printStackTrace();
-		} finally {
-			session.close(); 
-		}
-    	return created;
-   	}
 
 	public boolean addContacts(Integer personId, Set contacts) {
 		boolean added = false;
@@ -153,54 +136,6 @@ public class PersonService {
 		return deleted;
 	}
 
-	public enum ReadingOrder {
-		DEFAULT, GWA, LASTNAME, DATEHIRED
-	}
-
-	public void read(ReadingOrder order) {
-		try {
-			boolean sortByGWA=false;
-			session = factory.openSession();
-	        transaction = session.beginTransaction();
-	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-	        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
-	        Root<Person> root = criteriaQuery.from(Person.class);
-			switch(order) {
-				case GWA:
-					sortByGWA = true;
-					break;
-				case LASTNAME:
-					criteriaQuery.orderBy(criteriaBuilder.asc(root.get("name")));
-					break;
-				case DATEHIRED:
-					criteriaQuery.orderBy(criteriaBuilder.desc(root.get("dateHired")));
-					break;
-				default:
-					criteriaQuery.select(root);
-			}
-			Query<Person> query = session.createQuery(criteriaQuery);
-	        List<Person> people = query.getResultList();
-	        if(sortByGWA) {
-	        	Collections.sort(people);
-	        }
-	        if(people == null) {
-		        System.out.println("Person Table is empty.");
-	        } else {
-	        	System.out.println("\n<--- READING PERSON TABLE --->\n");
-		        for(Person person: people) {
-		        	System.out.print(person);
-		        }
-	        }
-		} catch (HibernateException e) {
-			if (transaction!=null) transaction.rollback();
-			e.printStackTrace(); 
-		} catch(Exception exception) {
-			System.out.println(exception);
-		} finally {
-			session.close();
-		}
-	}
-
 	public boolean readPerson(Integer personId) {
     	boolean read = false;
     	Person person = getPersonWithId(personId);
@@ -224,57 +159,6 @@ public class PersonService {
 	    return read;
     }
 
-    public boolean delete(Integer personId) {
-	    boolean deleted = false;
-	    Person person = getPersonWithId(personId);
-	    if(person == null) {
-	    	System.out.println("Person with ID: " + personId + " does not exist.");
-	    } else {
-		    session = factory.openSession();
-		    try {
-		    	transaction = session.beginTransaction();
-		        session.delete(person); 
-			    transaction.commit();
-			    deleted = true;
-			    System.out.println("Successfully deleted Person with ID: " + personId);	
-			} catch (HibernateException e) {
-			    if (transaction!=null) {
-			    	transaction.rollback();
-			    }
-			    e.printStackTrace(); 
-		    } finally {
-		        session.close(); 
-			}
-	    }
-	    return deleted;
-    }
-
-    public boolean updatePerson(Person person) {
-    	boolean updated = false;
-    	if(getPersonWithId(person.getId())==null) {
-    		System.out.println("Person with ID:" + person.getId() + " does not exist.");
-    	} else {
-	    	session = factory.openSession();
-		    try {
-		    	transaction = session.beginTransaction();
-		        session.update(person); 
-		        transaction.commit();
-		        updated = true;
-		        System.out.println("Successfully updated Person with ID: " + person.getId());
-			} catch (HibernateException e) {
-			    if (transaction!=null) {
-			    	transaction.rollback();
-			    }
-			    e.printStackTrace(); 
-		    } catch(Exception exception) {
-		    	System.out.println(exception);
-		    } finally {
-		        session.close(); 
-			}
-    	}
-    	return updated;
-    }
-
     public Person getPersonWithId(Integer personId) {
     	session = factory.openSession();
     	Person person = new Person();
@@ -289,5 +173,46 @@ public class PersonService {
 	        session.close(); 
 		}
 		return person;
+    }
+
+    public enum ListingOrder {
+		DEFAULT, GWA, LASTNAME, DATEHIRED
+	}
+
+    public List<Person> getPersonsAsList(ListingOrder order) {
+    	List<Person> persons = new ArrayList<Person>();
+    	try {
+	    	boolean sortByGWA=false;
+			session = factory.openSession();
+	        transaction = session.beginTransaction();
+	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+	        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+	        Root<Person> root = criteriaQuery.from(Person.class);
+			switch(order) {
+				case GWA:
+					sortByGWA = true;
+					criteriaQuery.select(root);
+					break;
+				case LASTNAME:
+					criteriaQuery.orderBy(criteriaBuilder.asc(root.get("name")));
+					break;
+				case DATEHIRED:
+					criteriaQuery.orderBy(criteriaBuilder.desc(root.get("dateHired")));
+					break;
+				default:
+					criteriaQuery.select(root);
+			}
+			Query<Person> query = session.createQuery(criteriaQuery);
+	        persons = query.getResultList();
+	        if(sortByGWA) {
+	        	Collections.sort(persons);
+	        }
+		} catch (HibernateException e) {
+			if (transaction!=null) transaction.rollback();
+			e.printStackTrace(); 
+		} finally {
+			session.close(); 
+		}
+    	return persons;
     }
 }

@@ -4,13 +4,14 @@ import java.util.Set;
 import java.util.Scanner;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.InputMismatchException;
 
 public class GeneratorService {
     
-    ScannerUtil scanner;
+    InputProvider scanner;
 
-    public GeneratorService(ScannerUtil scanner) {
+    public GeneratorService(InputProvider scanner) {
         this.scanner = scanner;
     }
 
@@ -181,13 +182,13 @@ public class GeneratorService {
     }
 
     public HashSet generateContacts() {
-        HashSet set = new HashSet();
+        HashSet contacts = new HashSet();
         Contact contact;
         String string;
         boolean done = false;
         do {
             contact = generateContact();
-            set.add(contact);
+            contacts.add(contact);
             System.out.println("Do you want to add more?");
             System.out.print("1=YES, Input anything for NO: "); 
             string = scanner.getString();
@@ -195,7 +196,7 @@ public class GeneratorService {
                 done = true;
             } 
         } while(done==false);
-        return set;
+        return contacts;
     } 
 
     public Role generateRole() {
@@ -208,13 +209,13 @@ public class GeneratorService {
     }
 
     public HashSet generateRoles() {
-		HashSet set = new HashSet();
+		HashSet roles = new HashSet();
 		Role role;
         String string;
         boolean done = false;
 		do {
 			role = generateRole();
-			set.add(role);
+			roles.add(role);
 			System.out.println("Do you want to add more?");
 			System.out.print("1=YES, Input anything for NO: "); 
 			string = scanner.getString();
@@ -222,16 +223,17 @@ public class GeneratorService {
 			 	done = true;
 			} 
 		} while(done==false);
-		return set;
+		return roles;
 	}
 
     public Role generateRole(RoleService roleService) {
         Role role;
         System.out.println("Available Roles:");
-        roleService.read();
+        List<Role> roles = roleService.getRolesAsList();
+        roleService.read(roles);
         System.out.print("Input ID of Role you want to assign:");
         Integer roleId = generateId();
-        role = roleService.getObjectWithId(roleId);
+        role = roleService.getRoleWithId(roleId);
         return role;
     }
 

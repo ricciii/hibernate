@@ -52,4 +52,16 @@ public class GeneratorServiceTest {
         String string = date.get(Calendar.YEAR) + "-" + date.get(Calendar.MONTH) + "-" + date.get(Calendar.DATE);
         assertEquals("2019-11-12", string);
     }
+
+    @Test
+    public void testGenerateGwa() throws Exception {
+        String input = "12.21\n";
+        float expected = (float) 12.21;
+        Scanner scanner = new Scanner(input);
+        ScannerUtil scannerUtil = new ScannerUtil(scanner);
+        GeneratorService generator = new GeneratorService(scannerUtil);
+        assertEquals(expected, generator.generateGwa());
+    }
+
+
 }

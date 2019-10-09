@@ -10,15 +10,17 @@ import java.util.GregorianCalendar;
 import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 
 public class PersonMenu implements Menu {
 	
 	private PersonService personService;
 	private RoleService roleService;
-	private ScannerUtil scanner;
+	private InputProvider scanner;
 	private GeneratorService generator;
 
-	public PersonMenu(PersonService personService, RoleService roleService, ScannerUtil scanner, GeneratorService generator) {
+	public PersonMenu(PersonService personService, RoleService roleService, InputProvider scanner, GeneratorService generator) {
 		this.personService = personService;
     	this.roleService = roleService;
     	this.scanner = scanner;
@@ -65,7 +67,14 @@ public class PersonMenu implements Menu {
 	    			case 4:
 	    				System.out.print("Input the ID of the Person you want to delete: ");
 	    				personId = generator.generateId();
-	    				personService.delete(personId);
+	    				person = personService.getPersonWithId(personId);
+	    				boolean deleted = personService.delete(person);
+	    				if(deleted) {
+	    					System.out.print("Person successfully deleted.");
+	    				} else {
+	    					
+	    					System.out.print("Person was deleted unsuccessfully.");
+	    				}
 	    				break;
 	    			case 5:
 	    				done = true; 
@@ -82,6 +91,7 @@ public class PersonMenu implements Menu {
 	public void showReadAllPersonByMenu() {
     	int choice;
     	boolean done = false;
+    	List<Person> persons = new ArrayList();
     	do {
     		System.out.println("\n<-- READING PERSON MENU -->\n");
 	    	System.out.println("1=Default 2=BY GWA 3=BY LAST NAME 4=BY DATE HIRED 5=EXIT");
@@ -91,20 +101,24 @@ public class PersonMenu implements Menu {
 	    		switch(choice) {
 	    			case 1:
 	    				System.out.println("Reading all Person by Default: ");
-	    				personService.read(PersonService.ReadingOrder.DEFAULT);
+	    				persons = personService.getPersonsAsList(PersonService.ListingOrder.DEFAULT);
+	    				done = true;
 	    				break;
 	    			case 2:
 	    				System.out.println("Reading all Person by ASC GWA: ");
-	    				personService.read(PersonService.ReadingOrder.GWA);
+	    				persons = personService.getPersonsAsList(PersonService.ListingOrder.GWA);
+	    				done = true;
 	    				break;
 	    			case 3:
 	    				System.out.println("Reading all Person by ASC Last Name: ");
-	    				personService.read(PersonService.ReadingOrder.LASTNAME);
+	    				persons = personService.getPersonsAsList(PersonService.ListingOrder.LASTNAME);
+	    				done = true;
 	    				break;
 	    			case 4:
 	    				System.out.println("Reading all Person by DESC Date Hired: ");
-	    				personService.read(PersonService.ReadingOrder.DATEHIRED);
-	    				break;
+	    				persons = personService.getPersonsAsList(PersonService.ListingOrder.DATEHIRED);
+	    				done = true;
+						break;
 	    			case 5:
 	    				done = true;
 	    				break;
@@ -114,6 +128,8 @@ public class PersonMenu implements Menu {
 	    	} catch(Exception exception) {
 	    		System.out.print(exception);
 	    	}
+	    	System.out.println("\n<--- READING PERSON TABLE --->");
+	    	personService.read(persons);
     	} while(done==false);
     }
 
@@ -121,6 +137,7 @@ public class PersonMenu implements Menu {
     public void showUpdatePersonMenu(Person person, Integer personId) {
     	int choice;
     	boolean done = false;
+    	boolean updated = false;
     	boolean skip = false;
     	do {
     		System.out.println("\n<-- UPDATE PERSON MENU -->\n");
@@ -165,23 +182,26 @@ public class PersonMenu implements Menu {
 	    				skip = true;
 	    				break;
 	    			case 9:
+	    				skip = true;
 	    				done = true; 
 	    				break;
 	    			default: 
 	    				System.out.println("Not in the choices, try again.");
+	    				skip = true;
 	    		}
+    			if(skip == false) {
+					updated = personService.update(person);
+    				if(updated) {
+    					System.out.println("Person successfully updated.");
+    				} else {
+    					System.out.println("Person unsuccessfully updated.");
+    				}
+    			} 
+    			skip = false;
 	    	} catch(Exception exception) {
 	    		System.out.print(exception);
-	    	} finally {
-	    		if(skip == false) {
-	    			boolean updated = personService.updatePerson(person);
-		    		if(updated) {
-		    			System.out.println("Person successfully updated.");
-		    		} else {
-		    			System.out.println("Person unsuccessfully updated.");
-		    		}
-	    		} skip = false;
-	    	}
+	    	} 
+
     	} while(done==false);
     }
 
@@ -189,8 +209,8 @@ public class PersonMenu implements Menu {
     	int choice;
     	Integer contactId = null;
     	boolean done = false;
-    	personService.readPerson(personId);
     	do {
+    		personService.readPerson(personId);
     		System.out.println("\n<-- UPDATE PERSON CONTACTS MENU -->\n");
     		System.out.println("Updating Contacts of Person with ID: " + personId);
 	    	System.out.println("1=Add Contact 2=Delete Contact 3=EXIT");

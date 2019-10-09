@@ -1,5 +1,5 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-app,com.ecc.app,Main,73,0,0,0,15,0,2,0,2,0
-app,com.ecc.app,PersonMenu,494,0,56,0,175,0,44,0,6,0
-app,com.ecc.app,RoleMenu,128,0,14,0,43,0,12,0,3,0
-app,com.ecc.app,MainMenu,67,0,6,0,28,0,7,0,3,0
+app,com.ecc.app,Main,70,0,0,0,15,0,2,0,2,0
+app,com.ecc.app,PersonMenu,544,0,58,0,190,0,45,0,6,0
+app,com.ecc.app,RoleMenu,168,0,18,0,54,0,14,0,3,0
+app,com.ecc.app,MainMenu,59,0,6,0,25,0,7,0,3,0

@@ -22,11 +22,11 @@ public class Main {
 	    }
 	    PersonService personService = new PersonService(factory);
 	    RoleService roleService = new RoleService(factory);
-        ScannerUtil scanner = new ScannerUtil();
+        InputProvider scanner = new ScannerUtil();
         GeneratorService generator = new GeneratorService(scanner); 
         Menu personMenu = new PersonMenu(personService, roleService, scanner, generator);
         Menu roleMenu = new RoleMenu(roleService, scanner, generator);
-        Menu mainMenu = new MainMenu(personService, roleService, scanner, generator, personMenu, roleMenu);
+        Menu mainMenu = new MainMenu(scanner, personMenu, roleMenu);
         mainMenu.start();
     }
 }
