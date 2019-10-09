@@ -12,6 +12,34 @@ import java.util.HashSet;
 public class GeneratorServiceTest {
  
     @Test
+    public void testGeneratePerson() throws Exception {
+        String input = "Smith\nJames\nPeterson\n\n";
+        input += "Topaz Rd.\nPasig\nManila\n90001\n";
+        input += "2019\n11\n12\n";
+        input += "12.21\n";
+        input += "2019\n11\n12\n";
+        input += "true\n";
+        input += "\n\n\n\n\n\n";
+        RoleService roleService = new RoleService();
+        Scanner scanner = new Scanner(input);
+        ScannerUtil scannerUtil = new ScannerUtil(scanner);
+        GeneratorService generator = new GeneratorService(scannerUtil);
+        Person person = generator.generatePerson(roleService);
+        assertEquals("Smith James Peterson", person.getName().toString());
+        assertEquals("Topaz Rd., Pasig, Manila, 90001", person.getAddress().toString());
+        String date = person.getDateOfBirth().get(Calendar.YEAR) + "-" + person.getDateOfBirth().get(Calendar.MONTH) + "-" + person.getDateOfBirth().get(Calendar.DATE);
+        assertEquals("2019-11-12", date);
+        date = person.getDateHired().get(Calendar.YEAR) + "-" + person.getDateHired().get(Calendar.MONTH) + "-" + person.getDateHired().get(Calendar.DATE);
+        assertEquals("2019-11-12", date);
+        float flt = (float) 12.21;
+        assertEquals(flt, person.getGwa());
+        assertEquals(true, person.getCurrentlyEmployed());
+        assertTrue(person.getContacts()==null);
+        assertTrue(person.getRoles()==null);
+
+    }
+
+    @Test
     public void testGenerateId() throws Exception {
         String input = "123\n";
         Scanner scanner = new Scanner(input);
@@ -56,6 +84,17 @@ public class GeneratorServiceTest {
     }
 
     @Test
+    public void testGenerateDateHired() throws Exception {
+        String input = "2019\n11\n12\n";
+        Scanner scanner = new Scanner(input);
+        ScannerUtil scannerUtil = new ScannerUtil(scanner);
+        GeneratorService generator = new GeneratorService(scannerUtil);
+        GregorianCalendar date = generator.generateDateHired();
+        String string = date.get(Calendar.YEAR) + "-" + date.get(Calendar.MONTH) + "-" + date.get(Calendar.DATE);
+        assertEquals("2019-11-12", string);
+    }
+
+    @Test
     public void testGenerateGwa() throws Exception {
         String input = "12.21\n";
         float expected = (float) 12.21;
@@ -85,7 +124,6 @@ public class GeneratorServiceTest {
         assertEquals(expected, generator.generateContact().getContact());
     }
 
-    
     @Test
     @Tag("SkipTest")
     public void testGenerateContacts() throws Exception {
@@ -101,5 +139,26 @@ public class GeneratorServiceTest {
         assertTrue(contacts.contains(contact1));
         assertTrue(contacts.contains(contact2));
         assertTrue(contacts.contains(contact3));
+    }
+
+    @Test
+    public void testGenerateRole() throws Exception {
+        String input = "QA\n09274990787\n";
+        Scanner scanner = new Scanner(input);
+        ScannerUtil scannerUtil = new ScannerUtil(scanner);
+        GeneratorService generator = new GeneratorService(scannerUtil);
+        String expected = "QA";
+        assertEquals(expected, generator.generateRole().getRole());
+    }
+
+    @Test
+    public void testGenerateRoles() throws Exception {
+        String input = "QA\n2\n2\n1\nAdmin\n3\n";
+        Scanner scanner = new Scanner(input);
+        ScannerUtil scannerUtil = new ScannerUtil(scanner);
+        GeneratorService generator = new GeneratorService(scannerUtil);
+        HashSet<Role> roles = generator.generateRoles();
+        Role role1 = new Role("QA");
+        assertTrue(roles.contains(role1));
     }
 }

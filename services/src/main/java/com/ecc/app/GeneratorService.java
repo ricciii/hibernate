@@ -54,13 +54,7 @@ public class GeneratorService {
 
     public Integer generateId() {
     	Integer id = null;
-    	try {
-    		id = scanner.getInt();
-    	} catch(InputMismatchException mismatch) {
-    		System.out.println("Input should be of Integer type.");
-    	} catch(Exception e) {
-    		System.out.println("Something went wrong."); 
-    	}
+    	id = scanner.getInt();
     	return id;
     }
 

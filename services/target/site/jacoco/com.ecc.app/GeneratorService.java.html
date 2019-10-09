@@ -20,242 +20,236 @@ public class GeneratorService {
 
     public Person generatePerson(RoleService roleService) {
     	String string;
-<span class="nc" id="L23">        Name name = generateName();</span>
-<span class="nc" id="L24">    	Address address = generateAddress();</span>
-<span class="nc" id="L25">    	GregorianCalendar dateOfBirth = generateDateOfBirth();</span>
-<span class="nc" id="L26">    	float gwa = generateGwa();</span>
-<span class="nc" id="L27">    	GregorianCalendar dateHired = generateDateHired();</span>
-<span class="nc" id="L28">    	boolean currentlyEmployed = generateCurrentlyEmployed();</span>
-<span class="nc" id="L29">    	Person person = new Person(name, address, dateOfBirth, gwa, dateHired, currentlyEmployed);</span>
-<span class="nc" id="L30">        System.out.print(&quot;Do you want to add a contact?\n1=YES, input anything for NO: &quot;);</span>
+<span class="fc" id="L23">        Name name = generateName();</span>
+<span class="fc" id="L24">    	Address address = generateAddress();</span>
+<span class="fc" id="L25">    	GregorianCalendar dateOfBirth = generateDateOfBirth();</span>
+<span class="fc" id="L26">    	float gwa = generateGwa();</span>
+<span class="fc" id="L27">    	GregorianCalendar dateHired = generateDateHired();</span>
+<span class="fc" id="L28">    	boolean currentlyEmployed = generateCurrentlyEmployed();</span>
+<span class="fc" id="L29">    	Person person = new Person(name, address, dateOfBirth, gwa, dateHired, currentlyEmployed);</span>
+<span class="fc" id="L30">        System.out.print(&quot;Do you want to add a contact?\n1=YES, input anything for NO: &quot;);</span>
         try {
-<span class="nc" id="L32">            string = scanner.getString();</span>
-<span class="nc bnc" id="L33" title="All 2 branches missed.">            if(&quot;1&quot;.equals(string)) {</span>
+<span class="fc" id="L32">            string = scanner.getString();</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">            if(&quot;1&quot;.equals(string)) {</span>
 <span class="nc" id="L34">                HashSet contacts = new HashSet();</span>
 <span class="nc" id="L35">                contacts = generateContacts();</span>
 <span class="nc" id="L36">                person.setContacts(contacts);</span>
             }
 <span class="nc" id="L38">        } catch(Exception e) {</span>
 
-<span class="nc" id="L40">        }</span>
-<span class="nc" id="L41">        System.out.print(&quot;Do you want to add a role?\n1=YES, input anything for NO: &quot;);</span>
+<span class="fc" id="L40">        }</span>
+<span class="fc" id="L41">        System.out.print(&quot;Do you want to add a role?\n1=YES, input anything for NO: &quot;);</span>
         try {
-<span class="nc" id="L43">            string = scanner.getString();</span>
-<span class="nc bnc" id="L44" title="All 2 branches missed.">            if(&quot;1&quot;.equals(string)) {</span>
+<span class="fc" id="L43">            string = scanner.getString();</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">            if(&quot;1&quot;.equals(string)) {</span>
 <span class="nc" id="L45">                HashSet roles = new HashSet();</span>
 <span class="nc" id="L46">                roles = generateRoles(roleService);</span>
 <span class="nc" id="L47">                person.setRoles(roles);</span>
             }
 <span class="nc" id="L49">        } catch(Exception e) {</span>
 
-<span class="nc" id="L51">        }</span>
-<span class="nc" id="L52">    	return person;</span>
+<span class="fc" id="L51">        }</span>
+<span class="fc" id="L52">    	return person;</span>
     }
 
     public Integer generateId() {
 <span class="fc" id="L56">    	Integer id = null;</span>
-    	try {
-<span class="fc" id="L58">    		id = scanner.getInt();</span>
-<span class="nc" id="L59">    	} catch(InputMismatchException mismatch) {</span>
-<span class="nc" id="L60">    		System.out.println(&quot;Input should be of Integer type.&quot;);</span>
-<span class="nc" id="L61">    	} catch(Exception e) {</span>
-<span class="nc" id="L62">    		System.out.println(&quot;Something went wrong.&quot;); </span>
-<span class="pc" id="L63">    	}</span>
-<span class="fc" id="L64">    	return id;</span>
+<span class="fc" id="L57">    	id = scanner.getInt();</span>
+<span class="fc" id="L58">    	return id;</span>
     }
 
     public Name generateName() {
     	String string;
-<span class="fc" id="L69">    	Name name = new Name();</span>
-<span class="fc" id="L70">    	System.out.println(&quot;\n&lt;--- Name ---&gt;\n&quot;);</span>
-<span class="fc" id="L71">        System.out.print(&quot;Input last name: &quot;);</span>
+<span class="fc" id="L63">    	Name name = new Name();</span>
+<span class="fc" id="L64">    	System.out.println(&quot;\n&lt;--- Name ---&gt;\n&quot;);</span>
+<span class="fc" id="L65">        System.out.print(&quot;Input last name: &quot;);</span>
+<span class="fc" id="L66">        string = scanner.getString();</span>
+<span class="fc" id="L67">        name.setLastName(string);</span>
+<span class="fc" id="L68">        System.out.print(&quot;Input first name: &quot;);</span>
+<span class="fc" id="L69">        string = scanner.getString();</span>
+<span class="fc" id="L70">        name.setFirstName(string);</span>
+<span class="fc" id="L71">        System.out.print(&quot;Input middle name: &quot;);</span>
 <span class="fc" id="L72">        string = scanner.getString();</span>
-<span class="fc" id="L73">        name.setLastName(string);</span>
-<span class="fc" id="L74">        System.out.print(&quot;Input first name: &quot;);</span>
+<span class="fc" id="L73">        name.setMiddleName(string);</span>
+<span class="fc" id="L74">        System.out.print(&quot;Input name suffix: &quot;);</span>
 <span class="fc" id="L75">        string = scanner.getString();</span>
-<span class="fc" id="L76">        name.setFirstName(string);</span>
-<span class="fc" id="L77">        System.out.print(&quot;Input middle name: &quot;);</span>
-<span class="fc" id="L78">        string = scanner.getString();</span>
-<span class="fc" id="L79">        name.setMiddleName(string);</span>
-<span class="fc" id="L80">        System.out.print(&quot;Input name suffix: &quot;);</span>
-<span class="fc" id="L81">        string = scanner.getString();</span>
-<span class="fc" id="L82">        name.setSuffix(string);</span>
-<span class="fc" id="L83">        return name;</span>
+<span class="fc" id="L76">        name.setSuffix(string);</span>
+<span class="fc" id="L77">        return name;</span>
     }
 
     public Address generateAddress() {
     	String string;
-<span class="fc" id="L88">    	Address address = new Address();</span>
-<span class="fc" id="L89">    	System.out.println(&quot;\n&lt;--- Address ---&gt;\n&quot;);</span>
-<span class="fc" id="L90">        System.out.print(&quot;Input street: &quot;);</span>
+<span class="fc" id="L82">    	Address address = new Address();</span>
+<span class="fc" id="L83">    	System.out.println(&quot;\n&lt;--- Address ---&gt;\n&quot;);</span>
+<span class="fc" id="L84">        System.out.print(&quot;Input street: &quot;);</span>
+<span class="fc" id="L85">        string = scanner.getString();</span>
+<span class="fc" id="L86">        address.setStreet(string);</span>
+<span class="fc" id="L87">        System.out.print(&quot;Input barangay: &quot;);</span>
+<span class="fc" id="L88">        string = scanner.getString();</span>
+<span class="fc" id="L89">        address.setBarangay(string);</span>
+<span class="fc" id="L90">        System.out.print(&quot;Input municipality: &quot;);</span>
 <span class="fc" id="L91">        string = scanner.getString();</span>
-<span class="fc" id="L92">        address.setStreet(string);</span>
-<span class="fc" id="L93">        System.out.print(&quot;Input barangay: &quot;);</span>
+<span class="fc" id="L92">        address.setMunicipality(string);</span>
+<span class="fc" id="L93">        System.out.print(&quot;Input zip code: &quot;);</span>
 <span class="fc" id="L94">        string = scanner.getString();</span>
-<span class="fc" id="L95">        address.setBarangay(string);</span>
-<span class="fc" id="L96">        System.out.print(&quot;Input municipality: &quot;);</span>
-<span class="fc" id="L97">        string = scanner.getString();</span>
-<span class="fc" id="L98">        address.setMunicipality(string);</span>
-<span class="fc" id="L99">        System.out.print(&quot;Input zip code: &quot;);</span>
-<span class="fc" id="L100">        string = scanner.getString();</span>
-<span class="fc" id="L101">        address.setZipCode(string);</span>
-<span class="fc" id="L102">        return address;</span>
+<span class="fc" id="L95">        address.setZipCode(string);</span>
+<span class="fc" id="L96">        return address;</span>
     }
 
     public GregorianCalendar generateDateOfBirth() {
-<span class="fc" id="L106">    	System.out.println(&quot;\n&lt;--- Date of Birth ---&gt;\n&quot;);</span>
-<span class="fc" id="L107">        System.out.print(&quot;Input year: &quot;);</span>
-<span class="fc" id="L108">        int year = scanner.getInt();</span>
-<span class="fc" id="L109">        System.out.print(&quot;Input month: &quot;); </span>
-<span class="fc" id="L110">        int month = scanner.getInt();</span>
-<span class="fc" id="L111">        System.out.print(&quot;Input date of month: &quot;);</span>
-<span class="fc" id="L112">        int dayOfMonth = scanner.getInt();</span>
-<span class="fc" id="L113">        GregorianCalendar dateOfBirth = new GregorianCalendar(year, month, dayOfMonth);</span>
-<span class="fc" id="L114">        return dateOfBirth;</span>
+<span class="fc" id="L100">    	System.out.println(&quot;\n&lt;--- Date of Birth ---&gt;\n&quot;);</span>
+<span class="fc" id="L101">        System.out.print(&quot;Input year: &quot;);</span>
+<span class="fc" id="L102">        int year = scanner.getInt();</span>
+<span class="fc" id="L103">        System.out.print(&quot;Input month: &quot;); </span>
+<span class="fc" id="L104">        int month = scanner.getInt();</span>
+<span class="fc" id="L105">        System.out.print(&quot;Input date of month: &quot;);</span>
+<span class="fc" id="L106">        int dayOfMonth = scanner.getInt();</span>
+<span class="fc" id="L107">        GregorianCalendar dateOfBirth = new GregorianCalendar(year, month, dayOfMonth);</span>
+<span class="fc" id="L108">        return dateOfBirth;</span>
     }
 
     public GregorianCalendar generateDateHired() {
-<span class="nc" id="L118">    	System.out.println(&quot;\n&lt;--- Date Hired ---&gt;\n&quot;);</span>
-<span class="nc" id="L119">        System.out.print(&quot;Input year: &quot;);</span>
-<span class="nc" id="L120">        int year = scanner.getInt();</span>
-<span class="nc" id="L121">        System.out.print(&quot;Input month: &quot;); </span>
-<span class="nc" id="L122">        int month = scanner.getInt();</span>
-<span class="nc" id="L123">        System.out.print(&quot;Input date of month: &quot;);</span>
-<span class="nc" id="L124">        int dayOfMonth = scanner.getInt();</span>
-<span class="nc" id="L125">        GregorianCalendar dateHired = new GregorianCalendar(year, month, dayOfMonth);</span>
-<span class="nc" id="L126">        return dateHired;</span>
+<span class="fc" id="L112">    	System.out.println(&quot;\n&lt;--- Date Hired ---&gt;\n&quot;);</span>
+<span class="fc" id="L113">        System.out.print(&quot;Input year: &quot;);</span>
+<span class="fc" id="L114">        int year = scanner.getInt();</span>
+<span class="fc" id="L115">        System.out.print(&quot;Input month: &quot;); </span>
+<span class="fc" id="L116">        int month = scanner.getInt();</span>
+<span class="fc" id="L117">        System.out.print(&quot;Input date of month: &quot;);</span>
+<span class="fc" id="L118">        int dayOfMonth = scanner.getInt();</span>
+<span class="fc" id="L119">        GregorianCalendar dateHired = new GregorianCalendar(year, month, dayOfMonth);</span>
+<span class="fc" id="L120">        return dateHired;</span>
     }
 
     public float generateGwa() {
-<span class="fc" id="L130">    	System.out.println(&quot;\n&lt;--- GWA ---&gt;\n&quot;);</span>
-<span class="fc" id="L131">        System.out.print(&quot;GWA: &quot;);</span>
-<span class="fc" id="L132">        float gwa = scanner.getFloat();</span>
-<span class="fc" id="L133">        return gwa;</span>
+<span class="fc" id="L124">    	System.out.println(&quot;\n&lt;--- GWA ---&gt;\n&quot;);</span>
+<span class="fc" id="L125">        System.out.print(&quot;GWA: &quot;);</span>
+<span class="fc" id="L126">        float gwa = scanner.getFloat();</span>
+<span class="fc" id="L127">        return gwa;</span>
     }
 
     public boolean generateCurrentlyEmployed() {
-<span class="fc" id="L137">    	System.out.println(&quot;\n&lt;--- Currently Employed ---&gt;\n&quot;);</span>
-<span class="fc" id="L138">        System.out.print(&quot;Currently Employed: &quot;);</span>
-<span class="fc" id="L139">        boolean currentlyEmployed = scanner.getBoolean();</span>
-<span class="fc" id="L140">        return currentlyEmployed;</span>
+<span class="fc" id="L131">    	System.out.println(&quot;\n&lt;--- Currently Employed ---&gt;\n&quot;);</span>
+<span class="fc" id="L132">        System.out.print(&quot;Currently Employed: &quot;);</span>
+<span class="fc" id="L133">        boolean currentlyEmployed = scanner.getBoolean();</span>
+<span class="fc" id="L134">        return currentlyEmployed;</span>
     }
 
     public Contact generateContact() {
-<span class="fc" id="L144">    	System.out.println(&quot;\n&lt;--- Contact Information ---&gt;\n&quot;);</span>
-<span class="fc" id="L145">        Contact contact = new Contact();</span>
+<span class="fc" id="L138">    	System.out.println(&quot;\n&lt;--- Contact Information ---&gt;\n&quot;);</span>
+<span class="fc" id="L139">        Contact contact = new Contact();</span>
         String string;
-<span class="fc" id="L147">		int i = 1;</span>
-<span class="fc bfc" id="L148" title="All 2 branches covered.">        for(Contact.ContactType type: Contact.ContactType.values()) {</span>
-<span class="fc" id="L149">            System.out.print((i++) + &quot;=&quot; + type + &quot; &quot;);</span>
+<span class="fc" id="L141">		int i = 1;</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        for(Contact.ContactType type: Contact.ContactType.values()) {</span>
+<span class="fc" id="L143">            System.out.print((i++) + &quot;=&quot; + type + &quot; &quot;);</span>
         }
-<span class="fc" id="L151">		System.out.println();</span>
-<span class="fc" id="L152">        boolean done = false;</span>
+<span class="fc" id="L145">		System.out.println();</span>
+<span class="fc" id="L146">        boolean done = false;</span>
         do {
             try {
-<span class="fc" id="L155">                System.out.print(&quot;\nInput type: &quot;);</span>
-<span class="fc" id="L156">                int choice = scanner.getInt();</span>
-<span class="pc bpc" id="L157" title="3 of 4 branches missed.">                switch(choice) {</span>
+<span class="fc" id="L149">                System.out.print(&quot;\nInput type: &quot;);</span>
+<span class="fc" id="L150">                int choice = scanner.getInt();</span>
+<span class="pc bpc" id="L151" title="3 of 4 branches missed.">                switch(choice) {</span>
                     case 1:
-<span class="fc" id="L159">                        contact.setType(Contact.ContactType.MOBILE);</span>
-<span class="fc" id="L160">                        done = true;</span>
-<span class="fc" id="L161">                        break;</span>
+<span class="fc" id="L153">                        contact.setType(Contact.ContactType.MOBILE);</span>
+<span class="fc" id="L154">                        done = true;</span>
+<span class="fc" id="L155">                        break;</span>
                     case 2:
-<span class="nc" id="L163">                        contact.setType(Contact.ContactType.LANDLINE);</span>
-<span class="nc" id="L164">                        done = true; </span>
-<span class="nc" id="L165">                        break;</span>
+<span class="nc" id="L157">                        contact.setType(Contact.ContactType.LANDLINE);</span>
+<span class="nc" id="L158">                        done = true; </span>
+<span class="nc" id="L159">                        break;</span>
                     case 3:
-<span class="nc" id="L167">                        contact.setType(Contact.ContactType.EMAIL);</span>
-<span class="nc" id="L168">                        done = true;</span>
-<span class="nc" id="L169">                        break;</span>
+<span class="nc" id="L161">                        contact.setType(Contact.ContactType.EMAIL);</span>
+<span class="nc" id="L162">                        done = true;</span>
+<span class="nc" id="L163">                        break;</span>
                     default: 
-<span class="nc" id="L171">                        System.out.println(&quot;Not in the choices, try again.&quot;);</span>
+<span class="nc" id="L165">                        System.out.println(&quot;Not in the choices, try again.&quot;);</span>
                 }
-<span class="nc" id="L173">            } catch(Exception e) {</span>
-<span class="nc" id="L174">                System.out.println(&quot;Not in the choices, try again.&quot;);</span>
-<span class="fc" id="L175">            }</span>
-<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        } while(done==false);</span>
-<span class="fc" id="L177">		System.out.print(&quot;Input contact detail: &quot;);</span>
-<span class="fc" id="L178">		string = scanner.getString();</span>
-<span class="fc" id="L179">		contact.setContact(string);</span>
-<span class="fc" id="L180">		return contact;</span>
+<span class="nc" id="L167">            } catch(Exception e) {</span>
+<span class="nc" id="L168">                System.out.println(&quot;Not in the choices, try again.&quot;);</span>
+<span class="fc" id="L169">            }</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">        } while(done==false);</span>
+<span class="fc" id="L171">		System.out.print(&quot;Input contact detail: &quot;);</span>
+<span class="fc" id="L172">		string = scanner.getString();</span>
+<span class="fc" id="L173">		contact.setContact(string);</span>
+<span class="fc" id="L174">		return contact;</span>
     }
 
     public HashSet generateContacts() {
-<span class="nc" id="L184">        HashSet contacts = new HashSet();</span>
+<span class="nc" id="L178">        HashSet contacts = new HashSet();</span>
         Contact contact;
         String string;
-<span class="nc" id="L187">        boolean done = false;</span>
+<span class="nc" id="L181">        boolean done = false;</span>
         do {
-<span class="nc" id="L189">            contact = generateContact();</span>
-<span class="nc" id="L190">            contacts.add(contact);</span>
-<span class="nc" id="L191">            System.out.println(&quot;Do you want to add more?&quot;);</span>
-<span class="nc" id="L192">            System.out.print(&quot;1=YES, Input anything for NO: &quot;); </span>
-<span class="nc" id="L193">            string = scanner.getString();</span>
-<span class="nc bnc" id="L194" title="All 2 branches missed.">            if(&quot;1&quot;.equals(string) == false) {</span>
-<span class="nc" id="L195">                done = true;</span>
+<span class="nc" id="L183">            contact = generateContact();</span>
+<span class="nc" id="L184">            contacts.add(contact);</span>
+<span class="nc" id="L185">            System.out.println(&quot;Do you want to add more?&quot;);</span>
+<span class="nc" id="L186">            System.out.print(&quot;1=YES, Input anything for NO: &quot;); </span>
+<span class="nc" id="L187">            string = scanner.getString();</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">            if(&quot;1&quot;.equals(string) == false) {</span>
+<span class="nc" id="L189">                done = true;</span>
             } 
-<span class="nc bnc" id="L197" title="All 2 branches missed.">        } while(done==false);</span>
-<span class="nc" id="L198">        return contacts;</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">        } while(done==false);</span>
+<span class="nc" id="L192">        return contacts;</span>
     } 
 
     public Role generateRole() {
-<span class="nc" id="L202">        Role role = new Role();</span>
+<span class="fc" id="L196">        Role role = new Role();</span>
         String string;
-<span class="nc" id="L204">        System.out.print(&quot;Input role: &quot;);</span>
-<span class="nc" id="L205">        string = scanner.getString();</span>
-<span class="nc" id="L206">        role.setRole(string);</span>
-<span class="nc" id="L207">        return role;</span>
+<span class="fc" id="L198">        System.out.print(&quot;Input role: &quot;);</span>
+<span class="fc" id="L199">        string = scanner.getString();</span>
+<span class="fc" id="L200">        role.setRole(string);</span>
+<span class="fc" id="L201">        return role;</span>
     }
 
     public HashSet generateRoles() {
-<span class="nc" id="L211">		HashSet roles = new HashSet();</span>
+<span class="fc" id="L205">		HashSet roles = new HashSet();</span>
 		Role role;
         String string;
-<span class="nc" id="L214">        boolean done = false;</span>
+<span class="fc" id="L208">        boolean done = false;</span>
 		do {
-<span class="nc" id="L216">			role = generateRole();</span>
-<span class="nc" id="L217">			roles.add(role);</span>
-<span class="nc" id="L218">			System.out.println(&quot;Do you want to add more?&quot;);</span>
-<span class="nc" id="L219">			System.out.print(&quot;1=YES, Input anything for NO: &quot;); </span>
-<span class="nc" id="L220">			string = scanner.getString();</span>
-<span class="nc bnc" id="L221" title="All 2 branches missed.">			if(string != &quot;1&quot;) {</span>
-<span class="nc" id="L222">			 	done = true;</span>
+<span class="fc" id="L210">			role = generateRole();</span>
+<span class="fc" id="L211">			roles.add(role);</span>
+<span class="fc" id="L212">			System.out.println(&quot;Do you want to add more?&quot;);</span>
+<span class="fc" id="L213">			System.out.print(&quot;1=YES, Input anything for NO: &quot;); </span>
+<span class="fc" id="L214">			string = scanner.getString();</span>
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">			if(string != &quot;1&quot;) {</span>
+<span class="fc" id="L216">			 	done = true;</span>
 			} 
-<span class="nc bnc" id="L224" title="All 2 branches missed.">		} while(done==false);</span>
-<span class="nc" id="L225">		return roles;</span>
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">		} while(done==false);</span>
+<span class="fc" id="L219">		return roles;</span>
 	}
 
     public Role generateRole(RoleService roleService) {
         Role role;
-<span class="nc" id="L230">        System.out.println(&quot;Available Roles:&quot;);</span>
-<span class="nc" id="L231">        List&lt;Role&gt; roles = roleService.getRolesAsList();</span>
-<span class="nc" id="L232">        roleService.read(roles);</span>
-<span class="nc" id="L233">        System.out.print(&quot;Input ID of Role you want to assign:&quot;);</span>
-<span class="nc" id="L234">        Integer roleId = generateId();</span>
-<span class="nc" id="L235">        role = roleService.getRoleWithId(roleId);</span>
-<span class="nc" id="L236">        return role;</span>
+<span class="nc" id="L224">        System.out.println(&quot;Available Roles:&quot;);</span>
+<span class="nc" id="L225">        List&lt;Role&gt; roles = roleService.getRolesAsList();</span>
+<span class="nc" id="L226">        roleService.read(roles);</span>
+<span class="nc" id="L227">        System.out.print(&quot;Input ID of Role you want to assign:&quot;);</span>
+<span class="nc" id="L228">        Integer roleId = generateId();</span>
+<span class="nc" id="L229">        role = roleService.getRoleWithId(roleId);</span>
+<span class="nc" id="L230">        return role;</span>
     }
 
     public HashSet generateRoles(RoleService roleService) {
-<span class="nc" id="L240">        HashSet roles = new HashSet();</span>
+<span class="nc" id="L234">        HashSet roles = new HashSet();</span>
         Role role;
         String choice;
-<span class="nc" id="L243">        boolean done = false;</span>
+<span class="nc" id="L237">        boolean done = false;</span>
         do {
-<span class="nc" id="L245">            role = generateRole(roleService);</span>
-<span class="nc bnc" id="L246" title="All 2 branches missed.">            if(role==null) {</span>
-<span class="nc" id="L247">                System.out.println(&quot;Role does not exist.&quot;);</span>
+<span class="nc" id="L239">            role = generateRole(roleService);</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">            if(role==null) {</span>
+<span class="nc" id="L241">                System.out.println(&quot;Role does not exist.&quot;);</span>
             } else {
-<span class="nc" id="L249">                roles.add(role);</span>
+<span class="nc" id="L243">                roles.add(role);</span>
             }
-<span class="nc" id="L251">            System.out.println(&quot;Do you want to add more?&quot;);</span>
-<span class="nc" id="L252">            System.out.print(&quot;1=YES, Input anything for NO: &quot;); </span>
-<span class="nc" id="L253">            choice = scanner.getString();</span>
-<span class="nc bnc" id="L254" title="All 2 branches missed.">            if(!&quot;1&quot;.equals(choice)) {</span>
-<span class="nc" id="L255">                done = true;</span>
+<span class="nc" id="L245">            System.out.println(&quot;Do you want to add more?&quot;);</span>
+<span class="nc" id="L246">            System.out.print(&quot;1=YES, Input anything for NO: &quot;); </span>
+<span class="nc" id="L247">            choice = scanner.getString();</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">            if(!&quot;1&quot;.equals(choice)) {</span>
+<span class="nc" id="L249">                done = true;</span>
             } 
-<span class="nc bnc" id="L257" title="All 2 branches missed.">        } while(done==false);</span>
-<span class="nc" id="L258">        return roles;</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">        } while(done==false);</span>
+<span class="nc" id="L252">        return roles;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
