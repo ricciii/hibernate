@@ -143,77 +143,76 @@ public class PersonService extends GeneralService {
 <span class="nc" id="L143">	    	System.out.println(&quot;Person with ID: &quot; + personId + &quot; does not exist.\n&quot;);</span>
 	    } else {
 <span class="nc" id="L145">	    	session = factory.openSession();</span>
-		    try {
-<span class="nc" id="L147">		        person = (Person) session.get(Person.class, personId); </span>
-<span class="nc" id="L148">		        System.out.println(person);</span>
-<span class="nc" id="L149">		        read = true;</span>
-<span class="nc" id="L150">			} catch (HibernateException e) {</span>
-<span class="nc bnc" id="L151" title="All 2 branches missed.">			    if (transaction!=null) {</span>
-<span class="nc" id="L152">			    	transaction.rollback();</span>
+		    try { 
+<span class="nc" id="L147">		        System.out.println(person);</span>
+<span class="nc" id="L148">		        read = true;</span>
+<span class="nc" id="L149">			} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">			    if (transaction!=null) {</span>
+<span class="nc" id="L151">			    	transaction.rollback();</span>
 			    }
-<span class="nc" id="L154">			    e.printStackTrace(); </span>
+<span class="nc" id="L153">			    e.printStackTrace(); </span>
 		    } finally {
-<span class="nc" id="L156">		        session.close(); </span>
+<span class="nc" id="L155">		        session.close(); </span>
 			}
 	    }
-<span class="nc" id="L159">	    return read;</span>
+<span class="nc" id="L158">	    return read;</span>
     }
 
     public Person getPersonWithId(Integer personId) {
-<span class="nc" id="L163">    	session = factory.openSession();</span>
-<span class="nc" id="L164">    	Person person = new Person();</span>
+<span class="nc" id="L162">    	session = factory.openSession();</span>
+<span class="nc" id="L163">    	Person person = new Person();</span>
 	    try {
-<span class="nc" id="L166">	        person = (Person) session.get(Person.class, personId);</span>
-<span class="nc" id="L167">		} catch (HibernateException e) {</span>
-<span class="nc bnc" id="L168" title="All 2 branches missed.">		    if (transaction!=null) {</span>
-<span class="nc" id="L169">		    	transaction.rollback();</span>
+<span class="nc" id="L165">	        person = (Person) session.get(Person.class, personId);</span>
+<span class="nc" id="L166">		} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">		    if (transaction!=null) {</span>
+<span class="nc" id="L168">		    	transaction.rollback();</span>
 		    }
-<span class="nc" id="L171">		    e.printStackTrace(); </span>
+<span class="nc" id="L170">		    e.printStackTrace(); </span>
 	    } finally {
-<span class="nc" id="L173">	        session.close(); </span>
+<span class="nc" id="L172">	        session.close(); </span>
 		}
-<span class="nc" id="L175">		return person;</span>
+<span class="nc" id="L174">		return person;</span>
     }
 
-<span class="nc" id="L178">    public enum ListingOrder {</span>
-<span class="nc" id="L179">		DEFAULT, GWA, LASTNAME, DATEHIRED</span>
+<span class="nc" id="L177">    public enum ListingOrder {</span>
+<span class="nc" id="L178">		DEFAULT, GWA, LASTNAME, DATEHIRED</span>
 	}
 
     public List&lt;Person&gt; getPersonsAsList(ListingOrder order) {
-<span class="nc" id="L183">    	List&lt;Person&gt; persons = new ArrayList&lt;Person&gt;();</span>
+<span class="nc" id="L182">    	List&lt;Person&gt; persons = new ArrayList&lt;Person&gt;();</span>
     	try {
-<span class="nc" id="L185">	    	boolean sortByGWA=false;</span>
-<span class="nc" id="L186">			session = factory.openSession();</span>
-<span class="nc" id="L187">	        transaction = session.beginTransaction();</span>
-<span class="nc" id="L188">	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();</span>
-<span class="nc" id="L189">	        CriteriaQuery&lt;Person&gt; criteriaQuery = criteriaBuilder.createQuery(Person.class);</span>
-<span class="nc" id="L190">	        Root&lt;Person&gt; root = criteriaQuery.from(Person.class);</span>
-<span class="nc bnc" id="L191" title="All 4 branches missed.">			switch(order) {</span>
+<span class="nc" id="L184">	    	boolean sortByGWA=false;</span>
+<span class="nc" id="L185">			session = factory.openSession();</span>
+<span class="nc" id="L186">	        transaction = session.beginTransaction();</span>
+<span class="nc" id="L187">	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();</span>
+<span class="nc" id="L188">	        CriteriaQuery&lt;Person&gt; criteriaQuery = criteriaBuilder.createQuery(Person.class);</span>
+<span class="nc" id="L189">	        Root&lt;Person&gt; root = criteriaQuery.from(Person.class);</span>
+<span class="nc bnc" id="L190" title="All 4 branches missed.">			switch(order) {</span>
 				case GWA:
-<span class="nc" id="L193">					sortByGWA = true;</span>
-<span class="nc" id="L194">					criteriaQuery.select(root);</span>
-<span class="nc" id="L195">					break;</span>
+<span class="nc" id="L192">					sortByGWA = true;</span>
+<span class="nc" id="L193">					criteriaQuery.select(root);</span>
+<span class="nc" id="L194">					break;</span>
 				case LASTNAME:
-<span class="nc" id="L197">					criteriaQuery.orderBy(criteriaBuilder.asc(root.get(&quot;name&quot;)));</span>
-<span class="nc" id="L198">					break;</span>
+<span class="nc" id="L196">					criteriaQuery.orderBy(criteriaBuilder.asc(root.get(&quot;name&quot;)));</span>
+<span class="nc" id="L197">					break;</span>
 				case DATEHIRED:
-<span class="nc" id="L200">					criteriaQuery.orderBy(criteriaBuilder.desc(root.get(&quot;dateHired&quot;)));</span>
-<span class="nc" id="L201">					break;</span>
+<span class="nc" id="L199">					criteriaQuery.orderBy(criteriaBuilder.desc(root.get(&quot;dateHired&quot;)));</span>
+<span class="nc" id="L200">					break;</span>
 				default:
-<span class="nc" id="L203">					criteriaQuery.select(root);</span>
+<span class="nc" id="L202">					criteriaQuery.select(root);</span>
 			}
-<span class="nc" id="L205">			Query&lt;Person&gt; query = session.createQuery(criteriaQuery);</span>
-<span class="nc" id="L206">	        persons = query.getResultList();</span>
-<span class="nc bnc" id="L207" title="All 2 branches missed.">	        if(sortByGWA) {</span>
-<span class="nc" id="L208">	        	Collections.sort(persons);</span>
+<span class="nc" id="L204">			Query&lt;Person&gt; query = session.createQuery(criteriaQuery);</span>
+<span class="nc" id="L205">	        persons = query.getResultList();</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">	        if(sortByGWA) {</span>
+<span class="nc" id="L207">	        	Collections.sort(persons);</span>
 	        }
-<span class="nc" id="L210">		} catch (HibernateException e) {</span>
-<span class="nc bnc" id="L211" title="All 2 branches missed.">			if (transaction!=null) transaction.rollback();</span>
-<span class="nc" id="L212">			e.printStackTrace(); </span>
+<span class="nc" id="L209">		} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L210" title="All 2 branches missed.">			if (transaction!=null) transaction.rollback();</span>
+<span class="nc" id="L211">			e.printStackTrace(); </span>
 		} finally {
-<span class="nc" id="L214">			session.close(); </span>
+<span class="nc" id="L213">			session.close(); </span>
 		}
-<span class="nc" id="L216">    	return persons;</span>
+<span class="nc" id="L215">    	return persons;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

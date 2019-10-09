@@ -7,8 +7,8 @@
 <id name="id" type="int" column="id">
 <generator class="identity"/>
 </id>
-<property name="contact" column="contact" type="string"/>
-<property name="type" column="type">
+<property name="contact" column="contact" not-null="true" unique="true" type="string"/>
+<property name="type" column="type" not-null="true" >
     <type name="org.hibernate.type.EnumType">
         <param name="enumClass">com.ecc.app.Contact$ContactType</param>
         <param name="useNamed">true</param>

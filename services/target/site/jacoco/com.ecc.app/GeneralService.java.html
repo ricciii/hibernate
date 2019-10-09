@@ -53,7 +53,7 @@ public class GeneralService {
 
 	public boolean read(List objects) {
 <span class="nc" id="L55">    	boolean read = false;</span>
-<span class="nc bnc" id="L56" title="All 2 branches missed.">        if(objects == null) {</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if(objects.isEmpty()) {</span>
 <span class="nc" id="L57">	        System.out.println(&quot;Table is empty.&quot;);</span>
         } else {
 
@@ -121,20 +121,5 @@ public class GeneralService {
 	    }
 <span class="nc" id="L122">	    return deleted;</span>
     }
-
-  //   public Object getObjectWithId(Object object, Integer objectId) {
-  //   	session = factory.openSession();
-	 //    try {
-	 //        Object fetchedObject = session.get(object.getClass(), objectId);
-		// } catch (HibernateException e) {
-		//     if (transaction!=null) {
-		//     	transaction.rollback();
-		//     }
-		//     e.printStackTrace(); 
-	 //    } finally {
-	 //        session.close(); 
-		// }
-		// return fetchedObject;
-  //   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

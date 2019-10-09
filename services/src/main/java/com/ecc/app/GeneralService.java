@@ -53,7 +53,7 @@ public class GeneralService {
 
 	public boolean read(List objects) {
     	boolean read = false;
-        if(objects == null) {
+        if(objects.isEmpty()) {
 	        System.out.println("Table is empty.");
         } else {
 
@@ -121,19 +121,4 @@ public class GeneralService {
 	    }
 	    return deleted;
     }
-
-  //   public Object getObjectWithId(Object object, Integer objectId) {
-  //   	session = factory.openSession();
-	 //    try {
-	 //        Object fetchedObject = session.get(object.getClass(), objectId);
-		// } catch (HibernateException e) {
-		//     if (transaction!=null) {
-		//     	transaction.rollback();
-		//     }
-		//     e.printStackTrace(); 
-	 //    } finally {
-	 //        session.close(); 
-		// }
-		// return fetchedObject;
-  //   }
 }

@@ -27,7 +27,6 @@ public class GeneratorService {
     	GregorianCalendar dateHired = generateDateHired();
     	boolean currentlyEmployed = generateCurrentlyEmployed();
     	Person person = new Person(name, address, dateOfBirth, gwa, dateHired, currentlyEmployed);
-        
         System.out.print("Do you want to add a contact?\n1=YES, input anything for NO: ");
         try {
             string = scanner.getString();
@@ -202,7 +201,7 @@ public class GeneratorService {
     public Role generateRole() {
         Role role = new Role();
         String string;
-        System.out.print("Input: ");
+        System.out.print("Input role: ");
         string = scanner.getString();
         role.setRole(string);
         return role;

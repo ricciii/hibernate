@@ -4,6 +4,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session; 
 import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
+import org.hibernate.SQLQuery;
 import java.util.Scanner;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -68,5 +69,40 @@ public class RoleService extends GeneralService {
 			session.close(); 
 		}
     	return roles;
+    }
+
+    public boolean delete(Role object) {
+	    boolean deleted = false;
+	    if(object == null) {
+	    	System.out.println("Object does not exist.");
+	    } else {
+		    session = factory.openSession();
+		    try {
+		    	transaction = session.beginTransaction();
+		    	CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+		        Root<Person> root = criteriaQuery.from(Person.class);
+		        criteriaQuery.select(root);
+		        Query<Person> query = session.createQuery(criteriaQuery);
+		        List<Person> persons = query.getResultList();
+		    	for (Person person : persons) {
+		    		person.getRoles().remove(object);
+		    	}
+		    	session.close();
+		    	session = factory.openSession();
+		    	transaction = session.beginTransaction();
+		        session.delete(object); 
+			    transaction.commit();
+			    deleted = true;
+			} catch (HibernateException e) {
+			    if (transaction!=null) {
+			    	transaction.rollback();
+			    }
+			    e.printStackTrace(); 
+		    } finally {
+		        session.close(); 
+			}
+	    }
+	    return deleted;
     }
 }

@@ -7,6 +7,6 @@
 <id name="id" type="int" column="id">
 <generator class="identity"/>
 </id>
-<property name="role" column="role" type="string"/>
+<property name="role" column="role" not-null="true" unique="true" type="string"/>
 </class>
 </hibernate-mapping>

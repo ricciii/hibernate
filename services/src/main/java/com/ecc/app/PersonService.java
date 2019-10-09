@@ -143,8 +143,7 @@ public class PersonService extends GeneralService {
 	    	System.out.println("Person with ID: " + personId + " does not exist.\n");
 	    } else {
 	    	session = factory.openSession();
-		    try {
-		        person = (Person) session.get(Person.class, personId); 
+		    try { 
 		        System.out.println(person);
 		        read = true;
 			} catch (HibernateException e) {

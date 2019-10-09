@@ -1,11 +1,13 @@
 package com.ecc.app;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.concurrent.Phaser;
 import java.util.Scanner;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
+import java.util.HashSet;
  
 public class GeneratorServiceTest {
  
@@ -63,5 +65,41 @@ public class GeneratorServiceTest {
         assertEquals(expected, generator.generateGwa());
     }
 
+    @Test
+    public void testGenerateCurrentlyEmployed() throws Exception {
+        String input = "false\n";
+        Scanner scanner = new Scanner(input);
+        ScannerUtil scannerUtil = new ScannerUtil(scanner);
+        GeneratorService generator = new GeneratorService(scannerUtil);
+        boolean expected = false;
+        assertEquals(expected, generator.generateCurrentlyEmployed());
+    }
 
+    @Test
+    public void testGenerateContact() throws Exception {
+        String input = "1\n09274990787\n";
+        Scanner scanner = new Scanner(input);
+        ScannerUtil scannerUtil = new ScannerUtil(scanner);
+        GeneratorService generator = new GeneratorService(scannerUtil);
+        String expected = "09274990787";
+        assertEquals(expected, generator.generateContact().getContact());
+    }
+
+    
+    @Test
+    @Tag("SkipTest")
+    public void testGenerateContacts() throws Exception {
+        String input = "1\n09274990787\n1\n2\n911\n1\n3\nemail@gmail.com\n2\n";
+        Scanner scanner = new Scanner(input);
+        ScannerUtil scannerUtil = new ScannerUtil(scanner);
+        GeneratorService generator = new GeneratorService(scannerUtil);
+        String expected = "09274990787";
+        HashSet<Contact> contacts = generator.generateContacts();
+        Contact contact1 = new Contact(Contact.ContactType.MOBILE, "09274990787");
+        Contact contact2 = new Contact(Contact.ContactType.LANDLINE, "911");
+        Contact contact3 = new Contact(Contact.ContactType.EMAIL, "email@gmail.com");
+        assertTrue(contacts.contains(contact1));
+        assertTrue(contacts.contains(contact2));
+        assertTrue(contacts.contains(contact3));
+    }
 }
