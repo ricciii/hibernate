@@ -99,6 +99,8 @@ public class RoleService extends GeneralService {
 			    	transaction.rollback();
 			    }
 			    e.printStackTrace(); 
+		    } catch (Exception exception) {
+		    	System.out.println(exception);
 		    } finally {
 		        session.close(); 
 			}

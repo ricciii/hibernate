@@ -158,11 +158,11 @@ public class PersonService extends GeneralService {
 <span class="nc" id="L158">	    return read;</span>
     }
 
-    public Person getPersonWithId(Integer personId) {
+    public Contact getContactWithId(Integer contactId) {
 <span class="nc" id="L162">    	session = factory.openSession();</span>
-<span class="nc" id="L163">    	Person person = new Person();</span>
+<span class="nc" id="L163">    	Contact contact = new Contact();</span>
 	    try {
-<span class="nc" id="L165">	        person = (Person) session.get(Person.class, personId);</span>
+<span class="nc" id="L165">	        contact = (Contact) session.get(Contact.class, contactId);</span>
 <span class="nc" id="L166">		} catch (HibernateException e) {</span>
 <span class="nc bnc" id="L167" title="All 2 branches missed.">		    if (transaction!=null) {</span>
 <span class="nc" id="L168">		    	transaction.rollback();</span>
@@ -171,48 +171,64 @@ public class PersonService extends GeneralService {
 	    } finally {
 <span class="nc" id="L172">	        session.close(); </span>
 		}
-<span class="nc" id="L174">		return person;</span>
+<span class="nc" id="L174">		return contact;</span>
     }
 
-<span class="nc" id="L177">    public enum ListingOrder {</span>
-<span class="nc" id="L178">		DEFAULT, GWA, LASTNAME, DATEHIRED</span>
+    public Person getPersonWithId(Integer personId) {
+<span class="nc" id="L178">    	session = factory.openSession();</span>
+<span class="nc" id="L179">    	Person person = new Person();</span>
+	    try {
+<span class="nc" id="L181">	        person = (Person) session.get(Person.class, personId);</span>
+<span class="nc" id="L182">		} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">		    if (transaction!=null) {</span>
+<span class="nc" id="L184">		    	transaction.rollback();</span>
+		    }
+<span class="nc" id="L186">		    e.printStackTrace(); </span>
+	    } finally {
+<span class="nc" id="L188">	        session.close(); </span>
+		}
+<span class="nc" id="L190">		return person;</span>
+    }
+
+<span class="nc" id="L193">    public enum ListingOrder {</span>
+<span class="nc" id="L194">		DEFAULT, GWA, LASTNAME, DATEHIRED</span>
 	}
 
     public List&lt;Person&gt; getPersonsAsList(ListingOrder order) {
-<span class="nc" id="L182">    	List&lt;Person&gt; persons = new ArrayList&lt;Person&gt;();</span>
+<span class="nc" id="L198">    	List&lt;Person&gt; persons = new ArrayList&lt;Person&gt;();</span>
     	try {
-<span class="nc" id="L184">	    	boolean sortByGWA=false;</span>
-<span class="nc" id="L185">			session = factory.openSession();</span>
-<span class="nc" id="L186">	        transaction = session.beginTransaction();</span>
-<span class="nc" id="L187">	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();</span>
-<span class="nc" id="L188">	        CriteriaQuery&lt;Person&gt; criteriaQuery = criteriaBuilder.createQuery(Person.class);</span>
-<span class="nc" id="L189">	        Root&lt;Person&gt; root = criteriaQuery.from(Person.class);</span>
-<span class="nc bnc" id="L190" title="All 4 branches missed.">			switch(order) {</span>
+<span class="nc" id="L200">	    	boolean sortByGWA=false;</span>
+<span class="nc" id="L201">			session = factory.openSession();</span>
+<span class="nc" id="L202">	        transaction = session.beginTransaction();</span>
+<span class="nc" id="L203">	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();</span>
+<span class="nc" id="L204">	        CriteriaQuery&lt;Person&gt; criteriaQuery = criteriaBuilder.createQuery(Person.class);</span>
+<span class="nc" id="L205">	        Root&lt;Person&gt; root = criteriaQuery.from(Person.class);</span>
+<span class="nc bnc" id="L206" title="All 4 branches missed.">			switch(order) {</span>
 				case GWA:
-<span class="nc" id="L192">					sortByGWA = true;</span>
-<span class="nc" id="L193">					criteriaQuery.select(root);</span>
-<span class="nc" id="L194">					break;</span>
+<span class="nc" id="L208">					sortByGWA = true;</span>
+<span class="nc" id="L209">					criteriaQuery.select(root);</span>
+<span class="nc" id="L210">					break;</span>
 				case LASTNAME:
-<span class="nc" id="L196">					criteriaQuery.orderBy(criteriaBuilder.asc(root.get(&quot;name&quot;)));</span>
-<span class="nc" id="L197">					break;</span>
+<span class="nc" id="L212">					criteriaQuery.orderBy(criteriaBuilder.asc(root.get(&quot;name&quot;)));</span>
+<span class="nc" id="L213">					break;</span>
 				case DATEHIRED:
-<span class="nc" id="L199">					criteriaQuery.orderBy(criteriaBuilder.desc(root.get(&quot;dateHired&quot;)));</span>
-<span class="nc" id="L200">					break;</span>
+<span class="nc" id="L215">					criteriaQuery.orderBy(criteriaBuilder.desc(root.get(&quot;dateHired&quot;)));</span>
+<span class="nc" id="L216">					break;</span>
 				default:
-<span class="nc" id="L202">					criteriaQuery.select(root);</span>
+<span class="nc" id="L218">					criteriaQuery.select(root);</span>
 			}
-<span class="nc" id="L204">			Query&lt;Person&gt; query = session.createQuery(criteriaQuery);</span>
-<span class="nc" id="L205">	        persons = query.getResultList();</span>
-<span class="nc bnc" id="L206" title="All 2 branches missed.">	        if(sortByGWA) {</span>
-<span class="nc" id="L207">	        	Collections.sort(persons);</span>
+<span class="nc" id="L220">			Query&lt;Person&gt; query = session.createQuery(criteriaQuery);</span>
+<span class="nc" id="L221">	        persons = query.getResultList();</span>
+<span class="nc bnc" id="L222" title="All 2 branches missed.">	        if(sortByGWA) {</span>
+<span class="nc" id="L223">	        	Collections.sort(persons);</span>
 	        }
-<span class="nc" id="L209">		} catch (HibernateException e) {</span>
-<span class="nc bnc" id="L210" title="All 2 branches missed.">			if (transaction!=null) transaction.rollback();</span>
-<span class="nc" id="L211">			e.printStackTrace(); </span>
+<span class="nc" id="L225">		} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">			if (transaction!=null) transaction.rollback();</span>
+<span class="nc" id="L227">			e.printStackTrace(); </span>
 		} finally {
-<span class="nc" id="L213">			session.close(); </span>
+<span class="nc" id="L229">			session.close(); </span>
 		}
-<span class="nc" id="L215">    	return persons;</span>
+<span class="nc" id="L231">    	return persons;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

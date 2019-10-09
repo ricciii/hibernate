@@ -221,7 +221,8 @@ public class PersonMenu implements Menu {
 	    			case 1:
 	    				System.out.println("Adding contact: ");
 	    				HashSet contacts = generator.generateContacts();
-	    				boolean added = personService.addContacts(personId, contacts);
+	    				person.getContacts().addAll(contacts);
+	    				boolean added = personService.update(person);
 	    				if(added) {
 							System.out.println("Successfully added contact/s.");
 	    				} else {
@@ -231,11 +232,17 @@ public class PersonMenu implements Menu {
 	    			case 2:
 	    				System.out.print("Input the ID of the contact you want to delete: ");
 	    				contactId = generator.generateId();
-	    				boolean deleted = personService.deleteContact(personId, contactId);
-	    				if(deleted) {
-	    					System.out.println("Successfully deleted contact.");
+	    				Contact contact = personService.getContactWithId(contactId);
+	    				if(contact==null) {
+	    					System.out.println("Role does not exist");
 	    				} else {
-	    					System.out.println("Contact was unsuccessfully deleted.");
+	    					person.getContacts().remove(contact);
+	    					boolean deleted = personService.update(person);
+	    					if(deleted) {
+	    					System.out.println("Successfully deleted contact.");
+	    					} else {
+	    						System.out.println("Contact was unsuccessfully deleted.");
+	    					}
 	    				}
 	    				break;
 	    			case 3:
@@ -267,7 +274,8 @@ public class PersonMenu implements Menu {
 	    		switch(choice) {
 	    			case 1:
 	    				roles = generator.generateRoles(roleService);
-	    				boolean assigned = personService.addRoles(personId, roles);
+	    				person.getRoles().addAll(roles);
+	    				boolean assigned = personService.update(person);
 	    				if(assigned) {
 	    					System.out.println("Successfully assigned role.");
 	    				} else {
@@ -277,11 +285,17 @@ public class PersonMenu implements Menu {
 	    			case 2:
 	    				System.out.print("Input the Role ID you want to delete: ");
 	    				roleId = generator.generateId();
-	    				boolean deleted = personService.deleteRole(personId, roleId);
-	    				if(deleted) {
-	    					System.out.println("Successfully deleted role.");
+	    				role = roleService.getRoleWithId(roleId);
+	    				if(role==null) {
+	    					System.out.println("Role does not exist");
 	    				} else {
-	    					System.out.println("Role was unsuccessfully deleted.");
+	    					person.getRoles().remove(role);
+	    					boolean deleted = personService.update(person);
+	    					if(deleted) {
+	    					System.out.println("Successfully deleted role.");
+	    					} else {
+	    						System.out.println("Role was unsuccessfully deleted.");
+	    					}
 	    				}
 	    				break;
 	    			case 3:

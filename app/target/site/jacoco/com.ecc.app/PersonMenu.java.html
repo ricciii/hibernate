@@ -221,79 +221,93 @@ public class PersonMenu implements Menu {
 	    			case 1:
 <span class="nc" id="L222">	    				System.out.println(&quot;Adding contact: &quot;);</span>
 <span class="nc" id="L223">	    				HashSet contacts = generator.generateContacts();</span>
-<span class="nc" id="L224">	    				boolean added = personService.addContacts(personId, contacts);</span>
-<span class="nc bnc" id="L225" title="All 2 branches missed.">	    				if(added) {</span>
-<span class="nc" id="L226">							System.out.println(&quot;Successfully added contact/s.&quot;);</span>
+<span class="nc" id="L224">	    				person.getContacts().addAll(contacts);</span>
+<span class="nc" id="L225">	    				boolean added = personService.update(person);</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">	    				if(added) {</span>
+<span class="nc" id="L227">							System.out.println(&quot;Successfully added contact/s.&quot;);</span>
 	    				} else {
-<span class="nc" id="L228">	    					System.out.println(&quot;Contact/s was unsuccessfully added.&quot;);</span>
+<span class="nc" id="L229">	    					System.out.println(&quot;Contact/s was unsuccessfully added.&quot;);</span>
 	    				}
-<span class="nc" id="L230">	    				break;</span>
+<span class="nc" id="L231">	    				break;</span>
 	    			case 2:
-<span class="nc" id="L232">	    				System.out.print(&quot;Input the ID of the contact you want to delete: &quot;);</span>
-<span class="nc" id="L233">	    				contactId = generator.generateId();</span>
-<span class="nc" id="L234">	    				boolean deleted = personService.deleteContact(personId, contactId);</span>
-<span class="nc bnc" id="L235" title="All 2 branches missed.">	    				if(deleted) {</span>
-<span class="nc" id="L236">	    					System.out.println(&quot;Successfully deleted contact.&quot;);</span>
+<span class="nc" id="L233">	    				System.out.print(&quot;Input the ID of the contact you want to delete: &quot;);</span>
+<span class="nc" id="L234">	    				contactId = generator.generateId();</span>
+<span class="nc" id="L235">	    				Contact contact = personService.getContactWithId(contactId);</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">	    				if(contact==null) {</span>
+<span class="nc" id="L237">	    					System.out.println(&quot;Role does not exist&quot;);</span>
 	    				} else {
-<span class="nc" id="L238">	    					System.out.println(&quot;Contact was unsuccessfully deleted.&quot;);</span>
+<span class="nc" id="L239">	    					person.getContacts().remove(contact);</span>
+<span class="nc" id="L240">	    					boolean deleted = personService.update(person);</span>
+<span class="nc bnc" id="L241" title="All 2 branches missed.">	    					if(deleted) {</span>
+<span class="nc" id="L242">	    					System.out.println(&quot;Successfully deleted contact.&quot;);</span>
+	    					} else {
+<span class="nc" id="L244">	    						System.out.println(&quot;Contact was unsuccessfully deleted.&quot;);</span>
+	    					}
 	    				}
-<span class="nc" id="L240">	    				break;</span>
+<span class="nc" id="L247">	    				break;</span>
 	    			case 3:
-<span class="nc" id="L242">	    				done = true;</span>
-<span class="nc" id="L243">	    				break;</span>
+<span class="nc" id="L249">	    				done = true;</span>
+<span class="nc" id="L250">	    				break;</span>
 	    			default: 
-<span class="nc" id="L245">	    				System.out.println(&quot;Not in the choices, try again.&quot;);</span>
+<span class="nc" id="L252">	    				System.out.println(&quot;Not in the choices, try again.&quot;);</span>
 	    		}
-<span class="nc" id="L247">	    	} catch(Exception exception) {</span>
-<span class="nc" id="L248">	    		System.out.print(exception);</span>
-<span class="nc" id="L249">	    	}</span>
-<span class="nc bnc" id="L250" title="All 2 branches missed.">    	} while(done==false);</span>
-<span class="nc" id="L251">    }</span>
+<span class="nc" id="L254">	    	} catch(Exception exception) {</span>
+<span class="nc" id="L255">	    		System.out.print(exception);</span>
+<span class="nc" id="L256">	    	}</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">    	} while(done==false);</span>
+<span class="nc" id="L258">    }</span>
 
     public void showUpdatePersonRolesMenu(Person person, Integer personId) {
     	int choice;
-<span class="nc" id="L255">    	Integer roleId = null;</span>
-<span class="nc" id="L256">    	boolean done = true;</span>
-<span class="nc" id="L257">    	Role role = new Role();</span>
+<span class="nc" id="L262">    	Integer roleId = null;</span>
+<span class="nc" id="L263">    	boolean done = true;</span>
+<span class="nc" id="L264">    	Role role = new Role();</span>
     	HashSet roles;
-<span class="nc" id="L259">    	personService.readPerson(personId);</span>
+<span class="nc" id="L266">    	personService.readPerson(personId);</span>
     	do {
-<span class="nc" id="L261">    		System.out.println(&quot;\n&lt;-- UPDATE PERSON ROLES MENU --&gt;\n&quot;);</span>
-<span class="nc" id="L262">    		System.out.println(&quot;Updating Roles of Person with ID: &quot; + personId);</span>
-<span class="nc" id="L263">	    	System.out.println(&quot;1=Assign Role 2=Unassign Role 3=EXIT&quot;);</span>
-<span class="nc" id="L264">	    	System.out.print(&quot;What do you want to do: &quot;);</span>
+<span class="nc" id="L268">    		System.out.println(&quot;\n&lt;-- UPDATE PERSON ROLES MENU --&gt;\n&quot;);</span>
+<span class="nc" id="L269">    		System.out.println(&quot;Updating Roles of Person with ID: &quot; + personId);</span>
+<span class="nc" id="L270">	    	System.out.println(&quot;1=Assign Role 2=Unassign Role 3=EXIT&quot;);</span>
+<span class="nc" id="L271">	    	System.out.print(&quot;What do you want to do: &quot;);</span>
 	    	try {
-<span class="nc" id="L266">	    		choice = scanner.getInt();</span>
-<span class="nc bnc" id="L267" title="All 4 branches missed.">	    		switch(choice) {</span>
+<span class="nc" id="L273">	    		choice = scanner.getInt();</span>
+<span class="nc bnc" id="L274" title="All 4 branches missed.">	    		switch(choice) {</span>
 	    			case 1:
-<span class="nc" id="L269">	    				roles = generator.generateRoles(roleService);</span>
-<span class="nc" id="L270">	    				boolean assigned = personService.addRoles(personId, roles);</span>
-<span class="nc bnc" id="L271" title="All 2 branches missed.">	    				if(assigned) {</span>
-<span class="nc" id="L272">	    					System.out.println(&quot;Successfully assigned role.&quot;);</span>
+<span class="nc" id="L276">	    				roles = generator.generateRoles(roleService);</span>
+<span class="nc" id="L277">	    				person.getRoles().addAll(roles);</span>
+<span class="nc" id="L278">	    				boolean assigned = personService.update(person);</span>
+<span class="nc bnc" id="L279" title="All 2 branches missed.">	    				if(assigned) {</span>
+<span class="nc" id="L280">	    					System.out.println(&quot;Successfully assigned role.&quot;);</span>
 	    				} else {
-<span class="nc" id="L274">	    					System.out.println(&quot;Role was unsuccessfully added.&quot;);</span>
+<span class="nc" id="L282">	    					System.out.println(&quot;Role was unsuccessfully added.&quot;);</span>
 	    				}
-<span class="nc" id="L276">	    				break;</span>
+<span class="nc" id="L284">	    				break;</span>
 	    			case 2:
-<span class="nc" id="L278">	    				System.out.print(&quot;Input the Role ID you want to delete: &quot;);</span>
-<span class="nc" id="L279">	    				roleId = generator.generateId();</span>
-<span class="nc" id="L280">	    				boolean deleted = personService.deleteRole(personId, roleId);</span>
-<span class="nc bnc" id="L281" title="All 2 branches missed.">	    				if(deleted) {</span>
-<span class="nc" id="L282">	    					System.out.println(&quot;Successfully deleted role.&quot;);</span>
+<span class="nc" id="L286">	    				System.out.print(&quot;Input the Role ID you want to delete: &quot;);</span>
+<span class="nc" id="L287">	    				roleId = generator.generateId();</span>
+<span class="nc" id="L288">	    				role = roleService.getRoleWithId(roleId);</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">	    				if(role==null) {</span>
+<span class="nc" id="L290">	    					System.out.println(&quot;Role does not exist&quot;);</span>
 	    				} else {
-<span class="nc" id="L284">	    					System.out.println(&quot;Role was unsuccessfully deleted.&quot;);</span>
+<span class="nc" id="L292">	    					person.getRoles().remove(role);</span>
+<span class="nc" id="L293">	    					boolean deleted = personService.update(person);</span>
+<span class="nc bnc" id="L294" title="All 2 branches missed.">	    					if(deleted) {</span>
+<span class="nc" id="L295">	    					System.out.println(&quot;Successfully deleted role.&quot;);</span>
+	    					} else {
+<span class="nc" id="L297">	    						System.out.println(&quot;Role was unsuccessfully deleted.&quot;);</span>
+	    					}
 	    				}
-<span class="nc" id="L286">	    				break;</span>
+<span class="nc" id="L300">	    				break;</span>
 	    			case 3:
-<span class="nc" id="L288">	    				done = true;</span>
-<span class="nc" id="L289">	    				break;</span>
+<span class="nc" id="L302">	    				done = true;</span>
+<span class="nc" id="L303">	    				break;</span>
 	    			default: 
-<span class="nc" id="L291">	    				System.out.println(&quot;Not in the choices, try again.&quot;);</span>
+<span class="nc" id="L305">	    				System.out.println(&quot;Not in the choices, try again.&quot;);</span>
 	    		}
-<span class="nc" id="L293">	    	} catch(Exception exception) {</span>
-<span class="nc" id="L294">	    		System.out.print(exception);</span>
-<span class="nc" id="L295">	    	}</span>
-<span class="nc bnc" id="L296" title="All 2 branches missed.">    	} while(done==false);</span>
-<span class="nc" id="L297">    }</span>
+<span class="nc" id="L307">	    	} catch(Exception exception) {</span>
+<span class="nc" id="L308">	    		System.out.print(exception);</span>
+<span class="nc" id="L309">	    	}</span>
+<span class="nc bnc" id="L310" title="All 2 branches missed.">    	} while(done==false);</span>
+<span class="nc" id="L311">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -99,11 +99,13 @@ public class RoleService extends GeneralService {
 <span class="nc" id="L99">			    	transaction.rollback();</span>
 			    }
 <span class="nc" id="L101">			    e.printStackTrace(); </span>
+<span class="nc" id="L102">		    } catch (Exception exception) {</span>
+<span class="nc" id="L103">		    	System.out.println(exception);</span>
 		    } finally {
-<span class="nc" id="L103">		        session.close(); </span>
+<span class="nc" id="L105">		        session.close(); </span>
 			}
 	    }
-<span class="nc" id="L106">	    return deleted;</span>
+<span class="nc" id="L108">	    return deleted;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
