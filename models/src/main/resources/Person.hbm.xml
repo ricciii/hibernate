@@ -19,7 +19,7 @@
 	<property name="municipality" column="municipality" not-null="true" type="string"/>
 	<property name="zipCode" column="zip_code" not-null="true" type="string"/>
 </component>
-<set name = "contacts" cascade="save-update, delete-orphan" fetch="select" lazy="false">
+<set name = "contacts" cascade="save-update, delete-orphan" fetch="join" lazy="false">
     <key column = "person_id"/>
     <one-to-many class="com.ecc.app.Contact"/>
 </set>

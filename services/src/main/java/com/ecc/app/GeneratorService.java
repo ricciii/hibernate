@@ -9,16 +9,16 @@ import java.util.InputMismatchException;
 
 public class GeneratorService {
     
-    InputProvider scanner;
+    ScannerUtil scanner;
 
-    public GeneratorService(InputProvider scanner) {
+    public GeneratorService(ScannerUtil scanner) {
         this.scanner = scanner;
     }
 
     public GeneratorService() {
     }
 
-    public Person generatePerson(RoleService roleService) {
+    public Person generatePerson() {
     	String string;
         Name name = generateName();
     	Address address = generateAddress();
@@ -43,7 +43,7 @@ public class GeneratorService {
             string = scanner.getString();
             if("1".equals(string)) {
                 HashSet roles = new HashSet();
-                roles = generateRoles(roleService);
+                roles = generateRoles();
                 person.setRoles(roles);
             }
         } catch(Exception e) {
@@ -219,36 +219,36 @@ public class GeneratorService {
 		return roles;
 	}
 
-    public Role generateRole(RoleService roleService) {
-        Role role;
-        System.out.println("Available Roles:");
-        List<Role> roles = roleService.getRolesAsList();
-        roleService.read(roles);
-        System.out.print("Input ID of Role you want to assign:");
-        Integer roleId = generateId();
-        role = roleService.getRoleWithId(roleId);
-        return role;
-    }
+    // public Role generateRole(RoleService roleService) {
+    //     Role role;
+    //     System.out.println("Available Roles:");
+    //     List<Role> roles = roleService.getRolesAsList();
+    //     roleService.read(roles);
+    //     System.out.print("Input ID of Role you want to assign:");
+    //     Integer roleId = generateId();
+    //     role = roleService.getRoleWithId(roleId);
+    //     return role;
+    // }
 
-    public HashSet generateRoles(RoleService roleService) {
-        HashSet roles = new HashSet();
-        Role role;
-        String choice;
-        boolean done = false;
-        do {
-            role = generateRole(roleService);
-            if(role==null) {
-                System.out.println("Role does not exist.");
-            } else {
-                roles.add(role);
-            }
-            System.out.println("Do you want to add more?");
-            System.out.print("1=YES, Input anything for NO: "); 
-            choice = scanner.getString();
-            if(!"1".equals(choice)) {
-                done = true;
-            } 
-        } while(done==false);
-        return roles;
-    }
+    // public HashSet generateRoles(RoleService roleService) {
+    //     HashSet roles = new HashSet();
+    //     Role role;
+    //     String choice;
+    //     boolean done = false;
+    //     do {
+    //         role = generateRole(roleService);
+    //         if(role==null) {
+    //             System.out.println("Role does not exist.");
+    //         } else {
+    //             roles.add(role);
+    //         }
+    //         System.out.println("Do you want to add more?");
+    //         System.out.print("1=YES, Input anything for NO: "); 
+    //         choice = scanner.getString();
+    //         if(!"1".equals(choice)) {
+    //             done = true;
+    //         } 
+    //     } while(done==false);
+    //     return roles;
+    // }
 }

@@ -1,3 +1,2 @@
 com/ecc/app/ScannerUtil.class
-ContactTypeException.class
-com/ecc/app/InputProvider.class
+com/ecc/app/ScannerUtilImpl.class
