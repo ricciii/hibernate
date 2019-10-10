@@ -37,7 +37,7 @@ public class GeneralService {
 		boolean created = false;
 		try {
 			transaction = session.beginTransaction();
-			session.save(object); 
+			session.persist(object); 
 			transaction.commit();
 			created = true;
 		} catch (HibernateException e) {
