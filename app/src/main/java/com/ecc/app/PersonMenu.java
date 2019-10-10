@@ -152,34 +152,42 @@ public class PersonMenu implements Menu {
 	    			case 1:
 	    				Name name = generator.generateName();
 	    				person.setName(name);
+	    				done = true; 
 	    				break;
 	    			case 2:
 	    				Address address = generator.generateAddress();
 	    				person.setAddress(address);
+	    				done = true; 
 	    				break;
 	    			case 3:
 	    				GregorianCalendar dateOfBirth = generator.generateDateOfBirth();
 	    				person.setDateOfBirth(dateOfBirth);
+	    				done = true; 
 	    				break;
 	    			case 4:
 	    				float gwa = generator.generateGwa();
 	    				person.setGwa(gwa);
+	    				done = true; 
 	    				break;
 	    			case 5:
 	    				GregorianCalendar dateHired = generator.generateDateHired();
 	    				person.setDateHired(dateHired);
+	    				done = true; 
 	    				break;
 	    			case 6:
 	    				boolean currentlyEmployed = generator.generateCurrentlyEmployed();
 	    				person.setCurrentlyEmployed(currentlyEmployed);
+	    				done = true; 
 	    				break;
 	    			case 7:
 	    				showUpdatePersonContactsMenu(person, personId);
 	    				skip = true;
+	    				done = true; 
 	    				break;
 	    			case 8:
 	    				showUpdatePersonRolesMenu(person, personId);
 	    				skip = true;
+	    				done = true; 
 	    				break;
 	    			case 9:
 	    				skip = true;
@@ -196,12 +204,12 @@ public class PersonMenu implements Menu {
     				} else {
     					System.out.println("Person unsuccessfully updated.");
     				}
-    			} 
-    			skip = false;
+    			} else {
+    				skip = false;
+    			}
 	    	} catch(Exception exception) {
 	    		System.out.print(exception);
 	    	} 
-
     	} while(done==false);
     }
 
@@ -211,7 +219,7 @@ public class PersonMenu implements Menu {
     	boolean done = false;
     	do {
     		personService.readPerson(personId);
-    		System.out.println("\n<-- UPDATE PERSON CONTACTS MENU -->\n");
+    		System.out.println("<-- UPDATE PERSON CONTACTS MENU -->\n");
     		System.out.println("Updating Contacts of Person with ID: " + personId);
 	    	System.out.println("1=Add Contact 2=Delete Contact 3=EXIT");
 	    	System.out.print("What do you want to do: ");
@@ -219,7 +227,6 @@ public class PersonMenu implements Menu {
 	    		choice = scanner.getInt();
 	    		switch(choice) {
 	    			case 1:
-	    				System.out.println("Adding contact: ");
 	    				HashSet contacts = generator.generateContacts();
 	    				person.getContacts().addAll(contacts);
 	    				boolean added = personService.update(person);
@@ -228,13 +235,15 @@ public class PersonMenu implements Menu {
 	    				} else {
 	    					System.out.println("Contact/s was unsuccessfully added.");
 	    				}
+	    				System.out.println();
+	    				done = true;
 	    				break;
 	    			case 2:
 	    				System.out.print("Input the ID of the contact you want to delete: ");
 	    				contactId = generator.generateId();
 	    				Contact contact = personService.getContactWithId(contactId);
 	    				if(contact==null) {
-	    					System.out.println("Role does not exist");
+	    					System.out.println("Contact does not exist");
 	    				} else {
 	    					person.getContacts().remove(contact);
 	    					boolean deleted = personService.update(person);
@@ -244,6 +253,8 @@ public class PersonMenu implements Menu {
 	    						System.out.println("Contact was unsuccessfully deleted.");
 	    					}
 	    				}
+	    				System.out.println();
+	    				done = true;
 	    				break;
 	    			case 3:
 	    				done = true;
@@ -265,14 +276,16 @@ public class PersonMenu implements Menu {
     	HashSet roles;
     	personService.readPerson(personId);
     	do {
-    		System.out.println("\n<-- UPDATE PERSON ROLES MENU -->\n");
+    		System.out.println("<-- UPDATE PERSON ROLES MENU -->\n");
     		System.out.println("Updating Roles of Person with ID: " + personId);
 	    	System.out.println("1=Assign Role 2=Unassign Role 3=EXIT");
 	    	System.out.print("What do you want to do: ");
 	    	try {
 	    		choice = scanner.getInt();
+	    		System.out.println();
 	    		switch(choice) {
 	    			case 1:
+	    				System.out.println();
 	    				roles = generator.generateRoles(roleService);
 	    				person.getRoles().addAll(roles);
 	    				boolean assigned = personService.update(person);
@@ -281,6 +294,7 @@ public class PersonMenu implements Menu {
 	    				} else {
 	    					System.out.println("Role was unsuccessfully added.");
 	    				}
+	    				done = true; 
 	    				break;
 	    			case 2:
 	    				System.out.print("Input the Role ID you want to delete: ");
@@ -297,6 +311,7 @@ public class PersonMenu implements Menu {
 	    						System.out.println("Role was unsuccessfully deleted.");
 	    					}
 	    				}
+	    				done = true; 
 	    				break;
 	    			case 3:
 	    				done = true;

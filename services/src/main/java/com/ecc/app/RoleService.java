@@ -71,25 +71,15 @@ public class RoleService extends GeneralService {
     	return roles;
     }
 
-    public boolean delete(Role object) {
+    @Override
+    public boolean delete(Object object) {
 	    boolean deleted = false;
 	    if(object == null) {
 	    	System.out.println("Object does not exist.");
 	    } else {
+	    	removeContactFromPerson(object);
 		    session = factory.openSession();
 		    try {
-		    	transaction = session.beginTransaction();
-		    	CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
-		        Root<Person> root = criteriaQuery.from(Person.class);
-		        criteriaQuery.select(root);
-		        Query<Person> query = session.createQuery(criteriaQuery);
-		        List<Person> persons = query.getResultList();
-		    	for (Person person : persons) {
-		    		person.getRoles().remove(object);
-		    	}
-		    	session.close();
-		    	session = factory.openSession();
 		    	transaction = session.beginTransaction();
 		        session.delete(object); 
 			    transaction.commit();
@@ -106,5 +96,31 @@ public class RoleService extends GeneralService {
 			}
 	    }
 	    return deleted;
+    }
+
+    public void removeContactFromPerson(Object object) {
+    	session = factory.openSession();
+	    try {
+	    	transaction = session.beginTransaction();
+	    	CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+	        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+	        Root<Person> root = criteriaQuery.from(Person.class);
+	        criteriaQuery.select(root);
+	        Query<Person> query = session.createQuery(criteriaQuery);
+	        List<Person> persons = query.getResultList();
+	    	for (Person person : persons) {
+	    		person.getRoles().remove(object);
+	    	}
+		    transaction.commit();
+		} catch (HibernateException e) {
+		    if (transaction!=null) {
+		    	transaction.rollback();
+		    }
+		    e.printStackTrace(); 
+	    } catch (Exception exception) {
+	    	System.out.println(exception);
+	    } finally {
+	        session.close(); 
+		}
     }
 }
