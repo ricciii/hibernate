@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatabaseServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">services</a> &gt; <a href="index.source.html" class="el_package">com.ecc.app</a> &gt; <span class="el_source">DatabaseServiceImpl.java</span></div><h1>DatabaseServiceImpl.java</h1><pre class="source lang-java linenums">package com.ecc.app;
+
+import org.hibernate.HibernateException; 
+import org.hibernate.Session; 
+import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import org.hibernate.Criteria;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import org.hibernate.query.Query;
+import java.util.Calendar;
+import java.util.InputMismatchException;
+import java.lang.IllegalArgumentException;
+
+public class DatabaseServiceImpl implements DatabaseService {
+	
+	private static SessionFactory factory;
+	private Session session;
+	private Transaction transaction;
+
+<span class="nc" id="L28">	public DatabaseServiceImpl() {</span>
+
+<span class="nc" id="L30">	}</span>
+
+	public void start() {
+		try {
+<span class="nc" id="L34">	        factory = new Configuration().configure().buildSessionFactory();</span>
+<span class="nc" id="L35">	    } catch (Throwable ex) { </span>
+<span class="nc" id="L36">	        System.err.println(&quot;Failed to create sessionFactory object.&quot; + ex);</span>
+<span class="nc" id="L37">	        throw new ExceptionInInitializerError(ex); </span>
+<span class="nc" id="L38">	    }</span>
+<span class="nc" id="L39">	}</span>
+
+	public boolean create(Object object) {
+<span class="nc" id="L42">		session = factory.openSession();</span>
+<span class="nc" id="L43">		boolean created = false;</span>
+		try {
+<span class="nc" id="L45">			transaction = session.beginTransaction();</span>
+<span class="nc" id="L46">			session.persist(object); </span>
+<span class="nc" id="L47">			transaction.commit();</span>
+<span class="nc" id="L48">			created = true;</span>
+<span class="nc" id="L49">		} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">			if (transaction!=null) {</span>
+<span class="nc" id="L51">				transaction.rollback();</span>
+			} 
+<span class="nc" id="L53">			e.printStackTrace();</span>
+		} finally {
+<span class="nc" id="L55">			session.close(); </span>
+		}
+<span class="nc" id="L57">    	return created;</span>
+   	}
+
+	public boolean read(List objects) {
+<span class="nc" id="L61">    	boolean read = false;</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if(objects.isEmpty()) {</span>
+<span class="nc" id="L63">	        System.out.println(&quot;Table is empty.&quot;);</span>
+        } else {
+
+<span class="nc" id="L66">        	session = factory.openSession();</span>
+        	try {
+<span class="nc" id="L68">        		transaction = session.beginTransaction();</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">		        for(Object obj: objects) {</span>
+<span class="nc" id="L70">		        	System.out.print(&quot;\n&quot; + obj);</span>
+<span class="nc" id="L71">		        }</span>
+<span class="nc" id="L72">		        read = true;</span>
+<span class="nc" id="L73">        	} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">			    if (transaction!=null) {</span>
+<span class="nc" id="L75">			    	transaction.rollback();</span>
+			    }
+<span class="nc" id="L77">			    e.printStackTrace(); </span>
+<span class="nc" id="L78">		    } catch(Exception exception) {</span>
+<span class="nc" id="L79">		    	System.out.println(exception);</span>
+		    } finally {
+<span class="nc" id="L81">		        session.close(); </span>
+			}
+        }
+<span class="nc" id="L84">		return read;</span>
+    }
+
+    public boolean update(Object object) {
+<span class="nc" id="L88">    	boolean updated = false;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">    	if(object==null) {</span>
+<span class="nc" id="L90">    		System.out.println(&quot;Object does not exist.&quot;);</span>
+    	} else {
+<span class="nc" id="L92">	    	session = factory.openSession();</span>
+		    try {
+<span class="nc" id="L94">		    	transaction = session.beginTransaction();</span>
+<span class="nc" id="L95">		        session.update(object); </span>
+<span class="nc" id="L96">		        transaction.commit();</span>
+<span class="nc" id="L97">		        updated = true;</span>
+<span class="nc" id="L98">			} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">			    if (transaction!=null) {</span>
+<span class="nc" id="L100">			    	transaction.rollback();</span>
+			    }
+<span class="nc" id="L102">			    e.printStackTrace(); </span>
+<span class="nc" id="L103">		    } catch(Exception exception) {</span>
+<span class="nc" id="L104">		    	System.out.println(exception);</span>
+		    } finally {
+<span class="nc" id="L106">		        session.close(); </span>
+			}
+    	}
+<span class="nc" id="L109">    	return updated;</span>
+    }
+
+    public boolean delete(Object object) {
+<span class="nc" id="L113">	    boolean deleted = false;</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">	    if(object == null) {</span>
+<span class="nc" id="L115">	    	System.out.println(&quot;Object does not exist.&quot;);</span>
+	    } else {
+<span class="nc" id="L117">		    session = factory.openSession();</span>
+		    try {
+<span class="nc" id="L119">		    	transaction = session.beginTransaction();</span>
+<span class="nc" id="L120">		        session.delete(object); </span>
+<span class="nc" id="L121">			    transaction.commit();</span>
+<span class="nc" id="L122">			    deleted = true;</span>
+<span class="nc" id="L123">			} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">			    if (transaction!=null) {</span>
+<span class="nc" id="L125">			    	transaction.rollback();</span>
+			    }
+<span class="nc" id="L127">			    e.printStackTrace(); </span>
+<span class="nc" id="L128">		    } catch(Exception exception) {</span>
+<span class="nc" id="L129">		    	System.out.println(exception);</span>
+		    } finally {
+<span class="nc" id="L131">		        session.close(); </span>
+			}
+	    }
+<span class="nc" id="L134">	    return deleted;</span>
+    }
+
+    public Person getPersonWithId(Integer personId) {
+<span class="nc" id="L138">    	session = factory.openSession();</span>
+<span class="nc" id="L139">    	Person person = new Person();</span>
+	    try {
+<span class="nc" id="L141">	        person = (Person) session.get(Person.class, personId);</span>
+<span class="nc" id="L142">		} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">		    if (transaction!=null) {</span>
+<span class="nc" id="L144">		    	transaction.rollback();</span>
+		    }
+<span class="nc" id="L146">		    e.printStackTrace(); </span>
+<span class="nc" id="L147">	    } catch(Exception exception) {</span>
+<span class="nc" id="L148">		    System.out.println(exception);</span>
+		} finally {
+<span class="nc" id="L150">	        session.close(); </span>
+		}
+<span class="nc" id="L152">		return person;</span>
+    }
+
+	public Contact getContactWithId(Integer contactId) {
+<span class="nc" id="L156">    	session = factory.openSession();</span>
+<span class="nc" id="L157">    	Contact contact = new Contact();</span>
+	    try {
+<span class="nc" id="L159">	        contact = (Contact) session.get(Contact.class, contactId);</span>
+<span class="nc" id="L160">		} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">		    if (transaction!=null) {</span>
+<span class="nc" id="L162">		    	transaction.rollback();</span>
+		    }
+<span class="nc" id="L164">		    e.printStackTrace(); </span>
+<span class="nc" id="L165">	    } catch(Exception exception) {</span>
+<span class="nc" id="L166">		    System.out.println(exception);</span>
+		}finally {
+<span class="nc" id="L168">	        session.close(); </span>
+		}
+<span class="nc" id="L170">		return contact;</span>
+    }
+
+    public Role getRoleWithId(Integer roleId) {
+<span class="nc" id="L174">    	session = factory.openSession();</span>
+<span class="nc" id="L175">    	Role role = new Role();</span>
+	    try {
+<span class="nc" id="L177">	        role = session.get(role.getClass(), roleId);</span>
+<span class="nc" id="L178">		} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">		    if (transaction!=null) {</span>
+<span class="nc" id="L180">		    	transaction.rollback();</span>
+		    }
+<span class="nc" id="L182">		    e.printStackTrace(); </span>
+<span class="nc" id="L183">	    } catch(Exception exception) {</span>
+<span class="nc" id="L184">		    System.out.println(exception);</span>
+		} finally {
+<span class="nc" id="L186">	        session.close(); </span>
+		}
+<span class="nc" id="L188">		return role;</span>
+    }
+
+    public List&lt;Person&gt; getPersonsAsList(PersonServiceImpl.ListingOrder order) {
+<span class="nc" id="L192">    	List&lt;Person&gt; persons = new ArrayList&lt;Person&gt;();</span>
+    	try {
+<span class="nc" id="L194">	    	boolean sortByGWA=false;</span>
+<span class="nc" id="L195">			session = factory.openSession();</span>
+<span class="nc" id="L196">	        transaction = session.beginTransaction();</span>
+<span class="nc" id="L197">	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();</span>
+<span class="nc" id="L198">	        CriteriaQuery&lt;Person&gt; criteriaQuery = criteriaBuilder.createQuery(Person.class);</span>
+<span class="nc" id="L199">	        Root&lt;Person&gt; root = criteriaQuery.from(Person.class);</span>
+<span class="nc bnc" id="L200" title="All 4 branches missed.">			switch(order) {</span>
+				case GWA:
+<span class="nc" id="L202">					sortByGWA = true;</span>
+<span class="nc" id="L203">					criteriaQuery.select(root);</span>
+<span class="nc" id="L204">					break;</span>
+				case LASTNAME:
+<span class="nc" id="L206">					criteriaQuery.orderBy(criteriaBuilder.asc(root.get(&quot;name&quot;)));</span>
+<span class="nc" id="L207">					break;</span>
+				case DATEHIRED:
+<span class="nc" id="L209">					criteriaQuery.orderBy(criteriaBuilder.desc(root.get(&quot;dateHired&quot;)));</span>
+<span class="nc" id="L210">					break;</span>
+				default:
+<span class="nc" id="L212">					criteriaQuery.select(root);</span>
+			}
+<span class="nc" id="L214">			Query&lt;Person&gt; query = session.createQuery(criteriaQuery);</span>
+<span class="nc" id="L215">	        persons = query.getResultList();</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">	        if(sortByGWA) {</span>
+<span class="nc" id="L217">	        	Collections.sort(persons);</span>
+	        }
+<span class="nc" id="L219">		} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L220" title="All 2 branches missed.">			if (transaction!=null) transaction.rollback();</span>
+<span class="nc" id="L221">			e.printStackTrace(); </span>
+<span class="nc" id="L222">		} catch(Exception exception) {</span>
+<span class="nc" id="L223">		    System.out.println(exception);</span>
+		} finally {
+<span class="nc" id="L225">			session.close(); </span>
+		}
+<span class="nc" id="L227">    	return persons;</span>
+    }
+
+    public List&lt;Role&gt; getRolesAsList() {
+<span class="nc" id="L231">    	List&lt;Role&gt; roles = new ArrayList&lt;Role&gt;();</span>
+    	try {
+<span class="nc" id="L233">	    	session = factory.openSession();</span>
+<span class="nc" id="L234">	        transaction = session.beginTransaction();</span>
+<span class="nc" id="L235">	        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();</span>
+<span class="nc" id="L236">	        CriteriaQuery&lt;Role&gt; criteriaQuery = criteriaBuilder.createQuery(Role.class);</span>
+<span class="nc" id="L237">	        Root&lt;Role&gt; root = criteriaQuery.from(Role.class);</span>
+<span class="nc" id="L238">	        criteriaQuery.select(root);</span>
+<span class="nc" id="L239">	        Query&lt;Role&gt; query = session.createQuery(criteriaQuery);</span>
+<span class="nc" id="L240">	        roles = query.getResultList();</span>
+<span class="nc" id="L241">		} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L242" title="All 2 branches missed.">			if (transaction!=null) transaction.rollback();</span>
+<span class="nc" id="L243">			e.printStackTrace(); </span>
+<span class="nc" id="L244">		} catch(Exception exception) {</span>
+<span class="nc" id="L245">		    System.out.println(exception);</span>
+		} finally {
+<span class="nc" id="L247">			session.close(); </span>
+		}
+<span class="nc" id="L249">    	return roles;</span>
+    }
+
+    public boolean removeRoleFromPersons(Role role) {
+<span class="nc" id="L253">    	boolean removed = false;</span>
+<span class="nc" id="L254">    	session = factory.openSession();</span>
+	    try {
+<span class="nc" id="L256">	    	transaction = session.beginTransaction();</span>
+<span class="nc" id="L257">	    	CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();</span>
+<span class="nc" id="L258">	        CriteriaQuery&lt;Person&gt; criteriaQuery = criteriaBuilder.createQuery(Person.class);</span>
+<span class="nc" id="L259">	        Root&lt;Person&gt; root = criteriaQuery.from(Person.class);</span>
+<span class="nc" id="L260">	        criteriaQuery.select(root);</span>
+<span class="nc" id="L261">	        Query&lt;Person&gt; query = session.createQuery(criteriaQuery);</span>
+<span class="nc" id="L262">	        List&lt;Person&gt; persons = query.getResultList();</span>
+<span class="nc bnc" id="L263" title="All 2 branches missed.">	    	for (Person person : persons) {</span>
+<span class="nc" id="L264">	    		person.getRoles().remove(role);</span>
+<span class="nc" id="L265">	    	}</span>
+<span class="nc" id="L266">		    transaction.commit();</span>
+<span class="nc" id="L267">		    removed = true;</span>
+<span class="nc" id="L268">		} catch (HibernateException e) {</span>
+<span class="nc bnc" id="L269" title="All 2 branches missed.">		    if (transaction!=null) {</span>
+<span class="nc" id="L270">		    	transaction.rollback();</span>
+		    }
+<span class="nc" id="L272">		    e.printStackTrace(); </span>
+<span class="nc" id="L273">	    } catch (Exception exception) {</span>
+<span class="nc" id="L274">	    	System.out.println(exception);</span>
+	    } finally {
+<span class="nc" id="L276">	        session.close(); </span>
+		}
+<span class="nc" id="L278">		return removed;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

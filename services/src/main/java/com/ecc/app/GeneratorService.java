@@ -18,39 +18,39 @@ public class GeneratorService {
     public GeneratorService() {
     }
 
-    public Person generatePerson() {
-    	String string;
-        Name name = generateName();
-    	Address address = generateAddress();
-    	GregorianCalendar dateOfBirth = generateDateOfBirth();
-    	float gwa = generateGwa();
-    	GregorianCalendar dateHired = generateDateHired();
-    	boolean currentlyEmployed = generateCurrentlyEmployed();
-    	Person person = new Person(name, address, dateOfBirth, gwa, dateHired, currentlyEmployed);
-        System.out.print("Do you want to add a contact?\n1=YES, input anything for NO: ");
-        try {
-            string = scanner.getString();
-            if("1".equals(string)) {
-                HashSet contacts = new HashSet();
-                contacts = generateContacts();
-                person.setContacts(contacts);
-            }
-        } catch(Exception e) {
+    // public Person generatePerson() {
+    // 	String string;
+    //  Name name = generateName();
+    // 	Address address = generateAddress();
+    // 	GregorianCalendar dateOfBirth = generateDateOfBirth();
+    // 	float gwa = generateGwa();
+    // 	GregorianCalendar dateHired = generateDateHired();
+    // 	boolean currentlyEmployed = generateCurrentlyEmployed();
+    // 	Person person = new Person(name, address, dateOfBirth, gwa, dateHired, currentlyEmployed);
+    //     System.out.print("Do you want to add a contact?\n1=YES, input anything for NO: ");
+    //     try {
+    //         string = scanner.getString();
+    //         if("1".equals(string)) {
+    //             HashSet contacts = new HashSet();
+    //             contacts = generateContacts();
+    //             person.setContacts(contacts);
+    //         }
+    //     } catch(Exception e) {
 
-        }
-        System.out.print("Do you want to add a role?\n1=YES, input anything for NO: ");
-        try {
-            string = scanner.getString();
-            if("1".equals(string)) {
-                HashSet roles = new HashSet();
-                roles = generateRoles();
-                person.setRoles(roles);
-            }
-        } catch(Exception e) {
+    //     }
+    //     System.out.print("Do you want to add a role?\n1=YES, input anything for NO: ");
+    //     try {
+    //         string = scanner.getString();
+    //         if("1".equals(string)) {
+    //             HashSet roles = new HashSet();
+    //             roles = generateRoles();
+    //             person.setRoles(roles);
+    //         }
+    //     } catch(Exception e) {
 
-        }
-    	return person;
-    }
+    //     }
+    // 	return person;
+    // }
 
     public Integer generateId() {
     	Integer id = null;
@@ -140,7 +140,11 @@ public class GeneratorService {
         String string;
 		int i = 1;
         for(Contact.ContactType type: Contact.ContactType.values()) {
-            System.out.print((i++) + "=" + type + " ");
+            try {
+                System.out.print((i++) + "=" + type + " ");
+            } catch (Exception exception) {
+
+            }
         }
 		System.out.println();
         boolean done = false;

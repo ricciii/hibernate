@@ -51,14 +51,21 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	public void readRole(Role role) {
-		System.out.print(role);
+		try {
+			System.out.print(role);
+		} catch (Exception exception) {
+		}
 	}
 
 	public void readRoles() {
 		List<Role> roles = new ArrayList<Role>();
 		roles = database.getRolesAsList();
 		for(Role role: roles) {
-			System.out.println(role);
+			try{
+				System.out.println(role);
+			} catch (Exception exception) {
+
+			}
 		}
 	}
 

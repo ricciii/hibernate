@@ -1,9 +1,9 @@
-com/ecc/app/RoleServiceImpl.class
 com/ecc/app/PersonServiceImpl.class
+com/ecc/app/RoleServiceImpl.class
 com/ecc/app/DatabaseService.class
 com/ecc/app/DatabaseServiceImpl$1.class
 com/ecc/app/PersonServiceImpl$ListingOrder.class
 com/ecc/app/GeneratorService.class
-com/ecc/app/RoleService.class
 com/ecc/app/PersonService.class
+com/ecc/app/RoleService.class
 com/ecc/app/DatabaseServiceImpl.class

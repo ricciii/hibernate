@@ -49,9 +49,15 @@ public class PersonServiceImpl implements PersonService {
         	for(Role role: availableRoles) {
         		System.out.println(role);
         	}
-            HashSet roles = new HashSet();
-            roles = generator.generateRoles();
-            person.setRoles(roles);
+        	Integer roleId = scanner.getInt();
+            Role role = (Role) database.getRoleWithId(roleId);
+            if(role == null) {
+            	System.out.print("Role does not exist.");
+            } else {
+            	HashSet roles = new HashSet();
+	            roles.add(role);
+	            person.setRoles(roles);
+            }
         }
 		boolean created = false;
 		created = database.create(person);
@@ -68,7 +74,11 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	public void readPerson(Person person) {
-        System.out.println(person);
+        try {
+        	System.out.println(person);
+        } catch(Exception e) {
+
+        }
     }
 
 	public void readPersons() {
@@ -112,7 +122,7 @@ public class PersonServiceImpl implements PersonService {
 	    		System.out.print(exception);
 	    	}
     	} while(done==false);
-		System.out.println("\n<--- READING PERSON TABLE --->");
+		System.out.println("\n<--- READING PERSON TABLE --->\n");
 		for(Person person: persons) {
 			System.out.println(person);
 		}
@@ -204,6 +214,7 @@ public class PersonServiceImpl implements PersonService {
 		int choice;
     	Integer contactId = null;
     	boolean done = false;
+    	
     	do {
     		readPerson(person);
     		System.out.println("<-- UPDATE PERSON CONTACTS MENU -->\n");
@@ -213,8 +224,10 @@ public class PersonServiceImpl implements PersonService {
 	    		choice = scanner.getInt();
 	    		switch(choice) {
 	    			case 1:
-	    				HashSet contacts = generator.generateContacts();
-	    				person.getContacts().addAll(contacts);
+	    				HashSet<Contact> contacts = generator.generateContacts();
+	    				if(contacts!=null || !contacts.isEmpty()) {
+	    					person.getContacts().addAll(contacts);
+	    				}
 	    				done = true;
 	    				break;
 	    			case 2:
@@ -235,6 +248,7 @@ public class PersonServiceImpl implements PersonService {
 	    				System.out.println("Not in the choices, try again.");
 	    		}
 	    	} catch(Exception exception) {
+	    		done = true;
 	    		System.out.print(exception);
 	    	}
     	} while(done==false);
@@ -254,8 +268,14 @@ public class PersonServiceImpl implements PersonService {
 	    		choice = scanner.getInt();
 	    		switch(choice) {
 	    			case 1:
-	    				HashSet roles = generator.generateContacts();
-	    				person.getRoles().addAll(roles);
+	    				List<Role> roles = database.getRolesAsList();
+	    				for(Role role: roles) {
+	    					System.out.println(role);
+	    				}
+	    				System.out.print("Choose the role ID you want to assign: ");
+	    				roleId = scanner.getInt();
+	    				Role assign = (Role) database.getRoleWithId(roleId);
+	    				person.getRoles().add(assign);
 	    				done = true;
 	    				break;
 	    			case 2:
@@ -276,6 +296,7 @@ public class PersonServiceImpl implements PersonService {
 	    				System.out.println("Not in the choices, try again.");
 	    		}
 	    	} catch(Exception exception) {
+	    		done = true;
 	    		System.out.print(exception);
 	    	}
     	} while(done==false);

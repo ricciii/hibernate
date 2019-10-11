@@ -1,0 +1,6 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+services,com.ecc.app,PersonServiceImpl,303,335,42,20,101,111,36,12,2,7
+services,com.ecc.app,PersonServiceImpl.ListingOrder,0,44,0,0,0,2,0,1,0,1
+services,com.ecc.app,RoleServiceImpl,60,114,7,5,19,35,9,4,3,4
+services,com.ecc.app,DatabaseServiceImpl,537,0,36,0,167,0,31,0,12,0
+services,com.ecc.app,GeneratorService,23,365,8,8,12,109,9,13,1,12
