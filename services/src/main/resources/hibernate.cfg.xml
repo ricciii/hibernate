@@ -2,30 +2,28 @@
 <!DOCTYPE hibernate-configuration SYSTEM
 "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-<session-factory>
-<property name="hibernate.dialect">
-org.hibernate.dialect.PostgreSQLDialect
-</property>
-<property name="hibernate.connection.driver_class">
-org.postgresql.Driver
-</property>
 
-<!-- Database properties -->
-<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/rich</property>
-<property name="hibernate.connection.username">rich</property>
-<property name="hibernate.connection.password">ex1stgl0bal</property>
+	<session-factory>
+		<property name="hbm2ddl.auto">create</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
 
-<!-- Print executed SQL to stdout -->
-<!-- <property name="show_sql">true</property> -->
+		<!-- Database properties -->
+		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/rich</property>
+		<property name="connection.username">postgres</property>  
+    	<property name="connection.password">ex1stgl0bal</property>  
 
-<!-- Update database on startup -->
-<property name="connection.autocommit">true</property>
-<!-- <property name="hibernate.hbm2ddl.auto">create</property> -->
+		<!-- Print executed SQL to stdout -->
+		<!-- <property name="show_sql">true</property> -->
 
-<!-- List of XML mapping files -->
-<mapping resource="Person.hbm.xml"/>
-<mapping resource="Role.hbm.xml"/>
-<mapping resource="Contact.hbm.xml"/>
+		<!-- Update database on startup -->
+		<property name="connection.autocommit">true</property>
+		<!-- <property name="hibernate.hbm2ddl.auto">create</property> -->
 
-</session-factory>
+		<!-- List of XML mapping files -->
+		<mapping resource="Person.hbm.xml"/>
+		<mapping resource="Role.hbm.xml"/>
+		<mapping resource="Contact.hbm.xml"/>
+
+	</session-factory>
 </hibernate-configuration>

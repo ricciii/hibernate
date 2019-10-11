@@ -10,5 +10,6 @@ public class Main {
 	    RoleService roleService = new RoleServiceImpl(scanner, generator, database);
         Menu menu = new Menu(personService, roleService, scanner);
         menu.showMainMenu();
+        System.out.println("Trainee yes yes yow");
     }
 }
