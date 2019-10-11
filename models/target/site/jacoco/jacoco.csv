@@ -1,7 +1,0 @@
-GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-models,com.ecc.app,Role,88,0,8,0,24,0,13,0,9,0
-models,com.ecc.app,Contact,103,0,8,0,28,0,15,0,11,0
-models,com.ecc.app,Name,93,0,2,0,29,0,13,0,12,0
-models,com.ecc.app,Person,285,0,4,0,54,0,24,0,22,0
-models,com.ecc.app,Address,71,0,0,0,22,0,11,0,11,0
-models,com.ecc.app,Contact.ContactType,48,0,0,0,6,0,3,0,3,0

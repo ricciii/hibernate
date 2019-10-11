@@ -45,14 +45,16 @@ public class PersonServiceImpl implements PersonService {
         System.out.print("Do you want to add a role?\n1=YES, input anything for NO: ");
         choice = scanner.getString();
         if("1".equals(choice)) {
+        	System.out.println("Available Roles: \n");
         	List<Role> availableRoles = database.getRolesAsList();
         	for(Role role: availableRoles) {
-        		System.out.println(role);
+        		System.out.print(role);
         	}
+        	System.out.print("\nInput Role ID: ");
         	Integer roleId = scanner.getInt();
             Role role = (Role) database.getRoleWithId(roleId);
             if(role == null) {
-            	System.out.print("Role does not exist.");
+            	System.out.println("Role does not exist.");
             } else {
             	HashSet roles = new HashSet();
 	            roles.add(role);
