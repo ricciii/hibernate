@@ -9,11 +9,11 @@
   <url>http://maven.apache.org</url>
   <dependencyManagement>
     <dependencies>
-      <dependency>
+      <!-- <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-core</artifactId>
          <version>5.4.6.Final</version>
-      </dependency>  
+      </dependency>   -->
       <dependency>
         <groupId>org.postgresql</groupId>
         <artifactId>postgresql</artifactId>
@@ -42,6 +42,7 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+  
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -49,6 +50,11 @@
       <version>5.3.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.4.6.Final</version>
+    </dependency>  
   </dependencies>
 
   <properties>
@@ -57,16 +63,16 @@
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
-<build>
-  <plugins>
-    <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
-          <configuration>
-            <groups></groups>
-            <excludedGroups>SkipTest</excludedGroups>
-          </configuration>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.1</version>
+        <configuration>
+          <groups></groups>
+          <excludedGroups>SkipTest</excludedGroups>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -87,11 +93,11 @@
           </execution>
         </executions>
       </plugin>
-  </plugins>
-</build>
+    </plugins>
+  </build>
 
-<modules>  
-  <module>models</module>
+  <modules>  
+    <module>models</module>
     <module>services</module>
     <module>utils</module>
     <module>app</module>

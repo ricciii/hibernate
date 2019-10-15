@@ -4,15 +4,58 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.annotations.Type;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="person")
 public class Person implements Comparable<Person> {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
 	private int id;
+	
+	@Embedded
 	private Name name;
+	
+	@Embedded
 	private Address address;
+	
+	@Type(type="calendar_date")
+	@Column(name="date_of_birth", nullable=false)
 	private Calendar dateOfBirth;
+	
+	@Column(name="gwa", nullable=false)
 	private float gwa;
+	
+	@Type(type="calendar_date")
+	@Column(name="date_hired", nullable=false)
 	private Calendar dateHired;
+	
+	@Column(name="currently_employed", nullable=false)
 	private Boolean currentlyEmployed;
+	
+	@OneToMany(fetch=FetchType.EAGER, cascade = { CascadeType.ALL }, targetEntity=Contact.class)
+	@JoinColumn(name="person_id")
 	private Set contacts;
+	
+	@ManyToMany(fetch=FetchType.EAGER, cascade = { CascadeType.ALL }, targetEntity=Role.class)
+	@JoinTable(name = "person_role", joinColumns = { @JoinColumn(name = "person_id") }, 
+		inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	private Set roles;
 
 	public Person() {

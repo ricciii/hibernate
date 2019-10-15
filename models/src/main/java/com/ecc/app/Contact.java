@@ -2,9 +2,30 @@ package com.ecc.app;
 
 import java.util.ArrayList;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="contact")
 public class Contact {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
 	private int id;
+	
+	@Column(name="contact", nullable=false)
 	private String contact;
+	
+	@Column(name="type", nullable=false) 
+	@Enumerated(EnumType.STRING)
 	private ContactType type; 
 
 	public enum ContactType {

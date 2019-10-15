@@ -1,9 +1,21 @@
 package com.ecc.app;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Name {
+	
+	@Column(name="last_name", nullable=false)
 	private String lastName;
+	
+	@Column(name="first_name", nullable=false)
 	private String firstName;
+	
+	@Column(name="middle_name", nullable=false)
 	private String middleName;
+	
+	@Column(name="suffix", nullable=true)
 	private String suffix;
 
 	public Name(String lastName, String firstName, String middleName, String suffix) {
@@ -38,10 +50,6 @@ public class Name {
 	public String getSuffix() {
 		return this.suffix;
 	}
-
-	// public void setId(int id) {
-	// 	this.id = id;
-	// }
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;

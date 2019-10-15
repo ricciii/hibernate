@@ -1,12 +1,23 @@
 package com.ecc.app;
 
 import java.time.LocalDate;
+import javax.persistence.Embeddable;
+import javax.persistence.Column;
+import javax.persistence.*;
 
+@Embeddable
 public class Address {
-	//private int id;
+	
+	@Column(name="street", nullable=false)
 	private String street;
+	
+	@Column(name="barangay", nullable=false)
 	private String barangay;
+	
+	@Column(name="municipality", nullable=false)
 	private String municipality;
+	
+	@Column(name="zip_code", nullable=false)
 	private String zipCode;
 
 	public Address(String street, String barangay, String municipality, String zipCode) {
