@@ -16,15 +16,44 @@
     If there are more than 10000 elements it will overflow to the
     disk cache, which in this configuration will go to wherever java.io.tmp is
     defined on your system. On a standard Linux system this will be /tmp" -->
-	<cache name="Person" 
+
+	<defaultCache 
 		maxBytesLocalHeap="50M"
-		maxBytesLocalDisk="1000M" 
+		overflowToDisk="true"
+		maxBytesLocalDisk="1G" 
 		eternal="false" 
 		diskSpoolBufferSizeMB="20"
 		timeToIdleSeconds="300" 
 		timeToLiveSeconds="600"
 		memoryStoreEvictionPolicy="FIFO" 
 		transactionalMode="off">
-		<persistence strategy="localTempSwap"/>
+		<!-- <persistence strategy="localTempSwap"/> -->
+	</defaultCache>
+	<cache name="com.ecc.app.Person" 
+		maxBytesLocalHeap="50M"
+		overflowToDisk="true"
+		maxBytesLocalDisk="1G" 
+		eternal="false" 
+		timeToIdleSeconds="300" 
+		timeToLiveSeconds="600"
+		memoryStoreEvictionPolicy="FIFO">
+	</cache>
+	<cache name="com.ecc.app.Person.contacts" 
+		maxBytesLocalHeap="50M"
+		overflowToDisk="true"
+		maxBytesLocalDisk="1G" 
+		eternal="false" 
+		timeToIdleSeconds="300" 
+		timeToLiveSeconds="600"
+		memoryStoreEvictionPolicy="FIFO">
+	</cache>
+	<cache name="com.ecc.app.Person.roles" 
+		maxBytesLocalHeap="50M"
+		overflowToDisk="true"
+		maxBytesLocalDisk="1G" 
+		eternal="false" 
+		timeToIdleSeconds="300" 
+		timeToLiveSeconds="600"
+		memoryStoreEvictionPolicy="FIFO">
 	</cache>
 </ehcache>

@@ -14,8 +14,10 @@
 		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/rich</property>
 		<property name="hibernate.connection.username">rich</property>
 		<property name="hibernate.connection.password">ex1stgl0bal</property>
-		<property name="hibernate.cache.use_second_level_cache">false</property>
+		<property name="hibernate.cache.use_second_level_cache">true</property>
 		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+		<property name="net.sf.ehcache.configurationResourceName">ehcache.xml</property>
+		<property name="hibernate.cache.use_query_cache">true</property>
 		
 		<!-- Print executed SQL to stdout -->
 		<property name="show_sql">true</property>
@@ -24,9 +26,6 @@
 		<!-- <property name="hibernate.hbm2ddl.auto">create</property> -->
 
 		<!-- List of XML mapping files -->
-		<!-- <mapping resource="Person.hbm.xml"/>
-		<mapping resource="Role.hbm.xml"/>
-		<mapping resource="Contact.hbm.xml"/> -->
 		<mapping class="com.ecc.app.Person"/>
 		<mapping class="com.ecc.app.Contact"/>
 		<mapping class="com.ecc.app.Role"/>

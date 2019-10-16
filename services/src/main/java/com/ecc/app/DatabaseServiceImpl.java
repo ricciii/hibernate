@@ -212,6 +212,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 					criteriaQuery.select(root);
 			}
 			Query<Person> query = session.createQuery(criteriaQuery);
+	        query.setCacheable(true);
 	        persons = query.getResultList();
 	        if(sortByGWA) {
 	        	Collections.sort(persons);
@@ -237,6 +238,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 	        Root<Role> root = criteriaQuery.from(Role.class);
 	        criteriaQuery.select(root);
 	        Query<Role> query = session.createQuery(criteriaQuery);
+	        query.setCacheable(true);
 	        roles = query.getResultList();
 		} catch (HibernateException e) {
 			if (transaction!=null) transaction.rollback();
