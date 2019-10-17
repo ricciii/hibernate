@@ -43,7 +43,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 		boolean created = false;
 		try {
 			transaction = session.beginTransaction();
-			session.persist(object); 
+			session.save(object); 
 			transaction.commit();
 			created = true;
 		} catch (HibernateException e) {

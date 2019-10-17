@@ -18,7 +18,6 @@ public class GeneratorService {
     public GeneratorService() {
     }
 
-
     public Integer generateId() {
     	Integer id = null;
     	id = scanner.getInt();

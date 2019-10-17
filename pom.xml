@@ -9,11 +9,11 @@
   <url>http://maven.apache.org</url>
   <dependencyManagement>
     <dependencies>
-      <!-- <dependency>
+      <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-core</artifactId>
          <version>5.4.6.Final</version>
-      </dependency>   -->
+      </dependency>  
       <dependency>
         <groupId>org.postgresql</groupId>
         <artifactId>postgresql</artifactId>
@@ -49,11 +49,6 @@
       <artifactId>junit-jupiter-engine</artifactId>
       <version>5.3.1</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
-      <version>5.4.6.Final</version>
     </dependency>
     <dependency>
       <groupId>net.sf.ehcache</groupId>

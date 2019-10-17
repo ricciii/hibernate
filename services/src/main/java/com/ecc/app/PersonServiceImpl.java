@@ -124,9 +124,9 @@ public class PersonServiceImpl implements PersonService {
 	    		System.out.print(exception);
 	    	}
     	} while(done==false);
-		System.out.println("\n<--- READING PERSON TABLE --->\n");
+		System.out.println("\n<--- READING PERSON TABLE --->");
 		for(Person person: persons) {
-			System.out.println(person);
+			System.out.print("\n"+person);
 		}
 	}
 
@@ -307,6 +307,7 @@ public class PersonServiceImpl implements PersonService {
 
 	public boolean deletePerson() {
 		boolean deleted = false;
+		System.out.print("Enter ID of person you want to delete:");
 		Integer personId = generator.generateId();
 		Person person = (Person) database.getPersonWithId(personId);
 		deleted = database.delete(person);

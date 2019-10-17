@@ -8,8 +8,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
-//import javax.persistence.Cacheable;
-//import javax.persistence.CacheConcurrencyStrategy;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -25,7 +23,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-//@Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name="person")
 public class Person implements Comparable<Person> {
@@ -55,15 +52,13 @@ public class Person implements Comparable<Person> {
 	@Column(name="currently_employed", nullable=false)
 	private Boolean currentlyEmployed;
 	
-	//@Cacheable
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@OneToMany(fetch=FetchType.EAGER, cascade = { CascadeType.ALL }, targetEntity=Contact.class)
 	@JoinColumn(name="person_id")
 	private Set contacts;
 	
-	//@Cacheable
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	@ManyToMany(fetch=FetchType.EAGER, cascade = { CascadeType.ALL }, targetEntity=Role.class)
+	@ManyToMany(fetch=FetchType.EAGER, cascade = { CascadeType.PERSIST,  CascadeType.MERGE }, targetEntity=Role.class)
 	@JoinTable(name = "person_role", joinColumns = { @JoinColumn(name = "person_id") }, 
 		inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	private Set roles;

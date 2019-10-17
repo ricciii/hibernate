@@ -1,23 +1,6 @@
 package com.ecc.app;
  
-import org.hibernate.HibernateException; 
-import org.hibernate.Session; 
-import org.hibernate.Transaction;
-import org.hibernate.SessionFactory;
-import org.hibernate.SQLQuery;
-import java.util.Scanner;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.List;
-import org.hibernate.Criteria;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import org.hibernate.query.Query;
-import java.util.Calendar;
-import java.util.InputMismatchException;
-import java.lang.IllegalArgumentException;
 import java.util.ArrayList;
 
 public class RoleServiceImpl implements RoleService {
@@ -38,7 +21,7 @@ public class RoleServiceImpl implements RoleService {
     
 	public boolean createRole() {
 		boolean created = false;
-		System.out.print("Input role name:");
+		System.out.print("Input role name: ");
 		String string = scanner.getString();
 		Role role = new Role(string);
 		created = database.create(role);
