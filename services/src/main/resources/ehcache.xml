@@ -3,45 +3,45 @@
 	monitoring="autodetect" dynamicConfig="true" 
 	maxBytesLocalHeap="50M" maxBytesLocalDisk="1G">
 	<defaultCache 
-		overflowToDisk="true"
 		eternal="false" 
 		timeToIdleSeconds="300" 
 		timeToLiveSeconds="600"
 		memoryStoreEvictionPolicy="FIFO">
+		<persistence strategy="localTempSwap"/>
 	</defaultCache>
 	<cache name="com.ecc.app.Person" 
-		overflowToDisk="true"
 		eternal="false" 
 		timeToIdleSeconds="300" 
 		timeToLiveSeconds="600"
 		memoryStoreEvictionPolicy="FIFO">
+		<persistence strategy="localTempSwap"/>
 	</cache>
 	<cache name="com.ecc.app.Person.contacts" 
 		eternal="false" 
-		overflowToDisk="true"
 		timeToIdleSeconds="300" 
 		timeToLiveSeconds="600"
 		memoryStoreEvictionPolicy="FIFO">
+		<persistence strategy="localTempSwap"/>
 	</cache>
 	<cache name="com.ecc.app.Person.roles" 
 		eternal="false" 
-		overflowToDisk="true"
 		timeToIdleSeconds="300" 
 		timeToLiveSeconds="600"
 		memoryStoreEvictionPolicy="FIFO">
+		<persistence strategy="localTempSwap"/>
 	</cache>
 	<cache name="com.ecc.app.Contact" 
 		eternal="false" 
-		overflowToDisk="true"
 		timeToIdleSeconds="300" 
 		timeToLiveSeconds="600"
 		memoryStoreEvictionPolicy="FIFO">
+		<persistence strategy="localTempSwap"/>
 	</cache>
 	<cache name="com.ecc.app.Role" 
 		eternal="false" 
-		overflowToDisk="true"
 		timeToIdleSeconds="300" 
 		timeToLiveSeconds="600"
 		memoryStoreEvictionPolicy="FIFO">
+		<persistence strategy="localTempSwap"/>
 	</cache>
 </ehcache>

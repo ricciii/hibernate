@@ -26,9 +26,9 @@ public class RoleServiceImpl implements RoleService {
 		Role role = new Role(string);
 		created = database.create(role);
 		if(created) {
-			System.out.print("Person successfully created.");
+			System.out.print("Role successfully created.");
 		} else {
-			System.out.print("Person unsuccessfully created.");
+			System.out.print("Role unsuccessfully created.");
 		}
 		return created;
 	}

@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.CascadeType;
@@ -53,12 +55,14 @@ public class Person implements Comparable<Person> {
 	private Boolean currentlyEmployed;
 	
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	@OneToMany(fetch=FetchType.EAGER, cascade = { CascadeType.ALL }, targetEntity=Contact.class)
+	@OneToMany(fetch=FetchType.EAGER, cascade = { CascadeType.ALL }, targetEntity=Contact.class, orphanRemoval=true)
+	@Fetch(FetchMode.JOIN)
 	@JoinColumn(name="person_id")
 	private Set contacts;
 	
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@ManyToMany(fetch=FetchType.EAGER, cascade = { CascadeType.PERSIST,  CascadeType.MERGE }, targetEntity=Role.class)
+	@Fetch(FetchMode.JOIN)
 	@JoinTable(name = "person_role", joinColumns = { @JoinColumn(name = "person_id") }, 
 		inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	private Set roles;
