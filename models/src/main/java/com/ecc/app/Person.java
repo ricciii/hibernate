@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
@@ -56,13 +57,15 @@ public class Person implements Comparable<Person> {
 	
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@OneToMany(fetch=FetchType.EAGER, cascade = { CascadeType.ALL }, targetEntity=Contact.class, orphanRemoval=true)
-	@Fetch(FetchMode.JOIN)
+	//@Fetch(FetchMode.JOIN)
 	@JoinColumn(name="person_id")
+	@BatchSize(size=5)
 	private Set contacts;
 	
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@ManyToMany(fetch=FetchType.EAGER, cascade = { CascadeType.PERSIST,  CascadeType.MERGE }, targetEntity=Role.class)
-	@Fetch(FetchMode.JOIN)
+	//@Fetch(FetchMode.JOIN)
+	@BatchSize(size=5)
 	@JoinTable(name = "person_role", joinColumns = { @JoinColumn(name = "person_id") }, 
 		inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	private Set roles;
